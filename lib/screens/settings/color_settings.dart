@@ -1,4 +1,9 @@
-import '../utils/utils.dart';
+/* smoke_signal
+ * Copyright (c) 2022-2024 Empathetech LLC. All rights reserved.
+ * See LICENSE for distribution and usage details.
+ */
+
+import '../../utils/export.dart';
 
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
@@ -24,7 +29,7 @@ class _ColorSettingsState extends State<ColorSettingsScreen> {
     return EzScaffold(
       background: BoxDecoration(color: Color(EzConfig.prefs[backColorKey])),
       appBar: EzAppBar(
-          title: EzText.simple('Color settings',
+          title: Text('Color settings',
               style: buildTextStyle(styleKey: titleStyleKey))),
 
       // Body
@@ -37,7 +42,7 @@ class _ColorSettingsState extends State<ColorSettingsScreen> {
           children: [
             // User hint: hold the buttons to reset the color
             Container(height: buttonSpacer),
-            EzText.simple(
+            Text(
               'Hold buttons to reset',
               style: buildTextStyle(styleKey: dialogContentStyleKey),
             ),
@@ -107,10 +112,10 @@ class _ColorSettingsState extends State<ColorSettingsScreen> {
 
             // Reset all color settings
             GestureDetector(
-              onTap: () => openDialog(
+              onTap: () => showPlatformDialog(
                 context: context,
-                dialog: EzDialog(
-                  title: EzText.simple(
+                dialog: EzAlertDialog(
+                  title: Text(
                     'Reset all colors?',
                     style: buildTextStyle(styleKey: dialogTitleStyleKey),
                   ),
@@ -129,10 +134,10 @@ class _ColorSettingsState extends State<ColorSettingsScreen> {
                         EzConfig.preferences.remove(joinedColorKey);
                         EzConfig.preferences.remove(joinedTextColorKey);
 
-                        popScreen(context: context, pass: true);
-                        popScreen(context: context, pass: true);
+                        Navigator.of(context).pop(true);
+                        Navigator.of(context).pop(true);
                       },
-                      onDeny: () => popScreen(context: context),
+                      onDeny: () => Navigator.of(context).pop(),
                       axis: Axis.vertical,
                       spacer: dialogSpacer,
                     ),
@@ -140,7 +145,7 @@ class _ColorSettingsState extends State<ColorSettingsScreen> {
                   needsClose: false,
                 ),
               ),
-              child: EzText.simple(
+              child: Text(
                 'Reset all',
                 style: buildTextStyle(styleKey: subTitleStyleKey),
               ),

@@ -1,3 +1,8 @@
+/* smoke_signal
+ * Copyright (c) 2022-2024 Empathetech LLC. All rights reserved.
+ * See LICENSE for distribution and usage details.
+ */
+
 import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
@@ -43,7 +48,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
     return EzScaffold(
       background: BoxDecoration(color: Color(EzConfig.prefs[backColorKey])),
       appBar: EzAppBar(
-          title: EzText.simple('Edit Profile',
+          title: Text('Edit Profile',
               style: buildTextStyle(styleKey: titleStyleKey))),
 
       // Body
@@ -71,13 +76,13 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
                 if (shouldRefresh) refreshPic();
               },
               message: 'New pic',
-              icon: EzIcon(PlatformIcons(context).photoCamera),
+              icon: Icon(PlatformIcons(context).photoCamera),
             ),
 
             Container(height: buttonSpacer),
 
             // Display name
-            EzText.simple(
+            Text(
               name,
               style: buildTextStyle(styleKey: titleStyleKey),
             ),
@@ -90,7 +95,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
                 if (shouldRefresh) refreshName();
               },
               message: 'New name',
-              icon: EzIcon(PlatformIcons(context).edit),
+              icon: Icon(PlatformIcons(context).edit),
             ),
 
             Container(height: buttonSpacer),

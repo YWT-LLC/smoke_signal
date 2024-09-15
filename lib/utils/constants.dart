@@ -1,49 +1,52 @@
+/* smoke_signal
+ * Copyright (c) 2022-2024 Empathetech LLC. All rights reserved.
+ * See LICENSE for distribution and usage details.
+ */
+
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
-/// Application title [String]
-const String appTitle = 'Smoke Signal';
+// Images //
 
-/// Paths to asset files for [EzConfig.assets]
-final List<String> assets = [
-  appIconPath,
-  darkForestPath,
-  smokeSignalPath,
-];
+/// 'assets/images/app-icon.png'
+const String appIconPath = 'assets/images/app-icon.png';
+
+/// 'assets/images/dark-forest.png'
+const String darkForestPath = 'assets/images/dark-forest.png';
+
+/// 'assets/images/smoke-signal.gif'
+const String smokeSignalPath = 'assets/images/smoke-signal.gif';
 
 /// Image path -> image source
-final Map<String, String> credits = {
+final Map<String, String> credits = <String, String>{
   appIconPath: 'Empathetech LLC: The Founder\n\nUnnamed',
   smokeSignalPath: 'https://pimen.itch.io/\n\n\'Smoke Effect\'',
   darkForestPath: 'https://edermunizz.itch.io/\n\n\'Dark Forest\'',
 };
 
-// Images
-const String appIconPath = 'assets/app-icon.png';
-const String darkForestPath = 'assets/dark-forest.png';
-const String smokeSignalPath = 'assets/smoke-signal.gif';
+// App config //
 
-// Shared Preferences keys
+/// 'Smoke Signal'
+const String appTitle = 'Smoke Signal';
+
+/// Paths to asset files for [EzConfig.assetPaths]
+/// [appIconPath], [darkForestPath], [smokeSignalPath]
+final Set<String> assets = <String>{
+  appIconPath,
+  darkForestPath,
+  smokeSignalPath,
+};
+
+// Custom EzConfig keys
+
+/// 'signalImage'
 const String signalImageKey = 'signalImage';
-const String signalSpacingKey = 'signalSpacing';
-const String signalHeightKey = 'signalHeight';
-const String signalCountHeightKey = 'signalCountHeight';
-const String watchingColorKey = 'watchingSignalColor';
-const String watchingTextColorKey = 'watchingSignalTextColor';
-const String joinedColorKey = 'joinedSignalColor';
-const String joinedTextColorKey = 'joinedSignalTextColor';
 
-/// [Map] of default values for all Smoke Signal specific user customizable UI variables
-/// Beyond those already present in [EzConfig] from empathetech_flutter_ui
-final Map<String, dynamic> customDefaults = {
-  backColorKey: 0xFF11131D, // Color found at the base of 'assets/dark-forest.png'
-  themeColorKey: 0xFF11131D,
-  backImageKey: darkForestPath,
+/// 0xFF11131D
+const int darkForestBackground = 0xFF11131D;
+
+const Map<String, Object> ssDefaults = <String, Object>{
+  ...empathetechConfig,
+  darkBackgroundImageKey: darkForestPath,
+  lightBackgroundImageKey: darkForestPath,
   signalImageKey: smokeSignalPath,
-  signalSpacingKey: 50.0,
-  signalHeightKey: 125.0,
-  signalCountHeightKey: 75.0,
-  watchingColorKey: 0xE620DAA5, // Eucalyptus - one of Empathetech's triadic colors
-  watchingTextColorKey: 0xFF000000, // Black
-  joinedColorKey: 0xE6A520DA, // Purple (X11) - one of Empathetech's triadic colors
-  joinedTextColorKey: 0xFFFFFFFF, // White
 };

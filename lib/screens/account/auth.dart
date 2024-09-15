@@ -1,5 +1,10 @@
-import 'screens.dart';
-import '../utils/utils.dart';
+/* smoke_signal
+ * Copyright (c) 2022-2024 Empathetech LLC. All rights reserved.
+ * See LICENSE for distribution and usage details.
+ */
+
+import '../export.dart';
+import '../../utils/export.dart';
 
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
@@ -22,7 +27,7 @@ class _AuthScreenState extends State<AuthScreen> {
     return EzScaffold(
       background: BoxDecoration(color: Color(EzConfig.prefs[backColorKey])),
       appBar: EzAppBar(
-        title: EzText.simple(
+        title: Text(
           appTitle,
           style: buildTextStyle(styleKey: titleStyleKey),
         ),
@@ -45,7 +50,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 screen: LoginScreen(),
               ),
               message: 'Login',
-              icon: EzIcon(PlatformIcons(context).mail),
+              icon: Icon(PlatformIcons(context).mail),
             ),
             Container(height: buttonSpacer),
 
@@ -56,7 +61,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 screen: SignUpScreen(),
               ),
               message: 'Sign up',
-              icon: EzIcon(PlatformIcons(context).mail),
+              icon: Icon(PlatformIcons(context).mail),
             ),
           ],
         ),

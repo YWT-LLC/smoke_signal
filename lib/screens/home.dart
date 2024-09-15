@@ -1,4 +1,9 @@
-import 'screens.dart';
+/* smoke_signal
+ * Copyright (c) 2022-2024 Empathetech LLC. All rights reserved.
+ * See LICENSE for distribution and usage details.
+ */
+
+import 'export.dart';
 
 import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
@@ -9,18 +14,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
 /// Enumerator for communicating with [HomeScreen] build should be returned
 enum HomeBuildType {
   loading,
   auth,
   app,
+}
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -57,14 +62,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _getBuild(HomeBuildType type) {
     switch (type) {
       case HomeBuildType.app:
-        return SignalBoard();
+        return const SignalBoard();
 
       case HomeBuildType.loading:
-        return LoadingScreen();
+        return const LoadingScreen();
 
       case HomeBuildType.auth:
       default:
-        return AuthScreen();
+        return const AuthScreen();
     }
   }
 

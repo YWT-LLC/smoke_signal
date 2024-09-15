@@ -1,4 +1,9 @@
-import '../utils/utils.dart';
+/* smoke_signal
+ * Copyright (c) 2022-2024 Empathetech LLC. All rights reserved.
+ * See LICENSE for distribution and usage details.
+ */
+
+import '../../utils/export.dart';
 
 import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
@@ -31,7 +36,7 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
       background: BoxDecoration(color: Color(EzConfig.prefs[backColorKey])),
       appBar: EzAppBar(
         title:
-            EzText.simple('No problem!', style: buildTextStyle(styleKey: titleStyleKey)),
+            Text('No problem!', style: buildTextStyle(styleKey: titleStyleKey)),
         trailing: EzDrawer(
           header: standardDrawerHeader(),
           body: standardDrawerBody(context: context),
@@ -73,15 +78,15 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
 
                 // Attempt reset
                 try {
-                  await AppUser.auth
-                      .sendPasswordResetEmail(email: _emailController.text.trim());
+                  await AppUser.auth.sendPasswordResetEmail(
+                      email: _emailController.text.trim());
                   logAlert(context, 'Password reset email has been sent!');
                 } on Exception catch (e) {
                   logAlert(context, 'Failed to send password reset email:\n$e');
                 }
               },
               message: 'Send link',
-              icon: EzIcon(PlatformIcons(context).mail),
+              icon: Icon(PlatformIcons(context).mail),
             ),
             Container(height: buttonSpacer),
           ],

@@ -1,5 +1,10 @@
-import 'screens.dart';
-import '../utils/utils.dart';
+/* smoke_signal
+ * Copyright (c) 2022-2024 Empathetech LLC. All rights reserved.
+ * See LICENSE for distribution and usage details.
+ */
+
+import '../export.dart';
+import '../../utils/export.dart';
 
 import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
@@ -46,7 +51,7 @@ class _SignalBoardState extends State<SignalBoard> {
 
       // App bar
       appBar: EzAppBar(
-        title: EzText.simple('Signals', style: buildTextStyle(styleKey: titleStyleKey)),
+        title: Text('Signals', style: buildTextStyle(styleKey: titleStyleKey)),
 
         // End Drawer
         trailing: EzDrawer(
@@ -65,39 +70,39 @@ class _SignalBoardState extends State<SignalBoard> {
                 if (shouldRefresh != null) refresh();
               },
               message: 'Settings',
-              icon: EzIcon(PlatformIcons(context).settings),
+              icon: Icon(PlatformIcons(context).settings),
             ),
             Container(height: buttonSpacer),
 
             // Show input rules
             EzButton(
-              action: () => openDialog(
+              action: () => showPlatformDialog(
                 context: context,
-                dialog: EzDialog(
-                  title: EzText.simple(
+                dialog: EzAlertDialog(
+                  title: Text(
                     'Input rules',
                     style: buildTextStyle(styleKey: dialogContentStyleKey),
                   ),
                   contents: [
-                    EzText.simple(
+                    Text(
                       validatorRule,
                       style: buildTextStyle(styleKey: dialogContentStyleKey),
                     ),
                   ],
                 ),
               ),
-              body: EzText.simple('Input rules'),
+              body: Text('Input rules'),
             ),
             Container(height: buttonSpacer),
 
             // Reload
             EzButton.icon(
               action: () {
-                popScreen(context: context, pass: true);
+                Navigator.of(context).pop(true);
                 reload();
               },
               message: 'Reload',
-              icon: EzIcon(PlatformIcons(context).refresh),
+              icon: Icon(PlatformIcons(context).refresh),
             ),
           ],
         ),
@@ -114,7 +119,8 @@ class _SignalBoardState extends State<SignalBoard> {
             // Signals the user is a member of
             StreamBuilder<QuerySnapshot>(
                 stream: _signalStream,
-                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
                       return loadingMessage(
@@ -142,7 +148,8 @@ class _SignalBoardState extends State<SignalBoard> {
             // Signal requests pending the user's approval
             StreamBuilder<QuerySnapshot>(
                 stream: _requestStream,
-                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
                       return Container(); // Don't need two loading messages
@@ -177,7 +184,7 @@ class _SignalBoardState extends State<SignalBoard> {
 
           if (shouldReload != null) reload();
         },
-        body: EzIcon(PlatformIcons(context).add),
+        body: Icon(PlatformIcons(context).add),
       ),
     );
   }

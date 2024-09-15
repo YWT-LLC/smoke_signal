@@ -1,4 +1,9 @@
-import '../utils/utils.dart';
+/* smoke_signal
+ * Copyright (c) 2022-2024 Empathetech LLC. All rights reserved.
+ * See LICENSE for distribution and usage details.
+ */
+
+import '../../utils/export.dart';
 
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
@@ -23,7 +28,7 @@ class _ImageSettingsState extends State<ImageSettingsScreen> {
     return EzScaffold(
       background: BoxDecoration(color: Color(EzConfig.prefs[backColorKey])),
       appBar: EzAppBar(
-          title: EzText.simple('Image settings',
+          title: Text('Image settings',
               style: buildTextStyle(styleKey: titleStyleKey))),
       body: ezView(
         context: context,
@@ -37,7 +42,8 @@ class _ImageSettingsState extends State<ImageSettingsScreen> {
               prefsKey: backImageKey,
               fullscreen: true,
               title: 'Background',
-              credits: credits[EzConfig.prefs[backImageKey]] ?? 'Wherever you got it!',
+              credits: credits[EzConfig.prefs[backImageKey]] ??
+                  'Wherever you got it!',
               allowClear: true,
             ),
             Container(height: buttonSpacer),
@@ -47,7 +53,8 @@ class _ImageSettingsState extends State<ImageSettingsScreen> {
               prefsKey: signalImageKey,
               fullscreen: false,
               title: 'Signal',
-              credits: credits[EzConfig.prefs[signalImageKey]] ?? 'Wherever you got it!',
+              credits: credits[EzConfig.prefs[signalImageKey]] ??
+                  'Wherever you got it!',
               allowClear: false,
             ),
             Container(height: buttonSpacer),

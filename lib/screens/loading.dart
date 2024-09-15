@@ -1,4 +1,9 @@
-import '../utils/utils.dart';
+/* smoke_signal
+ * Copyright (c) 2022-2024 Empathetech LLC. All rights reserved.
+ * See LICENSE for distribution and usage details.
+ */
+
+import '../utils/export.dart';
 
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
@@ -20,7 +25,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     return EzScaffold(
       background: BoxDecoration(color: Color(EzConfig.prefs[backColorKey])),
       appBar: EzAppBar(
-        title: EzText.simple(
+        title: Text(
           appTitle,
           style: buildTextStyle(styleKey: titleStyleKey),
         ),

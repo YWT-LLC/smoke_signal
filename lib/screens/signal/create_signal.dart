@@ -1,4 +1,9 @@
-import '../utils/utils.dart';
+/* smoke_signal
+ * Copyright (c) 2022-2024 Empathetech LLC. All rights reserved.
+ * See LICENSE for distribution and usage details.
+ */
+
+import '../../utils/export.dart';
 
 import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
@@ -55,14 +60,15 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
               children: [
                 // Profile image/avatar
                 CircleAvatar(
-                  foregroundImage: CachedNetworkImageProvider(profile.avatarURL),
+                  foregroundImage:
+                      CachedNetworkImageProvider(profile.avatarURL),
                   minRadius: 35,
                   maxRadius: 35,
                 ),
                 Container(width: EzConfig.prefs[paddingKey]),
 
                 // Display name
-                EzText.simple(
+                Text(
                   profile.name,
                   style: buildTextStyle(styleKey: dialogTitleStyleKey),
                   textAlign: TextAlign.start,
@@ -97,7 +103,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
     return EzScaffold(
       background: BoxDecoration(color: Color(EzConfig.prefs[backColorKey])),
       appBar: EzAppBar(
-          title: EzText.simple('New signal',
+          title: Text('New signal',
               style: buildTextStyle(styleKey: titleStyleKey))),
 
       // Body
@@ -132,7 +138,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                EzText.simple(
+                Text(
                   'Currently active?',
                   style: buildTextStyle(styleKey: dialogTitleStyleKey),
                 ),
@@ -154,7 +160,8 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
             // List of toggle-able members to send join requests on creation
             StreamBuilder<QuerySnapshot>(
               stream: _userStream,
-              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
                     return loadingMessage(
@@ -202,10 +209,10 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                   requestIDs,
                 );
 
-                if (added) popScreen(context: context, pass: true);
+                if (added) Navigator.of(context).pop(true);
               },
               message: 'Add',
-              icon: EzIcon(PlatformIcons(context).cloudUpload),
+              icon: Icon(PlatformIcons(context).cloudUpload),
             ),
             Container(height: buttonSpacer),
           ],

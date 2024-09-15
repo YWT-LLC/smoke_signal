@@ -1,5 +1,10 @@
-import 'utils.dart';
-import '../screens/screens.dart';
+/* smoke_signal
+ * Copyright (c) 2022-2024 Empathetech LLC. All rights reserved.
+ * See LICENSE for distribution and usage details.
+ */
+
+import '../utils/export.dart';
+import '../screens/export.dart';
 
 import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
@@ -94,10 +99,10 @@ class _SignalState extends State<Signal> {
   /// Set a custom [Icon] for the [Signal] via [changeImage]
   /// Returns the path of the new image on success
   Future<dynamic> setIcon() {
-    return openDialog(
+    return showPlatformDialog(
       context: context,
-      dialog: EzDialog(
-        title: EzText.simple(
+      dialog: EzAlertDialog(
+        title: Text(
           'From where?',
           style: buildTextStyle(styleKey: dialogTitleStyleKey),
         ),
@@ -111,10 +116,10 @@ class _SignalState extends State<Signal> {
                 source: ImageSource.gallery,
               );
 
-              popScreen(context: context, pass: changed);
+              Navigator.of(context).pop(changed);
             },
             message: 'File',
-            icon: EzIcon(PlatformIcons(context).folder),
+            icon: Icon(PlatformIcons(context).folder),
           ),
           Container(height: dialogSpacer),
 
@@ -126,10 +131,10 @@ class _SignalState extends State<Signal> {
                 prefsPath: iconPathKey,
                 source: ImageSource.camera,
               );
-              popScreen(context: context, pass: changed);
+              Navigator.of(context).pop(changed);
             },
             message: 'Camera',
-            icon: EzIcon(PlatformIcons(context).photoCamera),
+            icon: Icon(PlatformIcons(context).photoCamera),
           ),
           Container(height: dialogSpacer),
 
@@ -151,10 +156,10 @@ class _SignalState extends State<Signal> {
 
               // Wipe [SharedPreferences]
               EzConfig.preferences.remove(iconPathKey);
-              popScreen(context: context, pass: true);
+              Navigator.of(context).pop(true);
             },
             message: 'Reset',
-            icon: EzIcon(PlatformIcons(context).refresh),
+            icon: Icon(PlatformIcons(context).refresh),
           ),
         ],
       ),
@@ -182,10 +187,10 @@ class _SignalState extends State<Signal> {
 
   /// Show all [Signal] edits the user can make
   Future<dynamic> showEdits() {
-    return openDialog(
+    return showPlatformDialog(
       context: context,
-      dialog: EzDialog(
-        title: EzText.simple(
+      dialog: EzAlertDialog(
+        title: Text(
           'Options',
           style: buildTextStyle(styleKey: dialogTitleStyleKey),
         ),
@@ -201,7 +206,7 @@ class _SignalState extends State<Signal> {
                 memberReqs: widget.memberReqs,
               ),
             ),
-            body: EzText.simple('Members'),
+            body: Text('Members'),
           ),
           Container(height: dialogSpacer),
 
@@ -209,15 +214,15 @@ class _SignalState extends State<Signal> {
           EzButton(
             action: () async {
               dynamic result = await setIcon();
-              popScreen(context: context, pass: result);
+              Navigator.of(context).pop(result);
               if (result != null) widget.reloadBoard();
             },
-            body: EzText.simple('Set icon'),
+            body: Text('Set icon'),
           ),
           Container(height: dialogSpacer),
 
           // Show/hide icon
-          EzButton(action: toggleIcon, body: EzText.simple('Toggle icon')),
+          EzButton(action: toggleIcon, body: Text('Toggle icon')),
           Container(height: dialogSpacer),
 
           // Owner: Reset count, update message, transfer signal, or delete signal
@@ -230,40 +235,41 @@ class _SignalState extends State<Signal> {
                     // Reset
                     EzButton(
                       action: () async {
-                        popScreen(context: context, pass: true);
+                        Navigator.of(context).pop(true);
                         await resetSignal(context, signalTitle);
                         // Reset signal triggers a stream update
                         // so the screen will update automatically
                       },
-                      body: EzText.simple('Reset signal'),
+                      body: Text('Reset signal'),
                     ),
                     Container(height: dialogSpacer),
 
                     // Update message
                     EzButton(
                       action: () async {
-                        dynamic result = await updateMessage(context, signalTitle);
-                        popScreen(context: context, pass: result);
+                        dynamic result =
+                            await updateMessage(context, signalTitle);
+                        Navigator.of(context).pop(result);
                       },
-                      body: EzText.simple('Update message'),
+                      body: Text('Update message'),
                     ),
                     Container(height: dialogSpacer),
 
                     // Transfer
                     EzButton(
                       action: () async {
-                        dynamic result =
-                            await confirmTransfer(context, signalTitle, widget.members);
-                        popScreen(context: context, pass: result);
+                        dynamic result = await confirmTransfer(
+                            context, signalTitle, widget.members);
+                        Navigator.of(context).pop(result);
                       },
-                      body: EzText.simple('Transfer signal'),
+                      body: Text('Transfer signal'),
                     ),
                     Container(height: dialogSpacer),
 
                     // Delete
                     EzButton(
                       action: () {
-                        popScreen(context: context);
+                        Navigator.of(context).pop();
                         confirmDelete(
                           context,
                           signalTitle,
@@ -272,14 +278,14 @@ class _SignalState extends State<Signal> {
                         // Deleting a signal triggers a stream update
                         // so the screen will update automatically
                       },
-                      body: EzText.simple('Delete signal'),
+                      body: Text('Delete signal'),
                     ),
                   ]
                 : [
                     // Leave
                     EzButton(
                       action: () {
-                        popScreen(context: context);
+                        Navigator.of(context).pop();
                         confirmDeparture(
                           context,
                           signalTitle,
@@ -288,7 +294,7 @@ class _SignalState extends State<Signal> {
                         // Leaving a signal triggers a stream update
                         // so the screen will update automatically
                       },
-                      body: EzText.simple('Leave signal'),
+                      body: Text('Leave signal'),
                     ),
                   ],
           ),
@@ -339,9 +345,11 @@ class _SignalState extends State<Signal> {
                             child: Card(
                               color: joined ? joinedColor : watchingColor,
                               child: Center(
-                                child: EzText.simple(
+                                child: Text(
                                   signalTitle,
-                                  style: joined ? joinedTextStyle : watchingTextStyle,
+                                  style: joined
+                                      ? joinedTextStyle
+                                      : watchingTextStyle,
                                 ),
                               ),
                             ),
@@ -366,7 +374,7 @@ class _SignalState extends State<Signal> {
                     child: Card(
                       color: joined ? joinedColor : watchingColor,
                       child: Center(
-                        child: EzText.simple(
+                        child: Text(
                           signalTitle,
                           style: joined ? joinedTextStyle : watchingTextStyle,
                         ),
@@ -391,7 +399,7 @@ class _SignalState extends State<Signal> {
                     ? [
                         // Active: show the current count surrounded by smoke signals
                         EzImage(prefsKey: signalImageKey),
-                        EzText.simple(
+                        Text(
                           widget.activeMembers.length.toString(),
                           style: joinedTextStyle,
                         ),
@@ -399,7 +407,7 @@ class _SignalState extends State<Signal> {
                       ]
                     : [
                         // Inactive: only show the current count
-                        EzText.simple(
+                        Text(
                           widget.activeMembers.length.toString(),
                           style: watchingTextStyle,
                         ),
@@ -426,7 +434,7 @@ class _SignalState extends State<Signal> {
             child: Card(
               color: watchingColor,
               child: Center(
-                child: EzText.simple(
+                child: Text(
                   'Join:\n$signalTitle?',
                   style: watchingTextStyle,
                 ),

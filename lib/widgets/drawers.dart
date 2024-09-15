@@ -1,5 +1,10 @@
-import 'utils.dart';
-import '../screens/screens.dart';
+/* smoke_signal
+ * Copyright (c) 2022-2024 Empathetech LLC. All rights reserved.
+ * See LICENSE for distribution and usage details.
+ */
+
+import '../utils/export.dart';
+import '../screens/export.dart';
 
 import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
@@ -37,29 +42,29 @@ List<Widget> standardDrawerBody({
 
         if (result != null && onReturn != null) onReturn();
       },
-      icon: EzIcon(PlatformIcons(context).settings),
+      icon: Icon(PlatformIcons(context).settings),
       message: 'Settings',
     ),
     Container(height: buttonSpacer),
 
     // Show input rules
     EzButton(
-      action: () => openDialog(
+      action: () => showPlatformDialog(
         context: context,
-        dialog: EzDialog(
-          title: EzText.simple(
+        dialog: EzAlertDialog(
+          title: Text(
             'Input rules',
             style: buildTextStyle(styleKey: dialogTitleStyleKey),
           ),
           contents: [
-            EzText.simple(
+            Text(
               validatorRule,
               style: buildTextStyle(styleKey: dialogContentStyleKey),
             ),
           ],
         ),
       ),
-      body: EzText.simple('Input rules'),
+      body: Text('Input rules'),
     ),
     Container(height: buttonSpacer),
   ];
@@ -82,14 +87,14 @@ Widget signalDrawerHeader({
         children: [
           // Profile image
           CircleAvatar(
-            foregroundImage:
-                CachedNetworkImageProvider(AppUser.account.photoURL ?? defaultAvatarURL),
+            foregroundImage: CachedNetworkImageProvider(
+                AppUser.account.photoURL ?? defaultAvatarURL),
             minRadius: 50,
             maxRadius: 50,
           ),
 
           // Profile name
-          EzText.simple(
+          Text(
             AppUser.account.displayName ?? defaultDisplayName,
             style: buildTextStyle(styleKey: dialogTitleStyleKey),
           ),
@@ -111,14 +116,14 @@ Widget signalDrawerHeader({
 
               if (shouldRefresh != null) refresh();
             },
-            body: EzIcon(PlatformIcons(context).edit),
+            body: Icon(PlatformIcons(context).edit),
           ),
           Container(height: EzConfig.prefs[dialogSpacingKey]),
 
           // Logout
           EzButton(
             action: () => logout(context),
-            body: EzIcon(Icons.logout),
+            body: Icon(Icons.logout),
           ),
         ],
       ),

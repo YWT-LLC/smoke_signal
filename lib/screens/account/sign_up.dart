@@ -1,5 +1,9 @@
-import 'screens.dart';
-import '../utils/utils.dart';
+/* smoke_signal
+ * Copyright (c) 2022-2024 Empathetech LLC. All rights reserved.
+ * See LICENSE for distribution and usage details.
+ */
+
+import '../../utils/export.dart';
 
 import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
@@ -7,33 +11,32 @@ import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final emailFormKey = GlobalKey<FormState>();
   final passwordFormKey = GlobalKey<FormState>();
 
-  late TextEditingController _emailController = TextEditingController();
+  late TextEditingController _signUpEmailController = TextEditingController();
   late TextEditingController _passwdController = TextEditingController();
 
   late Color themeTextColor = Color(EzConfig.prefs[themeTextColorKey]);
 
-  late double buttonSpacer = EzConfig.prefs[buttonSpacingKey];
-
   late TextStyle contents = buildTextStyle(styleKey: dialogContentStyleKey);
+
+  late double buttonSpacer = EzConfig.prefs[buttonSpacingKey];
 
   @override
   Widget build(BuildContext context) {
     return EzScaffold(
       background: BoxDecoration(color: Color(EzConfig.prefs[backColorKey])),
       appBar: EzAppBar(
-        title: EzText.simple('Welcome back!',
-            style: buildTextStyle(styleKey: titleStyleKey)),
+        title: Text('Welcome!', style: buildTextStyle(styleKey: titleStyleKey)),
         trailing: EzDrawer(
           header: standardDrawerHeader(),
           body: standardDrawerBody(context: context),
@@ -48,21 +51,19 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         body: EzScrollView(
           children: [
-            // Autofill group allows for password manager inputs and such
             AutofillGroup(
               child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   // Email field
                   EzFormField(
                     key: emailFormKey,
-                    controller: _emailController,
+                    controller: _signUpEmailController,
                     hintText: 'Enter email',
                     autofillHints: [AutofillHints.email],
                     validator: emailValidator,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                   ),
+
                   Container(height: buttonSpacer),
 
                   // Password field
@@ -78,43 +79,26 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Container(height: buttonSpacer),
 
-            // Forgot password option
-            GestureDetector(
-              onTap: () => pushScreen(
-                context: context,
-                screen: ResetPasswordScreen(),
-              ),
-              child: EzText.simple(
-                'Forgot your password?',
-                style: TextStyle(
-                  color: contents.color,
-                  fontSize: contents.fontSize,
-                  fontFamily: contents.fontFamily,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-            ),
-            Container(height: buttonSpacer),
-
-            // Attempt login button
+            // Attempt sign up button
             EzButton(
               action: () async {
                 // Close keyboard if open
                 closeFocus();
 
-                // Don't attempt login if we know the input is invalid
+                // Don't do anything if the input is invalid
                 if (!emailFormKey.currentState!.validate()) {
                   logAlert(context, 'Invalid email!');
                   return;
                 }
 
-                await attemptLogin(
+                // Attempt login
+                await attemptAccountCreation(
                   context,
-                  _emailController.text.trim(),
+                  _signUpEmailController.text.trim(),
                   _passwdController.text.trim(),
                 );
               },
-              body: EzText.simple('Login'),
+              body: Text('Sign up'),
             ),
           ],
         ),
@@ -124,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _signUpEmailController.dispose();
     _passwdController.dispose();
     super.dispose();
   }

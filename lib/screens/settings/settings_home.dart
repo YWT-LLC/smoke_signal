@@ -1,4 +1,9 @@
-import 'screens.dart';
+/* smoke_signal
+ * Copyright (c) 2022-2024 Empathetech LLC. All rights reserved.
+ * See LICENSE for distribution and usage details.
+ */
+
+import '../export.dart';
 
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
@@ -25,7 +30,7 @@ class _AppSettingsState extends State<AppSettingsScreen> {
       background: BoxDecoration(color: Color(EzConfig.prefs[backColorKey])),
       appBar: EzAppBar(
           title:
-              EzText.simple('Settings', style: buildTextStyle(styleKey: titleStyleKey))),
+              Text('Settings', style: buildTextStyle(styleKey: titleStyleKey))),
 
       // Body
       body: ezView(
@@ -43,31 +48,34 @@ class _AppSettingsState extends State<AppSettingsScreen> {
 
             // Colors
             EzButton(
-              action: () => pushScreen(context: context, screen: ColorSettingsScreen()),
-              body: EzText.simple('Colors'),
+              action: () =>
+                  pushScreen(context: context, screen: ColorSettingsScreen()),
+              body: Text('Colors'),
             ),
             Container(height: buttonSpacer),
 
             // Images
             EzButton(
-              action: () => pushScreen(context: context, screen: ImageSettingsScreen()),
-              body: EzText.simple('Images'),
+              action: () =>
+                  pushScreen(context: context, screen: ImageSettingsScreen()),
+              body: Text('Images'),
             ),
             Container(height: buttonSpacer),
 
             // Styling
             EzButton(
-              action: () => pushScreen(context: context, screen: StyleSettingsScreen()),
-              body: EzText.simple('Styling'),
+              action: () =>
+                  pushScreen(context: context, screen: StyleSettingsScreen()),
+              body: Text('Styling'),
             ),
             Container(height: 2 * buttonSpacer),
 
             // Reset all signal settings
             GestureDetector(
-              onTap: () => openDialog(
+              onTap: () => showPlatformDialog(
                 context: context,
-                dialog: EzDialog(
-                  title: EzText.simple(
+                dialog: EzAlertDialog(
+                  title: Text(
                     'Reset all settings?',
                     style: buildTextStyle(styleKey: dialogTitleStyleKey),
                   ),
@@ -81,10 +89,10 @@ class _AppSettingsState extends State<AppSettingsScreen> {
                           EzConfig.preferences.remove(key);
                         });
 
-                        popScreen(context: context, pass: true);
-                        popScreen(context: context, pass: true);
+                        Navigator.of(context).pop(true);
+                        Navigator.of(context).pop(true);
                       },
-                      onDeny: () => popScreen(context: context),
+                      onDeny: () => Navigator.of(context).pop(),
                       axis: Axis.vertical,
                       spacer: dialogSpacer,
                     ),
@@ -92,7 +100,7 @@ class _AppSettingsState extends State<AppSettingsScreen> {
                   needsClose: false,
                 ),
               ),
-              child: EzText.simple(
+              child: Text(
                 'Reset all',
                 style: buildTextStyle(styleKey: subTitleStyleKey),
               ),
