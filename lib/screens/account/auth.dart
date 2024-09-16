@@ -4,65 +4,50 @@
  */
 
 import '../export.dart';
-import '../../utils/export.dart';
-
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:go_router/go_router.dart';
+import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class AuthScreen extends StatefulWidget {
-  const AuthScreen({Key? key}) : super(key: key);
+  const AuthScreen({super.key});
 
   @override
-  _AuthScreenState createState() => _AuthScreenState();
+  State<AuthScreen> createState() => _AuthScreenState();
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  late double buttonSpacer = EzConfig.prefs[buttonSpacingKey];
+  // Gather theme data //
+
+  late bool isDark = PlatformTheme.of(context)!.isDark;
+
+// Return the build //
 
   @override
   Widget build(BuildContext context) {
-    return EzScaffold(
-      background: BoxDecoration(color: Color(EzConfig.prefs[backColorKey])),
-      appBar: EzAppBar(
-        title: Text(
-          appTitle,
-          style: buildTextStyle(styleKey: titleStyleKey),
-        ),
-        trailing: EzDrawer(
-          header: standardDrawerHeader(),
-          body: standardDrawerBody(context: context),
-        ),
-      ),
-      body: ezView(
-        context: context,
-        background: BoxDecoration(
-          image: DecorationImage(image: EzImage.getProvider(backImageKey)),
-        ),
-        body: EzScrollView(
-          children: [
+    return SmokeSignalScaffold(
+      body: EzScreen(
+        decorationImageKey:
+            isDark ? darkBackgroundImageKey : lightBackgroundImageKey,
+        child: EzScrollView(
+          children: <Widget>[
             // Login
-            EzButton.icon(
-              action: () => pushScreen(
-                context: context,
-                screen: LoginScreen(),
-              ),
-              message: 'Login',
+            ElevatedButton.icon(
+              onPressed: () => context.go(loginRoute),
               icon: Icon(PlatformIcons(context).mail),
+              label: const Text('Login'),
             ),
-            Container(height: buttonSpacer),
+            const EzSpacer(),
 
             // Sign up
-            EzButton.icon(
-              action: () => pushScreen(
-                context: context,
-                screen: SignUpScreen(),
-              ),
-              message: 'Sign up',
+            ElevatedButton.icon(
+              onPressed: () => context.go(signUpRoute),
               icon: Icon(PlatformIcons(context).mail),
+              label: const Text('Sign up'),
             ),
+            const EzSpacer(),
           ],
         ),
       ),
