@@ -4,107 +4,89 @@
  */
 
 import '../export.dart';
-
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:go_router/go_router.dart';
+import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-class AppSettingsScreen extends StatefulWidget {
-  const AppSettingsScreen({Key? key}) : super(key: key);
+class SettingsHomeScreen extends StatefulWidget {
+  const SettingsHomeScreen({super.key});
 
   @override
-  _AppSettingsState createState() => _AppSettingsState();
+  State<SettingsHomeScreen> createState() => _AppSettingsState();
 }
 
-class _AppSettingsState extends State<AppSettingsScreen> {
-  Color themeColor = Color(EzConfig.prefs[themeColorKey]);
-  Color themeTextColor = Color(EzConfig.prefs[themeTextColorKey]);
-  Color buttonColor = Color(EzConfig.prefs[buttonColorKey]);
+class _AppSettingsState extends State<SettingsHomeScreen> {
+  // Gather the theme data //
+
+  static const EzSpacer spacer = EzSpacer();
+  static const EzSeparator separator = EzSeparator();
+
+  late bool isDark = PlatformTheme.of(context)!.isDark;
+
+  late final ThemeData theme = Theme.of(context);
+  late final EFUILang l10n = EFUILang.of(context)!;
+
+  // Return the build //
 
   @override
   Widget build(BuildContext context) {
-    double buttonSpacer = EzConfig.prefs[buttonSpacingKey];
-    double dialogSpacer = EzConfig.prefs[dialogSpacingKey];
-
-    return EzScaffold(
-      background: BoxDecoration(color: Color(EzConfig.prefs[backColorKey])),
-      appBar: EzAppBar(
-          title:
-              Text('Settings', style: buildTextStyle(styleKey: titleStyleKey))),
-
-      // Body
-      body: ezView(
-        context: context,
-        background: BoxDecoration(
-          image: DecorationImage(image: EzImage.getProvider(backImageKey)),
-        ),
-        body: EzScrollView(
-          children: [
-            warningCard(
-              context: context,
-              warning: 'Changes won\'t take effect until restart',
+    return SmokeSignalScaffold(
+      body: EzScreen(
+        decorationImageKey:
+            isDark ? darkBackgroundImageKey : lightBackgroundImageKey,
+        child: EzScrollView(
+          children: <Widget>[
+            // Functionality disclaimer
+            EzWarning(
+              body: kIsWeb ? l10n.ssSettingsGuideWeb : l10n.ssSettingsGuide,
             ),
-            Container(height: 2 * buttonSpacer),
+            separator,
 
-            // Colors
-            EzButton(
-              action: () =>
-                  pushScreen(context: context, screen: ColorSettingsScreen()),
-              body: Text('Colors'),
+            // Global settings
+            const EzDominantHandSwitch(),
+            spacer,
+
+            const EzThemeModeSwitch(),
+            spacer,
+
+            const EzLocaleSetting(),
+            spacer,
+
+            // Text settings
+            ElevatedButton(
+              onPressed: () => context.go(textSettingsRoute),
+              child: Text(l10n.tsPageTitle),
             ),
-            Container(height: buttonSpacer),
+            spacer,
 
-            // Images
-            EzButton(
-              action: () =>
-                  pushScreen(context: context, screen: ImageSettingsScreen()),
-              body: Text('Images'),
+            // Layout settings
+            ElevatedButton(
+              onPressed: () => context.go(layoutSettingsRoute),
+              child: Text(l10n.lsPageTitle),
             ),
-            Container(height: buttonSpacer),
+            spacer,
 
-            // Styling
-            EzButton(
-              action: () =>
-                  pushScreen(context: context, screen: StyleSettingsScreen()),
-              body: Text('Styling'),
+            // Color settings
+            ElevatedButton(
+              onPressed: () => context.go(colorSettingsRoute),
+              child: Text(l10n.csPageTitle),
             ),
-            Container(height: 2 * buttonSpacer),
+            spacer,
 
-            // Reset all signal settings
-            GestureDetector(
-              onTap: () => showPlatformDialog(
-                context: context,
-                dialog: EzAlertDialog(
-                  title: Text(
-                    'Reset all settings?',
-                    style: buildTextStyle(styleKey: dialogTitleStyleKey),
-                  ),
-                  contents: [
-                    ezYesNo(
-                      context: context,
-                      onConfirm: () {
-                        EzConfig.prefs.forEach((key, value) {
-                          // Note we iterate rather than .clear()
-                          // As [EzConfig.preferences] might contain custom [File] paths
-                          EzConfig.preferences.remove(key);
-                        });
-
-                        Navigator.of(context).pop(true);
-                        Navigator.of(context).pop(true);
-                      },
-                      onDeny: () => Navigator.of(context).pop(),
-                      axis: Axis.vertical,
-                      spacer: dialogSpacer,
-                    ),
-                  ],
-                  needsClose: false,
-                ),
-              ),
-              child: Text(
-                'Reset all',
-                style: buildTextStyle(styleKey: subTitleStyleKey),
-              ),
+            // Image settings
+            ElevatedButton(
+              onPressed: () => context.go(imageSettingsRoute),
+              child: Text(l10n.isPageTitle),
             ),
+            separator,
+
+            // Reset button
+            const EzResetButton(),
+            spacer,
           ],
         ),
       ),

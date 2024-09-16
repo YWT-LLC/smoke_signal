@@ -3,63 +3,37 @@
  * See LICENSE for distribution and usage details.
  */
 
-import '../../utils/export.dart';
+import 'package:smoke_signal/utils/constants.dart';
 
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
+import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class ImageSettingsScreen extends StatefulWidget {
-  const ImageSettingsScreen({Key? key}) : super(key: key);
+  const ImageSettingsScreen({super.key});
 
   @override
-  _ImageSettingsState createState() => _ImageSettingsState();
+  State<ImageSettingsScreen> createState() => _ImageSettingsScreenState();
 }
 
-class _ImageSettingsState extends State<ImageSettingsScreen> {
-  late Color themeColor = Color(EzConfig.prefs[themeColorKey]);
-  late Color themeTextColor = Color(EzConfig.prefs[themeTextColorKey]);
-  late Color buttonColor = Color(EzConfig.prefs[buttonColorKey]);
-
-  late double buttonSpacer = EzConfig.prefs[buttonSpacingKey];
-
+class _ImageSettingsScreenState extends State<ImageSettingsScreen> {
   @override
   Widget build(BuildContext context) {
-    return EzScaffold(
-      background: BoxDecoration(color: Color(EzConfig.prefs[backColorKey])),
-      appBar: EzAppBar(
-          title: Text('Image settings',
-              style: buildTextStyle(styleKey: titleStyleKey))),
-      body: ezView(
-        context: context,
-        background: BoxDecoration(
-          image: DecorationImage(image: EzImage.getProvider(backImageKey)),
-        ),
-        body: EzScrollView(
-          children: [
-            // Background
-            EzImageSetting(
-              prefsKey: backImageKey,
-              fullscreen: true,
-              title: 'Background',
-              credits: credits[EzConfig.prefs[backImageKey]] ??
-                  'Wherever you got it!',
-              allowClear: true,
-            ),
-            Container(height: buttonSpacer),
-
-            // Signal
-            EzImageSetting(
-              prefsKey: signalImageKey,
-              fullscreen: false,
-              title: 'Signal',
-              credits: credits[EzConfig.prefs[signalImageKey]] ??
-                  'Wherever you got it!',
-              allowClear: false,
-            ),
-            Container(height: buttonSpacer),
-          ],
-        ),
+    return const SmokeSignalScaffold(
+      body: ImageSettings(
+        lightBackgroundImageKey: lightBackgroundImageKey,
+        darkBackgroundImageKey: darkBackgroundImageKey,
+        additionalSettings: <Widget>[
+          EzImageSetting(
+            configKey: signalImageKey,
+            label: 'Signal',
+            // dialogTitle: ,
+            // credits: ,
+            allowClear: false,
+            updateThemeOption: false,
+          ),
+        ],
       ),
     );
   }
