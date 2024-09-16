@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [2.0.0] - 2024-XX-XX
 ### Updated 
+- Everything
 
 ## [1.0.0] - 2023-03-31
 ### Added
