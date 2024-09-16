@@ -15,13 +15,11 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 /// "Standard" drawer header: circle avatar of the app's icon
 /// For use on screen in which settings should be available, but no user is logged in
-Widget standardDrawerHeader() {
-  return CircleAvatar(
-    backgroundImage: AssetImage(appIconPath),
-    minRadius: 50,
-    maxRadius: 50,
-  );
-}
+const Widget standardDrawerHeader = CircleAvatar(
+  backgroundImage: AssetImage(appIconPath),
+  minRadius: 50,
+  maxRadius: 50,
+);
 
 /// "Standard" drawer body: GoTo settings and show input rules
 /// For use on screen in which settings should be available, but no user is logged in
