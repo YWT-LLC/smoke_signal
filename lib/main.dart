@@ -21,7 +21,18 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 
 void main() async {
+  // Setup the app //
+
   WidgetsFlutterBinding.ensureInitialized();
+
+  await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]);
+
+  // Initialize EzConfig //
 
   final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -31,19 +42,15 @@ void main() async {
     defaults: ssDefaults,
   );
 
-  await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-    DeviceOrientation.landscapeLeft,
-    DeviceOrientation.landscapeRight,
-  ]);
+  // Initialize firebase //
 
-  // Initialize firebase
   await Firebase.initializeApp();
 
-  // Initialize app user
   AppUser.messager = FirebaseMessaging.instance;
   AppUser.auth = FirebaseAuth.instance;
+
+  // Run the app //
+  // With a feedback wrapper
 
   late final TextStyle lightFeedbackText = buildBody(Colors.black);
   late final TextStyle darkFeedbackText = buildBody(Colors.white);
@@ -90,28 +97,36 @@ final GoRouter router = GoRouter(
       },
       routes: <RouteBase>[
         GoRoute(
-          path: textSettingsPath,
+          path: settingsPath,
           builder: (BuildContext context, GoRouterState state) {
-            return const TextSettingsScreen();
+            return const SettingsHomeScreen();
           },
-        ),
-        GoRoute(
-          path: layoutSettingsPath,
-          builder: (BuildContext context, GoRouterState state) {
-            return const LayoutSettingsScreen();
-          },
-        ),
-        GoRoute(
-          path: colorSettingsPath,
-          builder: (BuildContext context, GoRouterState state) {
-            return const ColorSettingsScreen();
-          },
-        ),
-        GoRoute(
-          path: imageSettingsPath,
-          builder: (BuildContext context, GoRouterState state) {
-            return const ImageSettingsScreen();
-          },
+          routes: <RouteBase>[
+            GoRoute(
+              path: textSettingsPath,
+              builder: (BuildContext context, GoRouterState state) {
+                return const TextSettingsScreen();
+              },
+            ),
+            GoRoute(
+              path: colorSettingsPath,
+              builder: (BuildContext context, GoRouterState state) {
+                return const ColorSettingsScreen();
+              },
+            ),
+            GoRoute(
+              path: layoutSettingsPath,
+              builder: (BuildContext context, GoRouterState state) {
+                return const LayoutSettingsScreen();
+              },
+            ),
+            GoRoute(
+              path: imageSettingsPath,
+              builder: (BuildContext context, GoRouterState state) {
+                return const ImageSettingsScreen();
+              },
+            ),
+          ],
         ),
       ],
     ),
@@ -130,9 +145,13 @@ class SmokeSignal extends StatelessWidget {
         localizationsDelegates: <LocalizationsDelegate<dynamic>>{
           const LocaleNamesLocalizationsDelegate(),
           ...EFUILang.localizationsDelegates,
+          ...Lang.localizationsDelegates,
           EmpathetechFeedbackLocalizationsDelegate(),
         },
-        supportedLocales: EFUILang.supportedLocales,
+        supportedLocales: const <Locale>[
+          ...EFUILang.supportedLocales,
+          ...Lang.supportedLocales,
+        ],
         locale: EzConfig.getLocale(),
         title: appTitle,
         routerConfig: router,
