@@ -4,3 +4,5 @@
  */
 
 export 'constants.dart';
+
+export '../l10n/lang.dart';
