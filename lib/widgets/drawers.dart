@@ -6,87 +6,95 @@
 import '../utils/export.dart';
 import '../screens/export.dart';
 
-import 'package:empathetech_ss_api/empathetech_ss_api.dart';
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
-
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-/// "Standard" drawer header: circle avatar of the app's icon
-/// For use on screen in which settings should be available, but no user is logged in
-const Widget standardDrawerHeader = CircleAvatar(
-  backgroundImage: AssetImage(appIconPath),
-  minRadius: 50,
-  maxRadius: 50,
-);
+class SmokeSignalDrawer extends StatelessWidget {
+  final Widget header;
 
-/// "Standard" drawer body: GoTo settings and show input rules
-/// For use on screen in which settings should be available, but no user is logged in
-List<Widget> standardDrawerBody({
-  required BuildContext context,
-  void Function()? onReturn,
-}) {
-  double buttonSpacer = EzConfig.prefs[buttonSpacingKey];
+  /// Universal [NavigationDrawer] for Smoke Signal
+  const SmokeSignalDrawer({
+    super.key,
+    required this.header,
+  });
 
-  return [
-    // GoTo settings
-    EzButton.icon(
-      action: () async {
-        dynamic result = await popAndPushScreen(
-          context: context,
-          screen: AppSettingsScreen(),
-        );
+  // Return the build //
 
-        if (result != null && onReturn != null) onReturn();
-      },
-      icon: Icon(PlatformIcons(context).settings),
-      message: 'Settings',
-    ),
-    Container(height: buttonSpacer),
+  @override
+  Widget build(BuildContext context) {
+    const EzSpacer spacer = EzSpacer();
 
-    // Show input rules
-    EzButton(
-      action: () => showPlatformDialog(
-        context: context,
-        dialog: EzAlertDialog(
-          title: Text(
-            'Input rules',
-            style: buildTextStyle(styleKey: dialogTitleStyleKey),
-          ),
-          contents: [
-            Text(
-              validatorRule,
-              style: buildTextStyle(styleKey: dialogContentStyleKey),
-            ),
-          ],
+    return NavigationDrawer(
+      tilePadding: EdgeInsets.zero,
+      children: <Widget>[
+        header,
+        spacer,
+
+        // GoTo settings
+        ElevatedButton.icon(
+          onPressed: () {
+            Navigator.of(context).pop();
+            context.go(settingsRoute);
+          },
+          icon: Icon(PlatformIcons(context).settings),
+          label: const Text('Settings'),
         ),
-      ),
-      body: Text('Input rules'),
-    ),
-    Container(height: buttonSpacer),
-  ];
+        spacer,
+
+        // Show input rules
+        ElevatedButton(
+          onPressed: () => showPlatformDialog(
+            context: context,
+            builder: (_) => EzAlertDialog(
+              title: const Text('Input rules'),
+              content: const Text(validatorRule),
+            ),
+          ),
+          child: const Text('Input rules'),
+        ),
+        spacer,
+      ],
+    );
+  }
 }
+
+/// Circle avatar of the app's icon
+/// For use on screen in which settings should be available, but no user is logged in
+const Widget standardDrawerHeader = DrawerHeader(
+  margin: EdgeInsets.zero,
+  padding: EdgeInsets.zero,
+  child: EzScrollView(
+    scrollDirection: Axis.horizontal,
+    mainAxisSize: MainAxisSize.min,
+    child: CircleAvatar(
+      backgroundImage: AssetImage(appIconPath),
+      minRadius: 50,
+      maxRadius: 50,
+    ),
+  ),
+);
 
 /// Custom drawer header for Signal Board
 /// Show profile information, GoTo profile settings, and logout
-Widget signalDrawerHeader({
-  required BuildContext context,
-  required void Function() refresh,
-}) {
+Widget signalDrawerHeader(BuildContext context, void Function() refresh) {
   return Row(
     mainAxisSize: MainAxisSize.max,
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: [
+    children: <Widget>[
       // Profile image and name
       Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
+        children: <Widget>[
           // Profile image
           CircleAvatar(
             foregroundImage: CachedNetworkImageProvider(
-                AppUser.account.photoURL ?? defaultAvatarURL),
+              AppUser.account.photoURL ?? defaultAvatarURL,
+            ),
             minRadius: 50,
             maxRadius: 50,
           ),
@@ -94,7 +102,7 @@ Widget signalDrawerHeader({
           // Profile name
           Text(
             AppUser.account.displayName ?? defaultDisplayName,
-            style: buildTextStyle(styleKey: dialogTitleStyleKey),
+            style: Theme.of(context).textTheme.titleLarge,
           ),
         ],
       ),
@@ -103,25 +111,21 @@ Widget signalDrawerHeader({
       Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
+        children: <Widget>[
           // Edit
-          EzButton(
-            action: () async {
-              dynamic shouldRefresh = await popAndPushScreen(
-                context: context,
-                screen: ProfileSettingsScreen(),
-              );
-
-              if (shouldRefresh != null) refresh();
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              context.go(profileSettingsRoute);
             },
-            body: Icon(PlatformIcons(context).edit),
+            icon: Icon(PlatformIcons(context).edit),
           ),
-          Container(height: EzConfig.prefs[dialogSpacingKey]),
+          const EzSpacer(),
 
           // Logout
-          EzButton(
-            action: () => logout(context),
-            body: Icon(Icons.logout),
+          IconButton(
+            onPressed: () => logout(context),
+            icon: const Icon(Icons.logout),
           ),
         ],
       ),
