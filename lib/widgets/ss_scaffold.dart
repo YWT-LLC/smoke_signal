@@ -11,12 +11,16 @@ import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class SmokeSignalScaffold extends StatelessWidget {
   final Widget body;
+  final Widget drawerHeader;
+
+  /// [FloatingActionButton]
   final Widget? fab;
 
-  /// Standardized [Scaffold] for all of the EFUI example app's screens
+  /// Standardized [Scaffold] for all of Smoke Signals's screens
   const SmokeSignalScaffold({
     super.key,
     required this.body,
+    required this.drawerHeader,
     this.fab,
   });
 
@@ -25,7 +29,7 @@ class SmokeSignalScaffold extends StatelessWidget {
     // Gather the theme data //
 
     final bool isLefty = EzConfig.get(isLeftyKey) ?? false;
-    final EFUILang l10n = EFUILang.of(context)!;
+    // final EFUILang l10n = EFUILang.of(context)!;
 
     final Size appBarTextSize = measureText(
       appTitle,
@@ -38,26 +42,7 @@ class SmokeSignalScaffold extends StatelessWidget {
 
     // Define custom widgets //
 
-    late final MenuAnchor options = MenuAnchor(
-      builder: (_, MenuController controller, ___) => IconButton(
-        onPressed: () {
-          if (controller.isOpen) {
-            controller.close();
-          } else {
-            controller.open();
-          }
-        },
-        icon: const Icon(Icons.more_vert),
-        tooltip: l10n.gOptions,
-      ),
-      menuChildren: <Widget>[
-        FeedbackButton(
-          parentContext: context,
-          scaffoldMessengerKey: scaffoldMessengerKey,
-          l10n: l10n,
-        ),
-      ],
-    );
+    final Widget drawer = SmokeSignalDrawer(header: drawerHeader);
 
     // Return the build //
 
@@ -70,22 +55,28 @@ class SmokeSignalScaffold extends StatelessWidget {
             excludeHeaderSemantics: true,
             toolbarHeight: toolbarHeight,
 
-            // Leading (aka left)
-            leading: isLefty ? options : null,
-            leadingWidth: toolbarHeight,
-
             // Title
             title: const Text(appTitle),
+            titleSpacing: 0,
+            centerTitle: true,
 
             // Actions (aka trailing aka right)
-            actions:
-                isLefty ? const <Widget>[EzBackAction()] : <Widget>[options],
+            actions: isLefty ? const <Widget>[EzBackAction()] : null,
           ),
         ),
+
+        // Drawer replaces leading (aka left)
+        drawer: isLefty ? drawer : null,
+
+        // End drawer replaces actions (aka trailing aka right)
+        endDrawer: isLefty ? null : drawer,
 
         // Body
         body: body,
         floatingActionButton: fab,
+        floatingActionButtonLocation: isLefty
+            ? FloatingActionButtonLocation.startFloat
+            : FloatingActionButtonLocation.endFloat,
       ),
     );
 
