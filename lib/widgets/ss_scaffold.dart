@@ -57,8 +57,6 @@ class SmokeSignalScaffold extends StatelessWidget {
 
             // Title
             title: const Text(appTitle),
-            titleSpacing: 0,
-            centerTitle: true,
 
             // Actions (aka trailing aka right)
             actions: isLefty ? const <Widget>[EzBackAction()] : null,
