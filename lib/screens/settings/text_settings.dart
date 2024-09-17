@@ -19,6 +19,7 @@ class _TextSettingsScreenState extends State<TextSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return const SmokeSignalScaffold(
+      drawerHeader: standardDrawerHeader,
       body: TextSettings(
         lightBackgroundImageKey: lightBackgroundImageKey,
         darkBackgroundImageKey: darkBackgroundImageKey,

@@ -35,6 +35,7 @@ class _AppSettingsState extends State<SettingsHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return SmokeSignalScaffold(
+      drawerHeader: standardDrawerHeader,
       body: EzScreen(
         decorationImageKey:
             isDark ? darkBackgroundImageKey : lightBackgroundImageKey,

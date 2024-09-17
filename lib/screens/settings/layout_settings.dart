@@ -19,6 +19,7 @@ class _LayoutSettingsScreenState extends State<LayoutSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return const SmokeSignalScaffold(
+      drawerHeader: standardDrawerHeader,
       body: LayoutSettings(
         lightBackgroundImageKey: lightBackgroundImageKey,
         darkBackgroundImageKey: darkBackgroundImageKey,
