@@ -19,19 +19,11 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  // Gather theme data //
-
-  late bool isDark = PlatformTheme.of(context)!.isDark;
-
-// Return the build //
-
   @override
   Widget build(BuildContext context) {
     return SmokeSignalScaffold(
       drawerHeader: standardDrawerHeader,
       body: EzScreen(
-        decorationImageKey:
-            isDark ? darkBackgroundImageKey : lightBackgroundImageKey,
         child: EzScrollView(
           children: <Widget>[
             // Login
