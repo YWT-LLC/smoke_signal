@@ -6,44 +6,43 @@
 import '../utils/export.dart';
 import '../screens/export.dart';
 
-import 'package:empathetech_ss_api/empathetech_ss_api.dart';
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
-
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:empathetech_ss_api/empathetech_ss_api.dart';
+import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-/// Happy signaling!
 class Signal extends StatefulWidget {
-  const Signal({
-    Key? key,
-    required this.title,
-    required this.message,
-    required this.members,
-    required this.owner,
-    required this.activeMembers,
-    required this.memberReqs,
-    required this.reloadBoard,
-  }) : super(key: key);
-
+  final String owner;
   final String title;
   final String message;
   final List<String> members;
-  final String owner;
   final List<String> activeMembers;
   final List<String> memberReqs;
-
   final void Function() reloadBoard;
+
+  /// Happy signaling!
+  const Signal({
+    super.key,
+    required this.owner,
+    required this.title,
+    required this.message,
+    required this.members,
+    required this.activeMembers,
+    required this.memberReqs,
+    required this.reloadBoard,
+  });
 
   /// Construct a [Signal] from a Firebase signal [DocumentSnapshot]
   static Signal buildSignal(
-    DocumentSnapshot signalDoc,
+    DocumentSnapshot<Map<String, dynamic>> signalDoc,
     void Function() reloadBoard,
   ) {
-    final data = signalDoc.data() as Map<String, dynamic>;
+    final Map<String, dynamic> data = signalDoc.data() as Map<String, dynamic>;
 
     return Signal(
       title: signalDoc.id,
@@ -57,297 +56,215 @@ class Signal extends StatefulWidget {
   }
 
   @override
-  _SignalState createState() => _SignalState();
+  State<Signal> createState() => _SignalState();
 }
 
 class _SignalState extends State<Signal> {
-  late String signalTitle = widget.title;
-  late String showIconKey = signalTitle + 'ShowIcon';
-  late String iconPathKey = signalTitle + 'Icon';
+  // Gather theme data //
 
-  late bool showIcon = EzConfig.preferences.getBool(showIconKey) ?? false;
+  static const EzSpacer spacer = EzSpacer();
+  final EzSpacer padder = EzSpacer(space: EzConfig.get(paddingKey));
 
-  late Color themeColor = Color(EzConfig.prefs[themeColorKey]);
-  late Color themeTextColor = Color(EzConfig.prefs[themeTextColorKey]);
-  late Color buttonColor = Color(EzConfig.prefs[buttonColorKey]);
-  late Color buttonTextColor = Color(EzConfig.prefs[buttonTextColorKey]);
-  late Color joinedColor = Color(EzConfig.prefs[joinedColorKey]);
-  late Color joinedTextColor = Color(EzConfig.prefs[joinedTextColorKey]);
-  late Color watchingColor = Color(EzConfig.prefs[watchingColorKey]);
-  late Color watchingTextColor = Color(EzConfig.prefs[watchingTextColorKey]);
+  late bool showIcon = EzConfig.get(showIconKey) ?? false;
 
-  late double dialogSpacer = EzConfig.prefs[dialogSpacingKey];
-  late double signalSpacer = EzConfig.prefs[signalSpacingKey];
-  late double signalHeight = EzConfig.prefs[signalHeightKey];
-  late double signalCountHeight = EzConfig.prefs[signalCountHeightKey];
+  late final EFUILang el10n = EFUILang.of(context)!;
 
-  late TextStyle titleTextStyle = buildTextStyle(styleKey: titleStyleKey);
-  late TextStyle buttonTextStyle = buildTextStyle(styleKey: buttonStyleKey);
+  late final ColorScheme colorScheme = Theme.of(context).colorScheme;
+  late final TextTheme textTheme = Theme.of(context).textTheme;
 
-  late TextStyle joinedTextStyle = TextStyle(
-    fontFamily: titleTextStyle.fontFamily,
-    fontSize: titleTextStyle.fontSize,
-    color: joinedTextColor,
+  late final Color joinedColor = colorScheme.secondary;
+  late final Color watchingColor = colorScheme.primary;
+
+  // Define build data //
+
+  late final String signalTitle = widget.title;
+  late final String showIconKey = '$signalTitle ShowIcon';
+  late final String iconPathKey = '$signalTitle Icon';
+
+  late final TextStyle? joinedTextStyle = textTheme.titleLarge?.copyWith(
+    color: colorScheme.onSecondary,
   );
 
-  late TextStyle watchingTextStyle = TextStyle(
-    fontFamily: titleTextStyle.fontFamily,
-    fontSize: titleTextStyle.fontSize,
-    color: watchingTextColor,
+  late final TextStyle? watchingTextStyle = textTheme.titleLarge?.copyWith(
+    color: colorScheme.onPrimary,
   );
 
-  /// Set a custom [Icon] for the [Signal] via [changeImage]
-  /// Returns the path of the new image on success
-  Future<dynamic> setIcon() {
-    return showPlatformDialog(
-      context: context,
-      dialog: EzAlertDialog(
-        title: Text(
-          'From where?',
-          style: buildTextStyle(styleKey: dialogTitleStyleKey),
-        ),
-        contents: [
-          // From file
-          EzButton.icon(
-            action: () async {
-              String? changed = await changeImage(
-                context: context,
-                prefsPath: iconPathKey,
-                source: ImageSource.gallery,
-              );
-
-              Navigator.of(context).pop(changed);
-            },
-            message: 'File',
-            icon: Icon(PlatformIcons(context).folder),
-          ),
-          Container(height: dialogSpacer),
-
-          // From camera
-          EzButton.icon(
-            action: () async {
-              String? changed = await changeImage(
-                context: context,
-                prefsPath: iconPathKey,
-                source: ImageSource.camera,
-              );
-              Navigator.of(context).pop(changed);
-            },
-            message: 'Camera',
-            icon: Icon(PlatformIcons(context).photoCamera),
-          ),
-          Container(height: dialogSpacer),
-
-          // Reset
-          EzButton.icon(
-            action: () async {
-              // Build path
-              Directory currDir = await getApplicationDocumentsDirectory();
-              String imagePath = currDir.path + signalTitle;
-
-              // Delete any saved files
-              try {
-                File toDelete = File(imagePath);
-                await toDelete.delete();
-              } catch (e) {
-                doNothing();
-                // Delete is called without knowledge of a file existing, so ignore errors
-              }
-
-              // Wipe [SharedPreferences]
-              EzConfig.preferences.remove(iconPathKey);
-              Navigator.of(context).pop(true);
-            },
-            message: 'Reset',
-            icon: Icon(PlatformIcons(context).refresh),
-          ),
-        ],
-      ),
-    );
-  }
+  // Define custom functions //
 
   /// Toggle whether the [Signal]s icon ([Image]) is being shown
-  void toggleIcon() {
-    // Hide icon
-    if (showIcon) {
-      EzConfig.preferences.remove(showIconKey);
-      setState(() {
-        showIcon = false;
-      });
-    }
+  void toggleIcon() async {
+    showIcon
+        ? await EzConfig.remove(showIconKey)
+        : await EzConfig.setBool(showIconKey, true);
 
-    // Show icon
-    else {
-      EzConfig.preferences.setBool(showIconKey, true);
-      setState(() {
-        showIcon = true;
-      });
-    }
+    setState(() {});
   }
 
   /// Show all [Signal] edits the user can make
   Future<dynamic> showEdits() {
     return showPlatformDialog(
       context: context,
-      dialog: EzAlertDialog(
-        title: Text(
-          'Options',
-          style: buildTextStyle(styleKey: dialogTitleStyleKey),
-        ),
-        contents: [
-          // Manage members
-          EzButton(
-            action: () => popAndPushScreen(
-              context: context,
-              screen: SignalMembersScreen(
-                title: signalTitle,
-                members: widget.members,
-                activeMembers: widget.activeMembers,
-                memberReqs: widget.memberReqs,
-              ),
+      builder: (BuildContext dialogContext) {
+        return EzAlertDialog(
+          title: Text(el10n.gOptions),
+          contents: <Widget>[
+            // Manage members
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+                context.go(
+                  screen: SignalMembersScreen(
+                    title: signalTitle,
+                    members: widget.members,
+                    activeMembers: widget.activeMembers,
+                    memberReqs: widget.memberReqs,
+                  ),
+                );
+              },
+              child: const Text('Members'),
             ),
-            body: Text('Members'),
-          ),
-          Container(height: dialogSpacer),
+            spacer,
 
-          // Set icon
-          EzButton(
-            action: () async {
-              dynamic result = await setIcon();
-              Navigator.of(context).pop(result);
-              if (result != null) widget.reloadBoard();
-            },
-            body: Text('Set icon'),
-          ),
-          Container(height: dialogSpacer),
+            // Set icon
+            ElevatedButton(
+              onPressed: () async {
+                final dynamic result = await setIcon();
+                Navigator.of(context).pop(result);
+                if (result != null) widget.reloadBoard();
+              },
+              child: const Text('Set icon'),
+            ),
+            spacer,
 
-          // Show/hide icon
-          EzButton(action: toggleIcon, body: Text('Toggle icon')),
-          Container(height: dialogSpacer),
+            // Show/hide icon
+            ElevatedButton(
+              onPressed: toggleIcon,
+              child: const Text('Toggle icon'),
+            ),
+            spacer,
 
-          // Owner: Reset count, update message, transfer signal, or delete signal
-          // Member: Leave signal
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: AppUser.account.uid == widget.owner
-                ? [
-                    // Reset
-                    EzButton(
-                      action: () async {
-                        Navigator.of(context).pop(true);
-                        await resetSignal(context, signalTitle);
-                        // Reset signal triggers a stream update
-                        // so the screen will update automatically
-                      },
-                      body: Text('Reset signal'),
-                    ),
-                    Container(height: dialogSpacer),
+            // Owner: Reset count, update message, transfer signal, or delete signal
+            // Member: Leave signal
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: AppUser.account.uid == widget.owner
+                  ? <Widget>[
+                      // Reset
+                      ElevatedButton(
+                        onPressed: () async {
+                          Navigator.of(context).pop(true);
+                          await resetSignal(context, signalTitle);
+                        },
+                        child: const Text('Reset signal'),
+                      ),
+                      spacer,
 
-                    // Update message
-                    EzButton(
-                      action: () async {
-                        dynamic result =
-                            await updateMessage(context, signalTitle);
-                        Navigator.of(context).pop(result);
-                      },
-                      body: Text('Update message'),
-                    ),
-                    Container(height: dialogSpacer),
+                      // Update message
+                      ElevatedButton(
+                        onPressed: () async {
+                          final dynamic result =
+                              await updateMessage(context, signalTitle);
+                          Navigator.of(context).pop(result);
+                        },
+                        child: const Text('Update message'),
+                      ),
+                      spacer,
 
-                    // Transfer
-                    EzButton(
-                      action: () async {
-                        dynamic result = await confirmTransfer(
-                            context, signalTitle, widget.members);
-                        Navigator.of(context).pop(result);
-                      },
-                      body: Text('Transfer signal'),
-                    ),
-                    Container(height: dialogSpacer),
+                      // Transfer
+                      ElevatedButton(
+                        onPressed: () async {
+                          final dynamic result = await confirmTransfer(
+                            context: context,
+                            title: signalTitle,
+                            members: widget.members,
+                          );
+                          Navigator.of(context).pop(result);
+                        },
+                        child: const Text('Transfer signal'),
+                      ),
+                      spacer,
 
-                    // Delete
-                    EzButton(
-                      action: () {
-                        Navigator.of(context).pop();
-                        confirmDelete(
-                          context,
-                          signalTitle,
-                          [showIconKey, iconPathKey],
-                        );
-                        // Deleting a signal triggers a stream update
-                        // so the screen will update automatically
-                      },
-                      body: Text('Delete signal'),
-                    ),
-                  ]
-                : [
-                    // Leave
-                    EzButton(
-                      action: () {
-                        Navigator.of(context).pop();
-                        confirmDeparture(
-                          context,
-                          signalTitle,
-                          [showIconKey, iconPathKey],
-                        );
-                        // Leaving a signal triggers a stream update
-                        // so the screen will update automatically
-                      },
-                      body: Text('Leave signal'),
-                    ),
-                  ],
-          ),
-        ],
-      ),
+                      // Delete
+                      ElevatedButton(
+                        onPressed: () async {
+                          Navigator.of(context).pop();
+                          await confirmDelete(
+                            context: context,
+                            title: signalTitle,
+                            prefKeys: <String>{showIconKey, iconPathKey},
+                          );
+                        },
+                        child: const Text('Delete signal'),
+                      ),
+                    ]
+                  : <Widget>[
+                      // Leave
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          confirmDeparture(
+                            context: context,
+                            title: signalTitle,
+                            prefKeys: <String>{showIconKey, iconPathKey},
+                          );
+                        },
+                        child: const Text('Leave signal'),
+                      ),
+                    ],
+            ),
+          ],
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    double padding = EzConfig.prefs[paddingKey];
-
-    // Current user is a member
     if (widget.members.contains(AppUser.account.uid)) {
-      bool joined = widget.activeMembers.contains(AppUser.account.uid);
+      // Current user is a member
+      final bool active = widget.activeMembers.contains(AppUser.account.uid);
 
       return Column(
-        children: [
+        children: <Widget>[
           // Signal button
           showIcon
               // With icon image
               ? GestureDetector(
                   onTap: () => toggleParticipation(
-                    context,
-                    joined,
-                    widget.title,
-                    widget.members,
-                    widget.message,
+                    context: context,
+                    active: active,
+                    title: widget.title,
+                    memberIDs: widget.members,
+                    message: widget.message,
                   ),
                   onLongPress: showEdits,
-                  child: Container(
-                    width: screenWidth(context),
+                  child: SizedBox(
+                    width: widthOf(context),
                     height: signalHeight,
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+                      children: <Widget>[
                         // Icon image
-                        Container(
+                        SizedBox(
                           width: signalHeight,
                           height: signalHeight,
-                          child: EzImage(prefsKey: iconPathKey),
+                          child: EzImage(
+                            image: provideImage(iconPathKey),
+                            semanticLabel: 'Semantics label',
+                          ),
                         ),
 
                         // Title card
                         Expanded(
                           child: SizedBox.expand(
                             child: Card(
-                              color: joined ? joinedColor : watchingColor,
+                              color: active ? joinedColor : watchingColor,
                               child: Center(
                                 child: Text(
                                   signalTitle,
-                                  style: joined
+                                  style: active
                                       ? joinedTextStyle
                                       : watchingTextStyle,
                                 ),
@@ -361,22 +278,22 @@ class _SignalState extends State<Signal> {
                 )
               : GestureDetector(
                   onTap: () => toggleParticipation(
-                    context,
-                    joined,
-                    widget.title,
-                    widget.members,
-                    widget.message,
+                    context: context,
+                    active: active,
+                    title: widget.title,
+                    memberIDs: widget.members,
+                    message: widget.message,
                   ),
                   onLongPress: showEdits,
                   child: SizedBox(
-                    width: screenWidth(context),
+                    width: widthOf(context),
                     height: signalHeight,
                     child: Card(
-                      color: joined ? joinedColor : watchingColor,
+                      color: active ? joinedColor : watchingColor,
                       child: Center(
                         child: Text(
                           signalTitle,
-                          style: joined ? joinedTextStyle : watchingTextStyle,
+                          style: active ? joinedTextStyle : watchingTextStyle,
                         ),
                       ),
                     ),
@@ -385,7 +302,7 @@ class _SignalState extends State<Signal> {
 
           // Signal count
           SizedBox(
-            width: screenWidth(context) * (2 / 3),
+            width: widthOf(context) * (2 / 3),
             height: signalCountHeight,
             child: Card(
               color: widget.activeMembers.contains(AppUser.account.uid)
@@ -396,16 +313,22 @@ class _SignalState extends State<Signal> {
 
                 // Check AppUser's current participation
                 children: widget.activeMembers.contains(AppUser.account.uid)
-                    ? [
+                    ? <Widget>[
                         // Active: show the current count surrounded by smoke signals
-                        EzImage(prefsKey: signalImageKey),
+                        EzImage(
+                          image: provideImage(signalImageKey),
+                          semanticLabel: 'Semantics label',
+                        ),
                         Text(
                           widget.activeMembers.length.toString(),
                           style: joinedTextStyle,
                         ),
-                        EzImage(prefsKey: signalImageKey),
+                        EzImage(
+                          image: provideImage(signalImageKey),
+                          semanticLabel: 'Semantics label',
+                        ),
                       ]
-                    : [
+                    : <Widget>[
                         // Inactive: only show the current count
                         Text(
                           widget.activeMembers.length.toString(),
@@ -415,9 +338,7 @@ class _SignalState extends State<Signal> {
               ),
             ),
           ),
-
-          // Bottom spacer for list building
-          Container(height: signalSpacer),
+          spacer,
         ],
       );
 
@@ -426,10 +347,10 @@ class _SignalState extends State<Signal> {
       return Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
+        children: <Widget>[
           // Label
           SizedBox(
-            width: screenWidth(context),
+            width: widthOf(context),
             height: signalHeight,
             child: Card(
               color: watchingColor,
@@ -441,26 +362,28 @@ class _SignalState extends State<Signal> {
               ),
             ),
           ),
-          Container(height: padding),
+          padder,
 
           // Buttons
-          ezYesNo(
-            context: context,
-            onConfirm: () async {
-              await acceptInvite(context, signalTitle);
-            },
-            onDeny: () async {
-              await declineInvite(context, signalTitle);
-            },
-            axis: Axis.horizontal,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              ElevatedButton(
+                onPressed: () => declineInvite(context, signalTitle),
+                child: Icon(PlatformIcons(context).clear),
+              ),
+              ElevatedButton(
+                onPressed: () => acceptInvite(context, signalTitle),
+                child: Icon(PlatformIcons(context).checkMark),
+              ),
+            ],
           ),
         ],
       );
-
+    } else {
       // Default, only reachable if signal stream is unfiltered...
       // ...and the current user is not a member
-    } else {
-      return Container();
+      return const SizedBox.shrink();
     }
   }
 }
