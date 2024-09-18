@@ -196,7 +196,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                   requestIDs: requestIDs,
                 );
 
-                if (added) Navigator.of(context).pop(true);
+                if (added && context.mounted) Navigator.of(context).pop(true);
               },
               icon: Icon(PlatformIcons(context).cloudUpload),
               label: const Text('Add'),
