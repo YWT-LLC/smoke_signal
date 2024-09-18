@@ -3,63 +3,70 @@
  * See LICENSE for distribution and usage details.
  */
 
-import 'package:empathetech_ss_api/empathetech_ss_api.dart';
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import '../../utils/export.dart';
+import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
+import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class ProfileSettingsScreen extends StatefulWidget {
   const ProfileSettingsScreen({super.key});
 
   @override
-  _ProfileSettingsState createState() => _ProfileSettingsState();
+  State<ProfileSettingsScreen> createState() => _ProfileSettingsState();
 }
 
 class _ProfileSettingsState extends State<ProfileSettingsScreen> {
-  late Color themeTextColor = Color(EzConfig.prefs[themeTextColorKey]);
+  // Gather theme data //
 
-  late double buttonSpacer = EzConfig.prefs[buttonSpacingKey];
+  static const EzSpacer spacer = EzSpacer();
+
+  late final double spacing = EzConfig.get(spacingKey);
+  late final double margin = EzConfig.get(marginKey);
+
+  late final Lang l10n = Lang.of(context)!;
+
+  // Define build data //
 
   late String name = AppUser.account.displayName ?? defaultDisplayName;
   late String url = AppUser.account.photoURL ?? defaultAvatarURL;
 
-  /// Get the display name from source
-  void refreshName() async {
-    String newName = await getName();
+  // Define custom functions //
 
-    setState(() {
-      name = newName;
-    });
+  /// Get the display name from source
+  Future<void> refreshName() async {
+    final String newName = await getName();
+    setState(() => name = newName);
   }
 
   /// Get the pic URL from source
-  void refreshPic() async {
-    String newUrl = await getAvatar();
-
-    setState(() {
-      url = newUrl;
-    });
+  Future<void> refreshPic() async {
+    final String newUrl = await getAvatar();
+    setState(() => url = newUrl);
   }
+
+  // Set the page title //
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setPageTitle('Profile settings');
+  }
+
+  // Return the build //
 
   @override
   Widget build(BuildContext context) {
-    return EzScaffold(
-      background: BoxDecoration(color: Color(EzConfig.prefs[backColorKey])),
-      appBar: EzAppBar(
-          title: Text('Edit Profile',
-              style: buildTextStyle(styleKey: titleStyleKey))),
-
-      // Body
-      body: ezView(
-        context: context,
-        background: BoxDecoration(
-          image: DecorationImage(image: EzImage.getProvider(backImageKey)),
-        ),
-        body: EzScrollView(
-          children: [
-            Container(height: buttonSpacer),
+    return SmokeSignalScaffold(
+      title: 'Edit Profile',
+      drawerHeader: standardDrawerHeader,
+      body: EzScreen(
+        child: EzScrollView(
+          children: <Widget>[
+            if (spacing > margin) EzSpacer(space: spacing - margin),
 
             // Profile image
             CircleAvatar(
@@ -67,38 +74,33 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
               minRadius: 100,
               maxRadius: 100,
             ),
-            Container(height: buttonSpacer),
+            spacer,
 
             // Edit picture
-            EzButton.icon(
-              action: () async {
-                bool shouldRefresh = await editAvatar(context);
+            ElevatedButton.icon(
+              onPressed: () async {
+                final bool shouldRefresh = await editAvatar(context);
                 if (shouldRefresh) refreshPic();
               },
-              message: 'New pic',
               icon: Icon(PlatformIcons(context).photoCamera),
+              label: const Text('New pic'),
             ),
-
-            Container(height: buttonSpacer),
+            spacer,
 
             // Display name
-            Text(
-              name,
-              style: buildTextStyle(styleKey: titleStyleKey),
-            ),
-            Container(height: buttonSpacer),
+            Text(name, style: Theme.of(context).textTheme.titleLarge),
+            spacer,
 
             // Edit name
-            EzButton.icon(
-              action: () async {
-                bool shouldRefresh = await editName(context);
+            ElevatedButton.icon(
+              onPressed: () async {
+                final bool shouldRefresh = await editName(context);
                 if (shouldRefresh) refreshName();
               },
-              message: 'New name',
               icon: Icon(PlatformIcons(context).edit),
+              label: const Text('New name'),
             ),
-
-            Container(height: buttonSpacer),
+            spacer,
           ],
         ),
       ),
