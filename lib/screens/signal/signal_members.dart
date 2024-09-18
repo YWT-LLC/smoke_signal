@@ -4,114 +4,93 @@
  */
 
 import '../../utils/export.dart';
-
-import 'package:empathetech_ss_api/empathetech_ss_api.dart';
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class SignalMembersScreen extends StatefulWidget {
-  const SignalMembersScreen({
-    Key? key,
-    required this.title,
-    required this.members,
-    required this.activeMembers,
-    required this.memberReqs,
-  }) : super(key: key);
-
   final String title;
   final List<String> members;
   final List<String> activeMembers;
   final List<String> memberReqs;
 
+  const SignalMembersScreen({
+    super.key,
+    required this.title,
+    required this.members,
+    required this.activeMembers,
+    required this.memberReqs,
+  });
+
   @override
-  _SignalMembersScreenState createState() => _SignalMembersScreenState();
+  State<SignalMembersScreen> createState() => _SignalMembersScreenState();
 }
 
 class _SignalMembersScreenState extends State<SignalMembersScreen> {
-  // Initialize state
+  // Gather theme data //
 
-  late Stream<QuerySnapshot<Map<String, dynamic>>> _userStream;
+  static const EzSpacer spacer = EzSpacer();
+  final EzSpacer padder = EzSpacer(space: EzConfig.get(paddingKey));
 
-  @override
-  void initState() {
-    super.initState();
-    _userStream = streamUsers();
-  }
+  late final Lang l10n = Lang.of(context)!;
 
-  late List<String> requestIDs = [];
+  // Define build data //
 
-  // Gather theme data
-  late double buttonSpacer = EzConfig.prefs[buttonSpacingKey];
-  late double dialogSpacer = EzConfig.prefs[dialogSpacingKey];
+  final List<String> requestIDs = <String>[];
 
-  late Color themeColor = Color(EzConfig.prefs[themeColorKey]);
-  late Color buttonColor = Color(EzConfig.prefs[buttonColorKey]);
-  late Color buttonTextColor = Color(EzConfig.prefs[buttonTextColorKey]);
+  late Stream<QuerySnapshot<Map<String, dynamic>>> userStream;
+
+  // Define custom widgets //
 
   // Creates the widgets for the toggle list from the gathered profiles
   List<PlatformListTile> buildSwitchTiles(List<UserProfile> profiles) {
-    List<PlatformListTile> children = [];
-
-    profiles.forEach((profile) {
-      if (profile.id != AppUser.account.uid)
-        children.add(
-          PlatformListTile(
-            // User info
-            title: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Profile image/avatar
-                CircleAvatar(
-                  foregroundImage:
-                      CachedNetworkImageProvider(profile.avatarURL),
-                  minRadius: 35,
-                  maxRadius: 35,
-                ),
-                Container(width: EzConfig.prefs[paddingKey]),
-
-                // Display name
-                Text(
-                  profile.name,
-                  style: buildTextStyle(styleKey: dialogTitleStyleKey),
-                  textAlign: TextAlign.start,
-                ),
-              ],
+    return profiles.map((UserProfile profile) {
+      return PlatformListTile(
+        // User info
+        title: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            // Profile image/avatar
+            CircleAvatar(
+              foregroundImage: CachedNetworkImageProvider(profile.avatarURL),
+              minRadius: 35,
+              maxRadius: 35,
             ),
+            padder,
 
-            // Toggle
-            trailing: EzCheckBox(
-              value: requestIDs.contains(profile.id),
-              onChanged: (bool? value) {
-                if (value == true) {
-                  setState(() {
-                    requestIDs.add(profile.id);
-                  });
-                } else {
-                  setState(() {
-                    requestIDs.remove(profile.id);
-                  });
-                }
-              },
-            ),
-          ),
-        );
-    });
+            // Display name
+            Text(profile.name, textAlign: TextAlign.start),
+          ],
+        ),
 
-    return children;
+        // Toggle
+        trailing: Checkbox(
+          value: requestIDs.contains(profile.id),
+          onChanged: (bool? value) {
+            if (value == true) {
+              setState(() => requestIDs.add(profile.id));
+            } else {
+              setState(() => requestIDs.remove(profile.id));
+            }
+          },
+        ),
+      );
+    }).toList();
   }
 
   Widget sortUsers(List<UserProfile> profiles) {
-    List<UserProfile> memberProfiles = [];
-    List<UserProfile> activeProfiles = [];
-    List<UserProfile> pendingProfiles = [];
-    List<UserProfile> unAddedProfiles = [];
+    final List<UserProfile> memberProfiles = <UserProfile>[];
+    final List<UserProfile> activeProfiles = <UserProfile>[];
+    final List<UserProfile> pendingProfiles = <UserProfile>[];
+    final List<UserProfile> unAddedProfiles = <UserProfile>[];
 
-    profiles.forEach((profile) {
+    for (final UserProfile profile in profiles) {
       if (widget.members.contains(profile.id)) {
         memberProfiles.add(profile);
 
@@ -123,45 +102,43 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
       } else {
         unAddedProfiles.add(profile);
       }
-    });
+    }
 
-    List<Widget> viewChildren = [
+    final List<Widget> viewChildren = <Widget>[
       // Available members - show all pictures
-      Text(
-        'Available',
-        style: buildTextStyle(styleKey: titleStyleKey),
-      ),
+      const Text('Available'),
       showUserPics(context, memberProfiles),
-      Container(height: buttonSpacer),
+      spacer,
 
       // Active members - show all pictures
-      Text(
-        'Active',
-        style: buildTextStyle(styleKey: titleStyleKey),
-      ),
+      const Text('Active'),
       showUserPics(context, activeProfiles),
-      Container(height: buttonSpacer),
+      spacer,
     ];
 
     if (unAddedProfiles.isNotEmpty) {
       // Addable users - expandable, toggle-able, profiles
       viewChildren.addAll(
-        [
+        <Widget>[
           addProfilesWindow(
             context: context,
             title: 'Add?',
             items: buildSwitchTiles(unAddedProfiles),
           ),
-          Container(height: buttonSpacer),
+          spacer,
 
           // Submit button
-          EzButton.icon(
-            action: () async {
-              await requestMembers(context, widget.title, requestIDs);
+          ElevatedButton.icon(
+            onPressed: () async {
+              await requestMembers(
+                context: context,
+                title: widget.title,
+                toAdd: requestIDs,
+              );
               Navigator.of(context).pop(true);
             },
-            message: 'Send requests',
             icon: Icon(PlatformIcons(context).cloudUpload),
+            label: const Text('Send requests'),
           ),
         ],
       );
@@ -170,46 +147,47 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
     return EzScrollView(children: viewChildren);
   }
 
-  // Draw state
+  // Init //
+
+  @override
+  void initState() {
+    super.initState();
+    userStream = streamUsers();
+  }
+
+  // Set the page title //
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setPageTitle('Signal members');
+  }
+
+  // Return the build //
 
   @override
   Widget build(BuildContext context) {
-    return EzScaffold(
-      background: BoxDecoration(color: Color(EzConfig.prefs[backColorKey])),
-      appBar: EzAppBar(
-        title: Text(
-          widget.title + ' members',
-          style: buildTextStyle(styleKey: titleStyleKey),
-        ),
-      ),
-
-      // Body
-      body: ezView(
-        context: context,
-        background: BoxDecoration(
-          image: DecorationImage(image: EzImage.getProvider(backImageKey)),
-        ),
-        body: StreamBuilder<QuerySnapshot>(
-          stream: _userStream,
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+    return SmokeSignalScaffold(
+      title: '${widget.title} members',
+      drawerHeader: signalDrawerHeader(context, () {}),
+      body: EzScreen(
+        child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          stream: userStream,
+          builder: (
+            BuildContext sBContext,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
+          ) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
-                return loadingMessage(
-                  context: context,
-                  image: EzImage(prefsKey: signalImageKey),
+                return const EzImage(
+                  image: signalGif,
+                  semanticLabel: 'Loading',
                 );
               case ConnectionState.done:
               default:
                 if (snapshot.hasError) {
-                  return Center(
-                    child: Text(
-                      snapshot.error.toString(),
-                      style: buildTextStyle(styleKey: errorStyleKey),
-                    ),
-                  );
+                  return Center(child: Text(snapshot.error.toString()));
                 }
-
                 return sortUsers(buildProfiles(snapshot.data!.docs));
             }
           },
