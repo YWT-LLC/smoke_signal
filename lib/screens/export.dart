@@ -18,6 +18,12 @@ export 'account/profile_settings.dart';
 export 'account/reset_password.dart';
 export 'account/sign_up.dart';
 
+// Signal //
+
+export 'signal/create_signal.dart';
+export 'signal/signal_board.dart';
+export 'signal/signal_members.dart';
+
 // Settings //
 
 export 'settings/settings_home.dart';
@@ -27,35 +33,29 @@ export 'settings/image_settings.dart';
 export 'settings/layout_settings.dart';
 export 'settings/text_settings.dart';
 
-// Signal //
-
-export 'signal/create_signal.dart';
-export 'signal/signal_board.dart';
-export 'signal/signal_members.dart';
-
 //* Router paths *//
 
-// General //
-
-/// 'loading'
-const String loadingPath = 'loading';
-
 // Account //
-
-/// 'auth'
-const String authPath = 'auth';
 
 /// 'login'
 const String loginPath = 'login';
 
-/// 'profile-settings'
-const String profileSettingsPath = 'profile-settings';
+/// 'sign-up'
+const String signUpPath = 'sign-up';
 
 /// 'reset-password'
 const String resetPasswordPath = 'reset-password';
 
-/// 'sign-up'
-const String signUpPath = 'sign-up';
+/// 'profile-settings'
+const String profileSettingsPath = 'profile-settings';
+
+// Signal //
+
+/// 'create-signal'
+const String createSignalPath = 'create-signal';
+
+/// 'signal-members'
+const String signalMembersPath = 'signal-members';
 
 // Settings //
 
@@ -73,14 +73,3 @@ const String colorSettingsPath = 'color-settings';
 
 /// 'image-settings'
 const String imageSettingsPath = 'image-settings';
-
-// Signal //
-
-/// 'create-signal'
-const String createSignalPath = 'create-signal';
-
-/// 'signal-board'
-const String signalBoardPath = 'signal-board';
-
-/// 'signal-members'
-const String signalMembersPath = 'signal-members';
