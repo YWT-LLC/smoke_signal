@@ -14,18 +14,9 @@ import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class SignalMembersScreen extends StatefulWidget {
-  final String title;
-  final List<String> members;
-  final List<String> activeMembers;
-  final List<String> memberReqs;
+  final Signal signal;
 
-  const SignalMembersScreen({
-    super.key,
-    required this.title,
-    required this.members,
-    required this.activeMembers,
-    required this.memberReqs,
-  });
+  const SignalMembersScreen({super.key, required this.signal});
 
   @override
   State<SignalMembersScreen> createState() => _SignalMembersScreenState();
@@ -41,6 +32,7 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
 
   // Define build data //
 
+  late final Signal signal = widget.signal;
   final List<String> requestIDs = <String>[];
 
   late Stream<QuerySnapshot<Map<String, dynamic>>> userStream;
@@ -96,13 +88,13 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
     final List<UserProfile> unAddedProfiles = <UserProfile>[];
 
     for (final UserProfile profile in profiles) {
-      if (widget.members.contains(profile.id)) {
+      if (signal.members.contains(profile.id)) {
         memberProfiles.add(profile);
 
-        if (widget.activeMembers.contains(profile.id)) {
+        if (signal.activeMembers.contains(profile.id)) {
           activeProfiles.add(profile);
         }
-      } else if (widget.memberReqs.contains(profile.id)) {
+      } else if (signal.memberRequests.contains(profile.id)) {
         pendingProfiles.add(profile);
       } else {
         unAddedProfiles.add(profile);
@@ -138,7 +130,7 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
               Navigator.of(context).pop();
               requestMembers(
                 context: context,
-                title: widget.title,
+                title: signal.title,
                 toAdd: requestIDs,
               );
             },
@@ -173,7 +165,7 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
   @override
   Widget build(BuildContext context) {
     return SmokeSignalScaffold(
-      title: '${widget.title} members',
+      title: '${signal.title} members',
       drawerHeader: signalDrawerHeader(context, () {}),
       body: EzScreen(
         child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
