@@ -24,9 +24,6 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
 
   static const EzSpacer spacer = EzSpacer();
 
-  late final double spacing = EzConfig.get(spacingKey);
-  late final double margin = EzConfig.get(marginKey);
-
   late final Lang l10n = Lang.of(context)!;
 
   // Define build data //
@@ -64,10 +61,10 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
       title: 'Edit Profile',
       drawerHeader: standardDrawerHeader,
       body: EzScreen(
+        alignment: Alignment.center,
         child: EzScrollView(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            if (spacing > margin) EzSpacer(space: spacing - margin),
-
             // Profile image
             CircleAvatar(
               foregroundImage: CachedNetworkImageProvider(url),
