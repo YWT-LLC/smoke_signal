@@ -38,7 +38,7 @@ class SmokeSignalDrawer extends StatelessWidget {
         ElevatedButton.icon(
           onPressed: () {
             Navigator.of(context).pop();
-            context.go(settingsRoute);
+            context.goNamed(settingsPath);
           },
           icon: Icon(PlatformIcons(context).settings),
           label: const Text('Settings'),
@@ -116,7 +116,7 @@ Widget signalDrawerHeader(BuildContext context, void Function() refresh) {
           IconButton(
             onPressed: () {
               Navigator.of(context).pop();
-              context.go(profileSettingsRoute);
+              context.goNamed(profileSettingsPath);
             },
             icon: Icon(PlatformIcons(context).edit),
           ),

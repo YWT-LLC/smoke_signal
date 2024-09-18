@@ -131,7 +131,7 @@ class _SignalBoardState extends State<SignalBoard> {
         ),
       ),
       fab: FloatingActionButton(
-        onPressed: () => context.go(createSignalRoute),
+        onPressed: () => context.goNamed(createSignalPath),
         tooltip: 'Create a new signal',
         child: Icon(PlatformIcons(context).add),
       ),

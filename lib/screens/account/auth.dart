@@ -45,7 +45,7 @@ class _AuthScreenState extends State<AuthScreen> {
           children: <Widget>[
             // Login
             ElevatedButton.icon(
-              onPressed: () => context.go(loginRoute),
+              onPressed: () => context.goNamed(loginPath),
               icon: Icon(PlatformIcons(context).mail),
               label: const Text('Login'),
             ),
@@ -53,7 +53,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
             // Sign up
             ElevatedButton.icon(
-              onPressed: () => context.go(signUpRoute),
+              onPressed: () => context.goNamed(signUpPath),
               icon: Icon(PlatformIcons(context).mail),
               label: const Text('Sign up'),
             ),

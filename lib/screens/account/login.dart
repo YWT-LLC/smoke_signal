@@ -87,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
             EzLink(
               'Forgot your password?',
               style: Theme.of(context).textTheme.bodyLarge,
-              onTap: () => context.go(resetPasswordRoute),
+              onTap: () => context.goNamed(resetPasswordPath),
               semanticsLabel: 'Forgot your password?',
             ),
             spacer,
