@@ -5,6 +5,7 @@
 
 import '../export.dart';
 import '../../widgets/export.dart';
+import '../../utils/export.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -19,12 +20,28 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  // Gather theme data //
+
+  late final Lang l10n = Lang.of(context)!;
+
+  // Set the page title //
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setPageTitle('Auth');
+  }
+
+  // Return the build //
+
   @override
   Widget build(BuildContext context) {
     return SmokeSignalScaffold(
       drawerHeader: standardDrawerHeader,
       body: EzScreen(
+        alignment: Alignment.center,
         child: EzScrollView(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             // Login
             ElevatedButton.icon(
@@ -40,7 +57,6 @@ class _AuthScreenState extends State<AuthScreen> {
               icon: Icon(PlatformIcons(context).mail),
               label: const Text('Sign up'),
             ),
-            const EzSpacer(),
           ],
         ),
       ),

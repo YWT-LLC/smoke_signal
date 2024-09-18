@@ -5,121 +5,111 @@
 
 import '../export.dart';
 import '../../utils/export.dart';
-
-import 'package:empathetech_ss_api/empathetech_ss_api.dart';
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:go_router/go_router.dart';
+import 'package:empathetech_ss_api/empathetech_ss_api.dart';
+import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final emailFormKey = GlobalKey<FormState>();
-  final passwordFormKey = GlobalKey<FormState>();
+  // Gather theme data //
 
-  late TextEditingController _emailController = TextEditingController();
-  late TextEditingController _passwdController = TextEditingController();
+  static const EzSpacer spacer = EzSpacer();
 
-  late Color themeTextColor = Color(EzConfig.prefs[themeTextColorKey]);
+  late final Lang l10n = Lang.of(context)!;
 
-  late double buttonSpacer = EzConfig.prefs[buttonSpacingKey];
+  // Define build data //
 
-  late TextStyle contents = buildTextStyle(styleKey: dialogContentStyleKey);
+  final GlobalKey<FormState> emailFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> passwordFormKey = GlobalKey<FormState>();
+
+  late final TextEditingController emailController = TextEditingController();
+  late final TextEditingController passwdController = TextEditingController();
+
+  // Set the page title //
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setPageTitle('Login');
+  }
+
+  // Return the build //
 
   @override
   Widget build(BuildContext context) {
-    return EzScaffold(
-      background: BoxDecoration(color: Color(EzConfig.prefs[backColorKey])),
-      appBar: EzAppBar(
-        title: Text('Welcome back!',
-            style: buildTextStyle(styleKey: titleStyleKey)),
-        trailing: EzDrawer(
-          header: standardDrawerHeader(),
-          body: standardDrawerBody(context: context),
-        ),
-      ),
-
-      // Body
-      body: ezView(
-        context: context,
-        background: BoxDecoration(
-          image: DecorationImage(image: EzImage.getProvider(backImageKey)),
-        ),
-        body: EzScrollView(
-          children: [
+    return SmokeSignalScaffold(
+      title: 'Welcome back!',
+      drawerHeader: standardDrawerHeader,
+      body: EzScreen(
+        alignment: Alignment.center,
+        child: EzScrollView(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
             // Autofill group allows for password manager inputs and such
             AutofillGroup(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
+                children: <Widget>[
                   // Email field
-                  EzFormField(
+                  TextFormField(
                     key: emailFormKey,
-                    controller: _emailController,
-                    hintText: 'Enter email',
-                    autofillHints: [AutofillHints.email],
+                    controller: emailController,
+                    initialValue: 'Enter email',
+                    autofillHints: const <String>[AutofillHints.email],
                     validator: emailValidator,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                   ),
-                  Container(height: buttonSpacer),
+                  spacer,
 
                   // Password field
-                  EzFormField(
+                  TextFormField(
                     key: passwordFormKey,
-                    controller: _passwdController,
-                    hintText: 'Enter password',
+                    controller: passwdController,
+                    initialValue: 'Enter password',
                     obscureText: true,
-                    autofillHints: [AutofillHints.password],
+                    autofillHints: const <String>[AutofillHints.password],
                   ),
                 ],
               ),
             ),
-            Container(height: buttonSpacer),
+            spacer,
 
             // Forgot password option
-            GestureDetector(
-              onTap: () => pushScreen(
-                context: context,
-                screen: ResetPasswordScreen(),
-              ),
-              child: Text(
-                'Forgot your password?',
-                style: TextStyle(
-                  color: contents.color,
-                  fontSize: contents.fontSize,
-                  fontFamily: contents.fontFamily,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
+            EzLink(
+              'Forgot your password?',
+              style: Theme.of(context).textTheme.bodyLarge,
+              onTap: () => context.go(resetPasswordRoute),
+              semanticsLabel: 'Forgot your password?',
             ),
-            Container(height: buttonSpacer),
+            spacer,
 
             // Attempt login button
-            EzButton(
-              action: () async {
-                // Close keyboard if open
-                closeFocus();
+            ElevatedButton(
+              onPressed: () async {
+                closeKeyboard(context);
 
                 // Don't attempt login if we know the input is invalid
                 if (!emailFormKey.currentState!.validate()) {
-                  logAlert(context, 'Invalid email!');
+                  logAlert(context: context, message: 'Invalid email!');
                   return;
                 }
 
                 await attemptLogin(
                   context,
-                  _emailController.text.trim(),
-                  _passwdController.text.trim(),
+                  emailController.text.trim(),
+                  passwdController.text.trim(),
                 );
               },
-              body: Text('Login'),
+              child: const Text('Login'),
             ),
           ],
         ),
@@ -129,8 +119,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwdController.dispose();
+    emailController.dispose();
+    passwdController.dispose();
     super.dispose();
   }
 }
