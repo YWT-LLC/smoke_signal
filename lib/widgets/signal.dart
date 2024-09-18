@@ -109,13 +109,14 @@ class _SignalState extends State<Signal> {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(dialogContext).pop();
-                context.go(
-                  screen: SignalMembersScreen(
-                    title: signalTitle,
-                    members: widget.members,
-                    activeMembers: widget.activeMembers,
-                    memberReqs: widget.memberReqs,
-                  ),
+                context.goNamed(
+                  signalMembersPath,
+                  queryParameters: <String, dynamic>{
+                    'title': signalTitle,
+                    'members': widget.members,
+                    'active_members': widget.activeMembers,
+                    'member_requests': widget.memberReqs,
+                  },
                 );
               },
               child: const Text('Members'),
@@ -123,13 +124,10 @@ class _SignalState extends State<Signal> {
             spacer,
 
             // Set icon
-            ElevatedButton(
-              onPressed: () async {
-                final dynamic result = await setIcon();
-                Navigator.of(context).pop(result);
-                if (result != null) widget.reloadBoard();
-              },
-              child: const Text('Set icon'),
+            EzImageSetting(
+              configKey: iconPathKey,
+              label: 'Set icon',
+              updateThemeOption: false,
             ),
             spacer,
 
@@ -159,10 +157,9 @@ class _SignalState extends State<Signal> {
 
                       // Update message
                       ElevatedButton(
-                        onPressed: () async {
-                          final dynamic result =
-                              await updateMessage(context, signalTitle);
-                          Navigator.of(context).pop(result);
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          updateMessage(context, signalTitle);
                         },
                         child: const Text('Update message'),
                       ),
@@ -170,13 +167,13 @@ class _SignalState extends State<Signal> {
 
                       // Transfer
                       ElevatedButton(
-                        onPressed: () async {
-                          final dynamic result = await confirmTransfer(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          confirmTransfer(
                             context: context,
                             title: signalTitle,
                             members: widget.members,
                           );
-                          Navigator.of(context).pop(result);
                         },
                         child: const Text('Transfer signal'),
                       ),
