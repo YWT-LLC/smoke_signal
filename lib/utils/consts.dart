@@ -5,24 +5,6 @@
 
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
-// Images //
-
-/// 'assets/images/app-icon.png'
-const String appIconPath = 'assets/images/app-icon.png';
-
-/// 'assets/images/dark-forest.png'
-const String darkForestPath = 'assets/images/dark-forest.png';
-
-/// 'assets/images/smoke-signal.gif'
-const String smokeSignalPath = 'assets/images/smoke-signal.gif';
-
-/// Image path -> image source
-final Map<String, String> credits = <String, String>{
-  appIconPath: 'Empathetech LLC: The Founder\n\nUnnamed',
-  smokeSignalPath: 'https://pimen.itch.io/\n\n\'Smoke Effect\'',
-  darkForestPath: 'https://edermunizz.itch.io/\n\n\'Dark Forest\'',
-};
-
 // App config //
 
 /// 'Smoke Signal'
@@ -49,4 +31,22 @@ const Map<String, Object> ssDefaults = <String, Object>{
   darkBackgroundImageKey: darkForestPath,
   lightBackgroundImageKey: darkForestPath,
   signalImageKey: smokeSignalPath,
+};
+
+// Images //
+
+/// 'assets/images/app-icon.png'
+const String appIconPath = 'assets/images/app-icon.png';
+
+/// 'assets/images/dark-forest.png'
+const String darkForestPath = 'assets/images/dark-forest.png';
+
+/// 'assets/images/smoke-signal.gif'
+const String smokeSignalPath = 'assets/images/smoke-signal.gif';
+
+/// Image path -> image source
+final Map<String, String> credits = <String, String>{
+  appIconPath: 'Empathetech LLC: The Founder\n\nUnnamed',
+  smokeSignalPath: 'https://pimen.itch.io/\n\n\'Smoke Effect\'',
+  darkForestPath: 'https://edermunizz.itch.io/\n\n\'Dark Forest\'',
 };
