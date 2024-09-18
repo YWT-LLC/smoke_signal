@@ -159,10 +159,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                   case ConnectionState.done:
                   default:
                     if (snapshot.hasError) {
-                      logAlert(
-                        context: context,
-                        message: snapshot.error.toString(),
-                      );
+                      logAlert(context, message: snapshot.error.toString());
                       return const SizedBox.shrink();
                     }
 
@@ -183,10 +180,10 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
 
                 // Don't do anything if the input is invalid
                 if (!titleFormKey.currentState!.validate()) {
-                  logAlert(context: context, message: 'Invalid title!');
+                  logAlert(context, message: 'Invalid title!');
                   return;
                 } else if (!messageFormKey.currentState!.validate()) {
-                  logAlert(context: context, message: 'Invalid message!');
+                  logAlert(context, message: 'Invalid message!');
                   return;
                 }
 

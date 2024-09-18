@@ -86,7 +86,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                 // Don't do anything if the input is invalid
                 if (!emailFormKey.currentState!.validate()) {
-                  logAlert(context: context, message: 'Invalid email!');
+                  logAlert(context, message: 'Invalid email!');
                   return;
                 }
 

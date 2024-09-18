@@ -83,10 +83,7 @@ class _SignalBoardState extends State<SignalBoard> {
                   case ConnectionState.done:
                   default:
                     if (snapshot.hasError) {
-                      logAlert(
-                        context: context,
-                        message: snapshot.error.toString(),
-                      );
+                      logAlert(context, message: snapshot.error.toString());
                       return const SizedBox.shrink();
                     }
 
@@ -114,10 +111,7 @@ class _SignalBoardState extends State<SignalBoard> {
                   case ConnectionState.done:
                   default:
                     if (snapshot.hasError) {
-                      logAlert(
-                        context: context,
-                        message: snapshot.error.toString(),
-                      );
+                      logAlert(context, message: snapshot.error.toString());
                       return const SizedBox.shrink();
                     }
 
