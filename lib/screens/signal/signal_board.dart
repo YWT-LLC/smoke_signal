@@ -37,7 +37,7 @@ class _SignalBoardState extends State<SignalBoard> {
 
   void reload() => setState(() {
         signalStream = streamSignals(membersPath);
-        requestStream = streamSignals(memberReqsPath);
+        requestStream = streamSignals(memberRequestsPath);
       });
 
   // Init //
@@ -46,7 +46,7 @@ class _SignalBoardState extends State<SignalBoard> {
   void initState() {
     super.initState();
     signalStream = streamSignals(membersPath);
-    requestStream = streamSignals(memberReqsPath);
+    requestStream = streamSignals(memberRequestsPath);
   }
 
   // Set the page title //
