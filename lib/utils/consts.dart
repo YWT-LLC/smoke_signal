@@ -23,8 +23,11 @@ final Set<String> assets = <String>{
 /// 'signalImage'
 const String signalImageKey = 'signalImage';
 
-/// 0xFF11131D
-const int darkForestBackground = 0xFF11131D;
+/// '200.0'
+const double signalHeight = 200.0;
+
+/// '100.0'
+const double signalCountHeight = 100.0;
 
 const Map<String, Object> ssDefaults = <String, Object>{
   ...empathetechConfig,
