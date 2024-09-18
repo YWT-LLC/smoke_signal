@@ -49,7 +49,12 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
 
   // Creates the widgets for the toggle list from the gathered profiles
   List<PlatformListTile> buildSwitchTiles(List<UserProfile> profiles) {
-    return profiles.map((UserProfile profile) {
+    final List<UserProfile> copy = List<UserProfile>.from(profiles);
+    copy.removeWhere(
+      (UserProfile profile) => profile.id == AppUser.account.uid,
+    );
+
+    return copy.map((UserProfile profile) {
       return PlatformListTile(
         // User info
         title: Row(

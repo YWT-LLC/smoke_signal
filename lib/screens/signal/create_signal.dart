@@ -44,7 +44,12 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
 
   /// Creates a [List] of [PlatformListTile]s for displaying [UserProfile]s alongside
   List<PlatformListTile> buildSwitches(List<UserProfile> profiles) {
-    return profiles.map((UserProfile profile) {
+    final List<UserProfile> copy = List<UserProfile>.from(profiles);
+    copy.removeWhere(
+      (UserProfile profile) => profile.id == AppUser.account.uid,
+    );
+
+    return copy.map((UserProfile profile) {
       return PlatformListTile(
         // User info
         title: Row(
