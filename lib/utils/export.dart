@@ -3,6 +3,6 @@
  * See LICENSE for distribution and usage details.
  */
 
-export 'constants.dart';
+export 'consts.dart';
 
 export '../l10n/lang.dart';

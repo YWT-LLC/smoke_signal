@@ -3,7 +3,7 @@
  * See LICENSE for distribution and usage details.
  */
 
-import 'package:smoke_signal/utils/constants.dart';
+import 'package:smoke_signal/utils/consts.dart';
 
 import '../../widgets/export.dart';
 
