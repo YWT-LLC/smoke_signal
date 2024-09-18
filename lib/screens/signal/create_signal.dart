@@ -4,175 +4,166 @@
  */
 
 import '../../utils/export.dart';
-
-import 'package:empathetech_ss_api/empathetech_ss_api.dart';
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class CreateSignalScreen extends StatefulWidget {
-  const CreateSignalScreen({Key? key}) : super(key: key);
+  const CreateSignalScreen({super.key});
 
   @override
-  _CreateSignalScreenState createState() => _CreateSignalScreenState();
+  State<CreateSignalScreen> createState() => _CreateSignalScreenState();
 }
 
 class _CreateSignalScreenState extends State<CreateSignalScreen> {
-  late Stream<QuerySnapshot<Map<String, dynamic>>> _userStream;
+  // Gather theme data //
+
+  static const EzSpacer spacer = EzSpacer();
+  final EzSpacer padder = EzSpacer(space: EzConfig.get(paddingKey));
+
+  late final Lang l10n = Lang.of(context)!;
+  late final TextStyle? titleStyle = Theme.of(context).textTheme.titleLarge;
+
+  // Define build data //
+
+  late Stream<QuerySnapshot<Map<String, dynamic>>> userStream;
+
+  bool isActive = false;
+  final List<String> requestIDs = <String>[];
+
+  final GlobalKey<FormState> titleFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> messageFormKey = GlobalKey<FormState>();
+
+  late TextEditingController titleController = TextEditingController();
+  late TextEditingController messageController = TextEditingController();
+
+  /// Creates a [List] of [PlatformListTile]s for displaying [UserProfile]s alongside
+  List<PlatformListTile> buildSwitches(List<UserProfile> profiles) {
+    return profiles.map((UserProfile profile) {
+      return PlatformListTile(
+        // User info
+        title: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            // Profile image/avatar
+            CircleAvatar(
+              foregroundImage: CachedNetworkImageProvider(profile.avatarURL),
+              minRadius: 35,
+              maxRadius: 35,
+            ),
+            padder,
+
+            // Display name
+            Text(
+              profile.name,
+              style: titleStyle,
+              textAlign: TextAlign.start,
+            ),
+          ],
+        ),
+
+        // Toggle
+        trailing: Checkbox(
+          value: requestIDs.contains(profile.id),
+          onChanged: (bool? value) {
+            if (value == true) {
+              setState(() => requestIDs.add(profile.id));
+            } else {
+              setState(() => requestIDs.remove(profile.id));
+            }
+          },
+        ),
+      );
+    }).toList();
+  }
+
+  // Init //
 
   @override
   void initState() {
     super.initState();
-    _userStream = streamUsers();
+    userStream = streamUsers();
   }
 
-  late bool isActive = false;
-  late List<String> requestIDs = [];
+  // Set the page title //
 
-  final titleFormKey = GlobalKey<FormState>();
-  final messageFormKey = GlobalKey<FormState>();
-
-  late TextEditingController _titleController = TextEditingController();
-  late TextEditingController _messageController = TextEditingController();
-
-  late double buttonSpacer = EzConfig.prefs[buttonSpacingKey];
-  late double dialogSpacer = EzConfig.prefs[dialogSpacingKey];
-
-  late Color themeTextColor = Color(EzConfig.prefs[themeTextColorKey]);
-  late Color buttonColor = Color(EzConfig.prefs[buttonColorKey]);
-  late Color buttonTextColor = Color(EzConfig.prefs[buttonTextColorKey]);
-
-  /// Creates a [List] of [PlatformListTile]s for displaying [UserProfile]s alongside
-  List<PlatformListTile> buildSwitches(List<UserProfile> profiles) {
-    List<PlatformListTile> children = [];
-
-    profiles.forEach((profile) {
-      if (profile.id != AppUser.account.uid)
-        children.add(
-          PlatformListTile(
-            // User info
-            title: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Profile image/avatar
-                CircleAvatar(
-                  foregroundImage:
-                      CachedNetworkImageProvider(profile.avatarURL),
-                  minRadius: 35,
-                  maxRadius: 35,
-                ),
-                Container(width: EzConfig.prefs[paddingKey]),
-
-                // Display name
-                Text(
-                  profile.name,
-                  style: buildTextStyle(styleKey: dialogTitleStyleKey),
-                  textAlign: TextAlign.start,
-                ),
-              ],
-            ),
-
-            // Toggle
-            trailing: EzCheckBox(
-              value: requestIDs.contains(profile.id),
-              onChanged: (bool? value) {
-                if (value == true) {
-                  setState(() {
-                    requestIDs.add(profile.id);
-                  });
-                } else {
-                  setState(() {
-                    requestIDs.remove(profile.id);
-                  });
-                }
-              },
-            ),
-          ),
-        );
-    });
-
-    return children;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setPageTitle('Create signal');
   }
+
+  // Return the build //
 
   @override
   Widget build(BuildContext context) {
-    return EzScaffold(
-      background: BoxDecoration(color: Color(EzConfig.prefs[backColorKey])),
-      appBar: EzAppBar(
-          title: Text('New signal',
-              style: buildTextStyle(styleKey: titleStyleKey))),
-
-      // Body
-      body: ezView(
-        context: context,
-        background: BoxDecoration(
-          image: DecorationImage(image: EzImage.getProvider(backImageKey)),
-        ),
-        body: EzScrollView(
-          children: [
+    return SmokeSignalScaffold(
+      title: 'New signal',
+      drawerHeader: signalDrawerHeader(context, () {}),
+      body: EzScreen(
+        child: EzScrollView(
+          children: <Widget>[
             // Title field
-            EzFormField(
+            TextFormField(
               key: titleFormKey,
-              controller: _titleController,
-              hintText: 'Signal title',
+              controller: titleController,
+              initialValue: 'Signal title',
               validator: signalTitleValidator,
               autovalidateMode: AutovalidateMode.onUserInteraction,
             ),
-            Container(height: buttonSpacer),
+            spacer,
 
             // Message field
-            EzFormField(
+            TextFormField(
               key: messageFormKey,
-              controller: _messageController,
-              hintText: 'Notification',
+              controller: messageController,
+              initialValue: 'Notification',
               validator: signalMessageValidator,
               autovalidateMode: AutovalidateMode.onUserInteraction,
             ),
-            Container(height: buttonSpacer),
+            spacer,
 
             // Toggle for current participation
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  'Currently active?',
-                  style: buildTextStyle(styleKey: dialogTitleStyleKey),
-                ),
-                EzSwitch(
+              children: <Widget>[
+                Text('Currently active?', style: titleStyle),
+                Checkbox(
                   value: isActive,
                   onChanged: (bool? value) {
-                    // Flip state and close keyboard if open
-                    closeFocus();
-
-                    setState(() {
-                      isActive = value!;
-                    });
+                    closeKeyboard(context);
+                    setState(() => isActive = value!);
                   },
                 ),
               ],
             ),
-            Container(height: buttonSpacer),
+            spacer,
 
             // List of toggle-able members to send join requests on creation
-            StreamBuilder<QuerySnapshot>(
-              stream: _userStream,
+            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              stream: userStream,
               builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                  AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
-                    return loadingMessage(
-                      context: context,
-                      image: EzImage(prefsKey: signalImageKey),
+                    return const EzImage(
+                      image: signalGif,
+                      semanticLabel: 'Loading',
                     );
                   case ConnectionState.done:
                   default:
                     if (snapshot.hasError) {
-                      logAlert(context, snapshot.error.toString());
-                      return Container();
+                      logAlert(
+                        context: context,
+                        message: snapshot.error.toString(),
+                      );
+                      return const SizedBox.shrink();
                     }
 
                     return addProfilesWindow(
@@ -183,38 +174,37 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                 }
               },
             ),
-            Container(height: buttonSpacer),
+            spacer,
 
             // Add button
-            EzButton.icon(
-              action: () async {
-                // Close keyboard if open
-                closeFocus();
+            ElevatedButton.icon(
+              onPressed: () async {
+                closeKeyboard(context);
 
                 // Don't do anything if the input is invalid
                 if (!titleFormKey.currentState!.validate()) {
-                  logAlert(context, 'Invalid title!');
+                  logAlert(context: context, message: 'Invalid title!');
                   return;
                 } else if (!messageFormKey.currentState!.validate()) {
-                  logAlert(context, 'Invalid message!');
+                  logAlert(context: context, message: 'Invalid message!');
                   return;
                 }
 
                 // Attempt adding signal
-                bool added = await addToDB(
-                  context,
-                  _titleController.text.trim(),
-                  _messageController.text.trim(),
-                  isActive,
-                  requestIDs,
+                final bool added = await addToDB(
+                  context: context,
+                  title: titleController.text.trim(),
+                  message: messageController.text.trim(),
+                  isActive: isActive,
+                  requestIDs: requestIDs,
                 );
 
                 if (added) Navigator.of(context).pop(true);
               },
-              message: 'Add',
               icon: Icon(PlatformIcons(context).cloudUpload),
+              label: const Text('Add'),
             ),
-            Container(height: buttonSpacer),
+            spacer,
           ],
         ),
       ),
@@ -223,8 +213,8 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
 
   @override
   void dispose() {
-    _titleController.dispose();
-    _messageController.dispose();
+    titleController.dispose();
+    messageController.dispose();
     super.dispose();
   }
 }
