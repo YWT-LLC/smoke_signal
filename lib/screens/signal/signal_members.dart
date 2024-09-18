@@ -129,13 +129,13 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
 
           // Submit button
           ElevatedButton.icon(
-            onPressed: () async {
-              await requestMembers(
+            onPressed: () {
+              Navigator.of(context).pop();
+              requestMembers(
                 context: context,
                 title: widget.title,
                 toAdd: requestIDs,
               );
-              Navigator.of(context).pop(true);
             },
             icon: Icon(PlatformIcons(context).cloudUpload),
             label: const Text('Send requests'),
