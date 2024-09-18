@@ -5,186 +5,141 @@
 
 import '../export.dart';
 import '../../utils/export.dart';
-
-import 'package:empathetech_ss_api/empathetech_ss_api.dart';
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:empathetech_ss_api/empathetech_ss_api.dart';
+import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class SignalBoard extends StatefulWidget {
-  const SignalBoard({Key? key}) : super(key: key);
+  const SignalBoard({super.key});
 
   @override
-  _SignalBoardState createState() => _SignalBoardState();
+  State<SignalBoard> createState() => _SignalBoardState();
 }
 
 class _SignalBoardState extends State<SignalBoard> {
-  double buttonSpacer = EzConfig.prefs[buttonSpacingKey];
+  // Gather theme data //
 
-  late Stream<QuerySnapshot<Object?>> _signalStream;
-  late Stream<QuerySnapshot<Object?>> _requestStream;
+  late final Lang l10n = Lang.of(context)!;
+
+  // Define build data //
+
+  late Stream<QuerySnapshot<Map<String, dynamic>>> signalStream;
+  late Stream<QuerySnapshot<Map<String, dynamic>>> requestStream;
+
+  // Define custom functions //
+
+  void refresh() => setState(() {});
+
+  void reload() => setState(() {
+        signalStream = streamSignals(membersPath);
+        requestStream = streamSignals(memberReqsPath);
+      });
+
+  // Init //
 
   @override
   void initState() {
     super.initState();
-    _signalStream = streamSignals(membersPath);
-    _requestStream = streamSignals(memberReqsPath);
+    signalStream = streamSignals(membersPath);
+    requestStream = streamSignals(memberReqsPath);
   }
 
-  void refresh() {
-    setState(doNothing);
+  // Set the page title //
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setPageTitle('Signal board');
   }
 
-  void reload() {
-    setState(() {
-      _signalStream = streamSignals(membersPath);
-      _requestStream = streamSignals(memberReqsPath);
-    });
-  }
+  // Return the build //
 
   @override
   Widget build(BuildContext context) {
-    return EzScaffold(
-      background: BoxDecoration(color: Color(EzConfig.prefs[backColorKey])),
-
-      // App bar
-      appBar: EzAppBar(
-        title: Text('Signals', style: buildTextStyle(styleKey: titleStyleKey)),
-
-        // End Drawer
-        trailing: EzDrawer(
-          header: signalDrawerHeader(context: context, refresh: refresh),
-          body: [
-            Container(height: buttonSpacer),
-
-            // GoTo settings
-            EzButton.icon(
-              action: () async {
-                dynamic shouldRefresh = await popAndPushScreen(
-                  context: context,
-                  screen: AppSettingsScreen(),
-                );
-
-                if (shouldRefresh != null) refresh();
-              },
-              message: 'Settings',
-              icon: Icon(PlatformIcons(context).settings),
-            ),
-            Container(height: buttonSpacer),
-
-            // Show input rules
-            EzButton(
-              action: () => showPlatformDialog(
-                context: context,
-                dialog: EzAlertDialog(
-                  title: Text(
-                    'Input rules',
-                    style: buildTextStyle(styleKey: dialogContentStyleKey),
-                  ),
-                  contents: [
-                    Text(
-                      validatorRule,
-                      style: buildTextStyle(styleKey: dialogContentStyleKey),
-                    ),
-                  ],
-                ),
-              ),
-              body: Text('Input rules'),
-            ),
-            Container(height: buttonSpacer),
-
-            // Reload
-            EzButton.icon(
-              action: () {
-                Navigator.of(context).pop(true);
-                reload();
-              },
-              message: 'Reload',
-              icon: Icon(PlatformIcons(context).refresh),
-            ),
-          ],
-        ),
-      ),
-
-      // Body
-      body: ezView(
-        context: context,
-        background: BoxDecoration(
-          image: DecorationImage(image: EzImage.getProvider(backImageKey)),
-        ),
-        body: EzScrollView(
-          children: [
+    return SmokeSignalScaffold(
+      title: 'Signals',
+      drawerHeader: signalDrawerHeader(context, refresh),
+      body: EzScreen(
+        child: EzScrollView(
+          children: <Widget>[
             // Signals the user is a member of
-            StreamBuilder<QuerySnapshot>(
-                stream: _signalStream,
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                      return loadingMessage(
+            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              stream: signalStream,
+              builder: (
+                BuildContext sBContext,
+                AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
+              ) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return const EzImage(
+                      image: signalGif,
+                      semanticLabel: 'Loading',
+                    );
+                  case ConnectionState.done:
+                  default:
+                    if (snapshot.hasError) {
+                      logAlert(
                         context: context,
-                        image: EzImage(prefsKey: signalImageKey),
+                        message: snapshot.error.toString(),
                       );
-                    case ConnectionState.done:
-                    default:
-                      if (snapshot.hasError) {
-                        logAlert(context, snapshot.error.toString());
-                        return Container();
-                      }
+                      return const SizedBox.shrink();
+                    }
 
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: snapshot.data!.docs
-                            .map((DocumentSnapshot signalDoc) =>
-                                Signal.buildSignal(signalDoc, reload))
-                            .toList(),
-                      );
-                  }
-                }),
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: snapshot.data!.docs
+                          .map((DocumentSnapshot<Map<String, dynamic>>
+                                  signalDoc) =>
+                              Signal.buildSignal(signalDoc, reload))
+                          .toList(),
+                    );
+                }
+              },
+            ),
 
             // Signal requests pending the user's approval
-            StreamBuilder<QuerySnapshot>(
-                stream: _requestStream,
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                      return Container(); // Don't need two loading messages
-                    case ConnectionState.done:
-                    default:
-                      if (snapshot.hasError) {
-                        logAlert(context, snapshot.error.toString());
-                        return Container();
-                      }
-
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: snapshot.data!.docs
-                            .map((DocumentSnapshot signalDoc) =>
-                                Signal.buildSignal(signalDoc, reload))
-                            .toList(),
+            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              stream: requestStream,
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return const SizedBox.shrink();
+                  case ConnectionState.done:
+                  default:
+                    if (snapshot.hasError) {
+                      logAlert(
+                        context: context,
+                        message: snapshot.error.toString(),
                       );
-                  }
-                }),
+                      return const SizedBox.shrink();
+                    }
+
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: snapshot.data!.docs
+                          .map((DocumentSnapshot<Map<String, dynamic>>
+                                  signalDoc) =>
+                              Signal.buildSignal(signalDoc, reload))
+                          .toList(),
+                    );
+                }
+              },
+            ),
           ],
         ),
       ),
-
-      // Floating Action Button
-      fab: EzButton(
-        action: () async {
-          dynamic shouldReload = await pushScreen(
-            context: context,
-            screen: CreateSignalScreen(),
-          );
-
-          if (shouldReload != null) reload();
-        },
-        body: Icon(PlatformIcons(context).add),
+      fab: FloatingActionButton(
+        onPressed: () => context.go(createSignalRoute),
+        tooltip: 'Create a new signal',
+        child: Icon(PlatformIcons(context).add),
       ),
     );
   }
