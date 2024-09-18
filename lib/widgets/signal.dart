@@ -19,7 +19,7 @@ class Signal extends StatefulWidget {
   final String message;
   final List<String> members;
   final List<String> activeMembers;
-  final List<String> memberReqs;
+  final List<String> memberRequests;
   final void Function() reloadBoard;
 
   /// Happy signaling!
@@ -30,7 +30,7 @@ class Signal extends StatefulWidget {
     required this.message,
     required this.members,
     required this.activeMembers,
-    required this.memberReqs,
+    required this.memberRequests,
     required this.reloadBoard,
   });
 
@@ -47,7 +47,7 @@ class Signal extends StatefulWidget {
       members: List<String>.from(data[membersPath]),
       owner: data[ownerPath],
       activeMembers: List<String>.from(data[activeMembersPath]),
-      memberReqs: List<String>.from(data[memberReqsPath]),
+      memberRequests: List<String>.from(data[memberRequestsPath]),
       reloadBoard: reloadBoard,
     );
   }
@@ -74,9 +74,17 @@ class _SignalState extends State<Signal> {
 
   // Define build data //
 
-  late final String signalTitle = widget.title;
-  late final String showIconKey = '$signalTitle ShowIcon';
-  late final String iconPathKey = '$signalTitle Icon';
+  // Mirrors
+  late final String owner = widget.owner;
+  late final String title = widget.title;
+  late final String message = widget.message;
+  late final List<String> members = widget.members;
+  late final List<String> activeMembers = widget.activeMembers;
+  late final List<String> memberRequests = widget.memberRequests;
+  late final void Function() reloadBoard = widget.reloadBoard;
+
+  late final String showIconKey = '$title ShowIcon';
+  late final String iconPathKey = '$title Icon';
 
   late final TextStyle? joinedTextStyle = textTheme.titleLarge?.copyWith(
     color: colorScheme.onSecondary,
@@ -111,12 +119,15 @@ class _SignalState extends State<Signal> {
                 Navigator.of(dialogContext).pop();
                 context.goNamed(
                   signalMembersPath,
-                  queryParameters: <String, dynamic>{
-                    'title': signalTitle,
-                    'members': widget.members,
-                    'active_members': widget.activeMembers,
-                    'member_requests': widget.memberReqs,
-                  },
+                  extra: Signal(
+                    owner: widget.owner,
+                    title: title,
+                    message: message,
+                    members: members,
+                    activeMembers: activeMembers,
+                    memberRequests: memberRequests,
+                    reloadBoard: reloadBoard,
+                  ),
                 );
               },
               child: const Text('Members'),
@@ -149,7 +160,7 @@ class _SignalState extends State<Signal> {
                       ElevatedButton(
                         onPressed: () async {
                           Navigator.of(context).pop(true);
-                          await resetSignal(context, signalTitle);
+                          await resetSignal(context, title);
                         },
                         child: const Text('Reset signal'),
                       ),
@@ -159,7 +170,7 @@ class _SignalState extends State<Signal> {
                       ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).pop();
-                          updateMessage(context, signalTitle);
+                          updateMessage(context, title);
                         },
                         child: const Text('Update message'),
                       ),
@@ -171,8 +182,8 @@ class _SignalState extends State<Signal> {
                           Navigator.of(context).pop();
                           confirmTransfer(
                             context: context,
-                            title: signalTitle,
-                            members: widget.members,
+                            title: title,
+                            members: members,
                           );
                         },
                         child: const Text('Transfer signal'),
@@ -185,7 +196,7 @@ class _SignalState extends State<Signal> {
                           Navigator.of(context).pop();
                           await confirmDelete(
                             context: context,
-                            title: signalTitle,
+                            title: title,
                             prefKeys: <String>{showIconKey, iconPathKey},
                           );
                         },
@@ -199,7 +210,7 @@ class _SignalState extends State<Signal> {
                           Navigator.of(context).pop();
                           confirmDeparture(
                             context: context,
-                            title: signalTitle,
+                            title: title,
                             prefKeys: <String>{showIconKey, iconPathKey},
                           );
                         },
@@ -215,9 +226,9 @@ class _SignalState extends State<Signal> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.members.contains(AppUser.account.uid)) {
+    if (members.contains(AppUser.account.uid)) {
       // Current user is a member
-      final bool active = widget.activeMembers.contains(AppUser.account.uid);
+      final bool active = activeMembers.contains(AppUser.account.uid);
 
       return Column(
         children: <Widget>[
@@ -228,9 +239,9 @@ class _SignalState extends State<Signal> {
                   onTap: () => toggleParticipation(
                     context: context,
                     active: active,
-                    title: widget.title,
-                    memberIDs: widget.members,
-                    message: widget.message,
+                    title: title,
+                    memberIDs: members,
+                    message: message,
                   ),
                   onLongPress: showEdits,
                   child: SizedBox(
@@ -257,7 +268,7 @@ class _SignalState extends State<Signal> {
                               color: active ? joinedColor : watchingColor,
                               child: Center(
                                 child: Text(
-                                  signalTitle,
+                                  title,
                                   style: active
                                       ? joinedTextStyle
                                       : watchingTextStyle,
@@ -274,9 +285,9 @@ class _SignalState extends State<Signal> {
                   onTap: () => toggleParticipation(
                     context: context,
                     active: active,
-                    title: widget.title,
-                    memberIDs: widget.members,
-                    message: widget.message,
+                    title: title,
+                    memberIDs: members,
+                    message: message,
                   ),
                   onLongPress: showEdits,
                   child: SizedBox(
@@ -286,7 +297,7 @@ class _SignalState extends State<Signal> {
                       color: active ? joinedColor : watchingColor,
                       child: Center(
                         child: Text(
-                          signalTitle,
+                          title,
                           style: active ? joinedTextStyle : watchingTextStyle,
                         ),
                       ),
@@ -299,14 +310,14 @@ class _SignalState extends State<Signal> {
             width: widthOf(context) * (2 / 3),
             height: signalCountHeight,
             child: Card(
-              color: widget.activeMembers.contains(AppUser.account.uid)
+              color: activeMembers.contains(AppUser.account.uid)
                   ? joinedColor
                   : watchingColor,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
                 // Check AppUser's current participation
-                children: widget.activeMembers.contains(AppUser.account.uid)
+                children: activeMembers.contains(AppUser.account.uid)
                     ? <Widget>[
                         // Active: show the current count surrounded by smoke signals
                         EzImage(
@@ -314,7 +325,7 @@ class _SignalState extends State<Signal> {
                           semanticLabel: 'Semantics label',
                         ),
                         Text(
-                          widget.activeMembers.length.toString(),
+                          activeMembers.length.toString(),
                           style: joinedTextStyle,
                         ),
                         EzImage(
@@ -325,7 +336,7 @@ class _SignalState extends State<Signal> {
                     : <Widget>[
                         // Inactive: only show the current count
                         Text(
-                          widget.activeMembers.length.toString(),
+                          activeMembers.length.toString(),
                           style: watchingTextStyle,
                         ),
                       ],
@@ -337,7 +348,7 @@ class _SignalState extends State<Signal> {
       );
 
       // Current user is a prospective/requested member
-    } else if (widget.memberReqs.contains(AppUser.account.uid)) {
+    } else if (memberRequests.contains(AppUser.account.uid)) {
       return Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -350,7 +361,7 @@ class _SignalState extends State<Signal> {
               color: watchingColor,
               child: Center(
                 child: Text(
-                  'Join:\n$signalTitle?',
+                  'Join:\n$title?',
                   style: watchingTextStyle,
                 ),
               ),
@@ -363,11 +374,11 @@ class _SignalState extends State<Signal> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               ElevatedButton(
-                onPressed: () => declineInvite(context, signalTitle),
+                onPressed: () => declineInvite(context, title),
                 child: Icon(PlatformIcons(context).clear),
               ),
               ElevatedButton(
-                onPressed: () => acceptInvite(context, signalTitle),
+                onPressed: () => acceptInvite(context, title),
                 child: Icon(PlatformIcons(context).checkMark),
               ),
             ],
