@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class SmokeSignalScaffold extends StatelessWidget {
+  final String title;
   final Widget body;
   final Widget drawerHeader;
 
@@ -19,6 +20,7 @@ class SmokeSignalScaffold extends StatelessWidget {
   /// Standardized [Scaffold] for all of Smoke Signals's screens
   const SmokeSignalScaffold({
     super.key,
+    this.title = appTitle,
     required this.body,
     required this.drawerHeader,
     this.fab,
@@ -56,7 +58,7 @@ class SmokeSignalScaffold extends StatelessWidget {
             toolbarHeight: toolbarHeight,
 
             // Title
-            title: const Text(appTitle),
+            title: Text(title),
 
             // Actions (aka trailing aka right)
             actions: isLefty ? const <Widget>[EzBackAction()] : null,
