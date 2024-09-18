@@ -136,8 +136,14 @@ final GoRouter router = GoRouter(
 class SmokeSignal extends StatelessWidget {
   const SmokeSignal({super.key});
 
+  Future<void> precacheImages(BuildContext context) async {
+    precacheImage(signalGif, context);
+  }
+
   @override
   Widget build(BuildContext context) {
+    precacheImages(context);
+
     return EzAppProvider(
       scaffoldMessengerKey: scaffoldMessengerKey,
       app: PlatformApp.router(
