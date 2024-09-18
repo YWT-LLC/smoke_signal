@@ -4,91 +4,95 @@
  */
 
 import '../../utils/export.dart';
-
-import 'package:empathetech_ss_api/empathetech_ss_api.dart';
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:empathetech_ss_api/empathetech_ss_api.dart';
+import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
 
   @override
-  _ResetScreenState createState() => _ResetScreenState();
+  State<ResetPasswordScreen> createState() => _ResetScreenState();
 }
 
 class _ResetScreenState extends State<ResetPasswordScreen> {
-  final emailFormKey = GlobalKey<FormState>();
+  // Gather theme data //
 
-  late TextEditingController _emailController = TextEditingController();
+  static const EzSpacer spacer = EzSpacer();
 
-  late Color themeTextColor = Color(EzConfig.prefs[themeTextColorKey]);
+  late final Lang l10n = Lang.of(context)!;
 
-  late TextStyle contents = buildTextStyle(styleKey: dialogContentStyleKey);
+  // Set the page title //
 
-  late double buttonSpacer = EzConfig.prefs[buttonSpacingKey];
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setPageTitle('Reset password');
+  }
+
+  // Define build data //
+
+  final GlobalKey<FormState> emailFormKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+
+  // Return the build //
 
   @override
   Widget build(BuildContext context) {
-    return EzScaffold(
-      background: BoxDecoration(color: Color(EzConfig.prefs[backColorKey])),
-      appBar: EzAppBar(
-        title:
-            Text('No problem!', style: buildTextStyle(styleKey: titleStyleKey)),
-        trailing: EzDrawer(
-          header: standardDrawerHeader(),
-          body: standardDrawerBody(context: context),
-        ),
-      ),
-
-      // Body
-      body: ezView(
-        context: context,
-        background: BoxDecoration(
-          image: DecorationImage(image: EzImage.getProvider(backImageKey)),
-        ),
-        body: EzScrollView(
-          children: [
+    return SmokeSignalScaffold(
+      title: 'No problem!',
+      drawerHeader: standardDrawerHeader,
+      body: EzScreen(
+        alignment: Alignment.center,
+        child: EzScrollView(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
             // Email form
             AutofillGroup(
-              child: EzFormField(
+              child: TextFormField(
                 key: emailFormKey,
-                controller: _emailController,
-                hintText: 'Enter email',
-                autofillHints: [AutofillHints.email],
+                controller: emailController,
+                initialValue: 'Enter email',
+                autofillHints: const <String>[AutofillHints.email],
                 validator: emailValidator,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
               ),
             ),
-            Container(height: buttonSpacer),
+            spacer,
 
             // Submit button
-            EzButton.icon(
-              action: () async {
-                // Close keyboard if open
-                closeFocus();
+            ElevatedButton.icon(
+              onPressed: () async {
+                closeKeyboard(context);
 
                 // Don't do anything if the email is invalid
                 if (!emailFormKey.currentState!.validate()) {
-                  logAlert(context, 'Invalid email!');
+                  logAlert(context: context, message: 'Invalid email!');
                   return;
                 }
 
                 // Attempt reset
                 try {
                   await AppUser.auth.sendPasswordResetEmail(
-                      email: _emailController.text.trim());
-                  logAlert(context, 'Password reset email has been sent!');
+                    email: emailController.text.trim(),
+                  );
+                  logAlert(
+                    context: context,
+                    message: 'Password reset email has been sent!',
+                  );
                 } on Exception catch (e) {
-                  logAlert(context, 'Failed to send password reset email:\n$e');
+                  logAlert(
+                    context: context,
+                    message: 'Failed to send password reset email:\n$e',
+                  );
                 }
               },
-              message: 'Send link',
               icon: Icon(PlatformIcons(context).mail),
+              label: const Text('Send link'),
             ),
-            Container(height: buttonSpacer),
           ],
         ),
       ),
@@ -97,7 +101,7 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
 
   @override
   void dispose() {
-    _emailController.dispose();
+    emailController.dispose();
     super.dispose();
   }
 }

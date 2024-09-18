@@ -4,101 +4,100 @@
  */
 
 import '../../utils/export.dart';
-
-import 'package:empathetech_ss_api/empathetech_ss_api.dart';
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:empathetech_ss_api/empathetech_ss_api.dart';
+import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
   @override
-  _SignUpScreenState createState() => _SignUpScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final emailFormKey = GlobalKey<FormState>();
-  final passwordFormKey = GlobalKey<FormState>();
+  // Gather theme data //
 
-  late TextEditingController _signUpEmailController = TextEditingController();
-  late TextEditingController _passwdController = TextEditingController();
+  static const EzSpacer spacer = EzSpacer();
 
-  late Color themeTextColor = Color(EzConfig.prefs[themeTextColorKey]);
+  late final Lang l10n = Lang.of(context)!;
 
-  late TextStyle contents = buildTextStyle(styleKey: dialogContentStyleKey);
+  // Set the page title //
 
-  late double buttonSpacer = EzConfig.prefs[buttonSpacingKey];
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setPageTitle('Sign up');
+  }
+
+  // Define build data //
+
+  final GlobalKey<FormState> emailFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> passwordFormKey = GlobalKey<FormState>();
+
+  final TextEditingController signUpEmailController = TextEditingController();
+  final TextEditingController passwdController = TextEditingController();
+
+  // Return the build //
 
   @override
   Widget build(BuildContext context) {
-    return EzScaffold(
-      background: BoxDecoration(color: Color(EzConfig.prefs[backColorKey])),
-      appBar: EzAppBar(
-        title: Text('Welcome!', style: buildTextStyle(styleKey: titleStyleKey)),
-        trailing: EzDrawer(
-          header: standardDrawerHeader(),
-          body: standardDrawerBody(context: context),
-        ),
-      ),
-
-      // Body
-      body: ezView(
-        context: context,
-        background: BoxDecoration(
-          image: DecorationImage(image: EzImage.getProvider(backImageKey)),
-        ),
-        body: EzScrollView(
-          children: [
+    return SmokeSignalScaffold(
+      title: 'Welcome!',
+      drawerHeader: standardDrawerHeader,
+      body: EzScreen(
+        alignment: Alignment.center,
+        child: EzScrollView(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
             AutofillGroup(
               child: Column(
-                children: [
+                children: <Widget>[
                   // Email field
-                  EzFormField(
+                  TextFormField(
                     key: emailFormKey,
-                    controller: _signUpEmailController,
-                    hintText: 'Enter email',
-                    autofillHints: [AutofillHints.email],
+                    controller: signUpEmailController,
+                    initialValue: 'Enter email',
+                    autofillHints: const <String>[AutofillHints.email],
                     validator: emailValidator,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                   ),
-
-                  Container(height: buttonSpacer),
+                  spacer,
 
                   // Password field
-                  EzFormField(
+                  TextFormField(
                     key: passwordFormKey,
-                    controller: _passwdController,
-                    hintText: 'Enter password',
+                    controller: passwdController,
+                    initialValue: 'Enter password',
                     obscureText: true,
-                    autofillHints: [AutofillHints.password],
+                    autofillHints: const <String>[AutofillHints.password],
                   ),
                 ],
               ),
             ),
-            Container(height: buttonSpacer),
+            spacer,
 
             // Attempt sign up button
-            EzButton(
-              action: () async {
-                // Close keyboard if open
-                closeFocus();
+            ElevatedButton(
+              onPressed: () async {
+                closeKeyboard(context);
 
                 // Don't do anything if the input is invalid
                 if (!emailFormKey.currentState!.validate()) {
-                  logAlert(context, 'Invalid email!');
+                  logAlert(context: context, message: 'Invalid email!');
                   return;
                 }
 
                 // Attempt login
                 await attemptAccountCreation(
                   context,
-                  _signUpEmailController.text.trim(),
-                  _passwdController.text.trim(),
+                  signUpEmailController.text.trim(),
+                  passwdController.text.trim(),
                 );
               },
-              body: Text('Sign up'),
+              child: const Text('Sign up'),
             ),
           ],
         ),
@@ -108,8 +107,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
-    _signUpEmailController.dispose();
-    _passwdController.dispose();
+    signUpEmailController.dispose();
+    passwdController.dispose();
     super.dispose();
   }
 }
