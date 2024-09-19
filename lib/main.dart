@@ -14,7 +14,6 @@ import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -45,8 +44,6 @@ void main() async {
   // Initialize firebase //
 
   await Firebase.initializeApp();
-
-  AppUser.messager = FirebaseMessaging.instance;
   AppUser.auth = FirebaseAuth.instance;
 
   // Run the app //

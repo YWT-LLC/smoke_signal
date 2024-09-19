@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
@@ -50,24 +49,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Init //
 
-  /// Request permission for Firebase Cloud Messager
-  /// via [AppUser.messager]
-  Future<NotificationSettings> requestFCMPermission() =>
-      AppUser.messager.requestPermission(
-        alert: true,
-        announcement: true,
-        badge: true,
-        sound: true,
-        carPlay: false,
-        criticalAlert: false,
-        provisional: false,
-      );
-
   @override
   void initState() {
     super.initState();
     authStream = AppUser.auth.authStateChanges();
-    requestFCMPermission();
   }
 
   // Set the page title //
@@ -100,7 +85,6 @@ class _HomeScreenState extends State<HomeScreen> {
             if (currUser == null) return getBuild(HomeBuildType.auth);
 
             // Merge current user with DB and initialize local class
-            setToken(currUser);
             AppUser.account = currUser;
             AppUser.db = FirebaseFirestore.instance;
 

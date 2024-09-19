@@ -1155,10 +1155,6 @@ PODS:
     - Firebase/Firestore (= 11.0.0)
     - firebase_core
     - Flutter
-  - cloud_functions (5.1.2):
-    - Firebase/Functions (= 11.0.0)
-    - firebase_core
-    - Flutter
   - Firebase/Auth (11.0.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 11.0.0)
@@ -1167,22 +1163,12 @@ PODS:
   - Firebase/Firestore (11.0.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 11.0.0)
-  - Firebase/Functions (11.0.0):
-    - Firebase/CoreOnly
-    - FirebaseFunctions (~> 11.0.0)
-  - Firebase/Messaging (11.0.0):
-    - Firebase/CoreOnly
-    - FirebaseMessaging (~> 11.0.0)
   - firebase_auth (5.3.0):
     - Firebase/Auth (= 11.0.0)
     - firebase_core
     - Flutter
   - firebase_core (3.5.0):
     - Firebase/CoreOnly (= 11.0.0)
-    - Flutter
-  - firebase_messaging (15.1.2):
-    - Firebase/Messaging (= 11.0.0)
-    - firebase_core
     - Flutter
   - FirebaseAppCheckInterop (11.2.0)
   - FirebaseAuth (11.0.0):
@@ -1223,36 +1209,10 @@ PODS:
     - gRPC-Core (~> 1.65.0)
     - leveldb-library (~> 1.22)
     - nanopb (~> 3.30910.0)
-  - FirebaseFunctions (11.0.0):
-    - FirebaseAppCheckInterop (~> 11.0)
-    - FirebaseAuthInterop (~> 11.0)
-    - FirebaseCore (~> 11.0)
-    - FirebaseCoreExtension (~> 11.0)
-    - FirebaseMessagingInterop (~> 11.0)
-    - FirebaseSharedSwift (~> 11.0)
-    - GTMSessionFetcher/Core (~> 3.4)
-  - FirebaseInstallations (11.2.0):
-    - FirebaseCore (~> 11.0)
-    - GoogleUtilities/Environment (~> 8.0)
-    - GoogleUtilities/UserDefaults (~> 8.0)
-    - PromisesObjC (~> 2.4)
-  - FirebaseMessaging (11.0.0):
-    - FirebaseCore (~> 11.0)
-    - FirebaseInstallations (~> 11.0)
-    - GoogleDataTransport (~> 10.0)
-    - GoogleUtilities/AppDelegateSwizzler (~> 8.0)
-    - GoogleUtilities/Environment (~> 8.0)
-    - GoogleUtilities/Reachability (~> 8.0)
-    - GoogleUtilities/UserDefaults (~> 8.0)
-    - nanopb (~> 3.30910.0)
-  - FirebaseMessagingInterop (11.2.0)
   - FirebaseSharedSwift (11.2.0)
   - Flutter (1.0.0)
   - flutter_native_splash (0.0.1):
     - Flutter
-  - GoogleDataTransport (10.1.0):
-    - nanopb (~> 3.30910.0)
-    - PromisesObjC (~> 2.4)
   - GoogleUtilities/AppDelegateSwizzler (8.0.2):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -1272,9 +1232,6 @@ PODS:
     - GoogleUtilities/Privacy
   - GoogleUtilities/Privacy (8.0.2)
   - GoogleUtilities/Reachability (8.0.2):
-    - GoogleUtilities/Logger
-    - GoogleUtilities/Privacy
-  - GoogleUtilities/UserDefaults (8.0.2):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
   - "gRPC-C++ (1.65.5)":
@@ -1381,7 +1338,6 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - PromisesObjC (2.4.0)
   - RecaptchaInterop (100.0.0)
   - share_plus (0.0.1):
     - Flutter
@@ -1396,10 +1352,8 @@ PODS:
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
-  - cloud_functions (from `.symlinks/plugins/cloud_functions/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
-  - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
@@ -1423,32 +1377,22 @@ SPEC REPOS:
     - FirebaseCoreInternal
     - FirebaseFirestore
     - FirebaseFirestoreInternal
-    - FirebaseFunctions
-    - FirebaseInstallations
-    - FirebaseMessaging
-    - FirebaseMessagingInterop
     - FirebaseSharedSwift
-    - GoogleDataTransport
     - GoogleUtilities
     - "gRPC-C++"
     - gRPC-Core
     - GTMSessionFetcher
     - leveldb-library
     - nanopb
-    - PromisesObjC
     - RecaptchaInterop
 
 EXTERNAL SOURCES:
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
-  cloud_functions:
-    :path: ".symlinks/plugins/cloud_functions/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
-  firebase_messaging:
-    :path: ".symlinks/plugins/firebase_messaging/ios"
   Flutter:
     :path: Flutter
   flutter_native_splash:
@@ -1472,11 +1416,9 @@ SPEC CHECKSUMS:
   abseil: d121da9ef7e2ff4cab7666e76c5a3e0915ae08c3
   BoringSSL-GRPC: ca6a8e5d04812fce8ffd6437810c2d46f925eaeb
   cloud_firestore: efded0403c9e674954e2788d93bc2772a5089557
-  cloud_functions: 167c9f94438de5c039036675878d9da3889f5d8f
   Firebase: 9f574c08c2396885b5e7e100ed4293d956218af9
   firebase_auth: f27287630c4d9e2c3c63e64d9240822ad6b07e5b
   firebase_core: 2ec6b789859c7c24766344ec71fdf78639402d56
-  firebase_messaging: a18e1e02b2e8e69097c8173e0c851be223b21c50
   FirebaseAppCheckInterop: ea21450529cf0ebd132788dd8916a0269abc684f
   FirebaseAuth: d5cf28be74d7e82257f6a3f717509eff70d3cf4a
   FirebaseAuthInterop: 47c09558af5d1b31f16fb352387c72d4804f4a24
@@ -1485,14 +1427,9 @@ SPEC CHECKSUMS:
   FirebaseCoreInternal: 0c569513412da9f3b31bd0b340013bbee8f295c5
   FirebaseFirestore: a1758850668dbb503537b7780a2a1fdc5e37c6ce
   FirebaseFirestoreInternal: 9fcc0ccb987ab73163f2249444e4bfd9eac63748
-  FirebaseFunctions: 49653511d8c966ad16c5c02acc2bfd642ef1cec1
-  FirebaseInstallations: 771177d89d6c451dc6e50085ec82e2fc77ed0a4a
-  FirebaseMessaging: d2d1d9c62c46dd2db49a952f7deb5b16ad2c9742
-  FirebaseMessagingInterop: 2bf06fae2d15b77b8e4ca872241f90e2c6285ef3
   FirebaseSharedSwift: 7a0d78d155ede78407f0fdc89fbc914014c7c540
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_native_splash: edf599c81f74d093a4daf8e17bd7a018854bc778
-  GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
   GoogleUtilities: 26a3abef001b6533cf678d3eb38fd3f614b7872d
   "gRPC-C++": 2fa52b3141e7789a28a737f251e0c45b4cb20a87
   gRPC-Core: a27c294d6149e1c39a7d173527119cfbc3375ce4
@@ -1502,7 +1439,6 @@ SPEC CHECKSUMS:
   leveldb-library: e8eadf9008a61f9e1dde3978c086d2b6d9b9dc28
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
-  PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   share_plus: 8875f4f2500512ea181eef553c3e27dba5135aad
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
