@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.empathetech.smoke_signal">
+    package="net.empathetech.smoke_signal">
    <application
         android:label="Smoke Signal"
         android:name="${applicationName}"

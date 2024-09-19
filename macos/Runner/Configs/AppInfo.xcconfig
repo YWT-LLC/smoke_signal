@@ -8,7 +8,7 @@
 PRODUCT_NAME = smoke_signal
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.empathetech.smokeSignal
+PRODUCT_BUNDLE_IDENTIFIER = net.empathetech.smokeSignal
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2024 com.empathetech. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2024 net.empathetech. All rights reserved.
