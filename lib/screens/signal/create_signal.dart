@@ -115,22 +115,28 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
         child: EzScrollView(
           children: <Widget>[
             // Title field
-            TextFormField(
-              key: titleFormKey,
-              controller: titleController,
-              initialValue: 'Signal title',
-              validator: signalTitleValidator,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
+            ConstrainedBox(
+              constraints: textFieldConstraints(context),
+              child: TextFormField(
+                key: titleFormKey,
+                controller: titleController,
+                initialValue: 'Signal title',
+                validator: signalTitleValidator,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+              ),
             ),
             spacer,
 
             // Message field
-            TextFormField(
-              key: messageFormKey,
-              controller: messageController,
-              initialValue: 'Notification',
-              validator: signalMessageValidator,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
+            ConstrainedBox(
+              constraints: textFieldConstraints(context),
+              child: TextFormField(
+                key: messageFormKey,
+                controller: messageController,
+                initialValue: 'Notification',
+                validator: signalMessageValidator,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+              ),
             ),
             spacer,
 

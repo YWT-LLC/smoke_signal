@@ -56,23 +56,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: Column(
                 children: <Widget>[
                   // Email field
-                  TextFormField(
-                    key: emailFormKey,
-                    controller: signUpEmailController,
-                    initialValue: 'Enter email',
-                    autofillHints: const <String>[AutofillHints.email],
-                    validator: emailValidator,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                  ConstrainedBox(
+                    constraints: textFieldConstraints(context),
+                    child: TextFormField(
+                      key: emailFormKey,
+                      controller: signUpEmailController,
+                      initialValue: 'Enter email',
+                      autofillHints: const <String>[AutofillHints.email],
+                      validator: emailValidator,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                    ),
                   ),
                   spacer,
 
                   // Password field
-                  TextFormField(
-                    key: passwordFormKey,
-                    controller: passwdController,
-                    initialValue: 'Enter password',
-                    obscureText: true,
-                    autofillHints: const <String>[AutofillHints.password],
+                  ConstrainedBox(
+                    constraints: textFieldConstraints(context),
+                    child: TextFormField(
+                      key: passwordFormKey,
+                      controller: passwdController,
+                      initialValue: 'Enter password',
+                      obscureText: true,
+                      autofillHints: const <String>[AutofillHints.password],
+                    ),
                   ),
                 ],
               ),

@@ -52,13 +52,16 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
           children: <Widget>[
             // Email form
             AutofillGroup(
-              child: TextFormField(
-                key: emailFormKey,
-                controller: emailController,
-                initialValue: 'Enter email',
-                autofillHints: const <String>[AutofillHints.email],
-                validator: emailValidator,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
+              child: ConstrainedBox(
+                constraints: textFieldConstraints(context),
+                child: TextFormField(
+                  key: emailFormKey,
+                  controller: emailController,
+                  initialValue: 'Enter email',
+                  autofillHints: const <String>[AutofillHints.email],
+                  validator: emailValidator,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                ),
               ),
             ),
             spacer,
