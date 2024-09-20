@@ -62,9 +62,13 @@ None, yet.
 
 ### Community support/free assets
 
-[pimen](https://pimen.itch.io/) for making the art for the default active image (Smoke Signal)
+[edermunizz](https://edermunizz.itch.io/) for making the art used for the "Dark Forest" background
 
-[edermunizz](https://edermunizz.itch.io/) for making the art for the "Dark Forest" background
+[ansimuz](https://ansimuz.itch.io/) for making the art used for the "Light Forest" background
+
+[pimen](https://pimen.itch.io/) for making the art used for the smoke signal
+
+
 
 ### Flutter libraries
 

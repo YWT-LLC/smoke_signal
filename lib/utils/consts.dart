@@ -10,16 +10,6 @@ import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 /// 'Smoke Signal'
 const String appTitle = 'Smoke Signal';
 
-/// Paths to asset files for [EzConfig.assetPaths]
-/// [appIconPath], [darkForestPath], [smokeSignalPath]
-final Set<String> assets = <String>{
-  appIconPath,
-  darkForestPath,
-  smokeSignalPath,
-};
-
-// Custom EzConfig keys
-
 /// 'signalImage'
 const String signalImageKey = 'signalImage';
 
@@ -44,12 +34,25 @@ const String appIconPath = 'assets/images/app-icon.png';
 /// 'assets/images/dark-forest.png'
 const String darkForestPath = 'assets/images/dark-forest.png';
 
+/// 'assets/images/light-forest.png'
+const String lightForestPath = 'assets/images/light-forest.png';
+
 /// 'assets/images/smoke-signal.gif'
 const String smokeSignalPath = 'assets/images/smoke-signal.gif';
 
+/// Paths to asset files for [EzConfig.assetPaths]
+/// [appIconPath], [darkForestPath], [smokeSignalPath]
+const Set<String> assets = <String>{
+  appIconPath,
+  darkForestPath,
+  lightForestPath,
+  smokeSignalPath,
+};
+
 /// Image path -> image source
-final Map<String, String> credits = <String, String>{
+const Map<String, String> credits = <String, String>{
   appIconPath: 'Empathetech LLC: The Founder\n\nUnnamed',
-  smokeSignalPath: 'https://pimen.itch.io/\n\n\'Smoke Effect\'',
   darkForestPath: 'https://edermunizz.itch.io/\n\n\'Dark Forest\'',
+  lightForestPath: 'https://ansimuz.itch.io/\n\n\'Light Forest\'',
+  smokeSignalPath: 'https://pimen.itch.io/\n\n\'Smoke Effect\'',
 };

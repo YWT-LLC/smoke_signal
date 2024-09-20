@@ -64,6 +64,7 @@ flutter:
     - assets/images/
     - assets/images/app-icon.png
     - assets/images/dark-forest.png
+    - assets/images/light-forest.png
     - assets/images/smoke-signal.gif
 
 flutter_launcher_icons:
