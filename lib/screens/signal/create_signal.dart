@@ -120,7 +120,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
               child: TextFormField(
                 key: titleFormKey,
                 controller: titleController,
-                initialValue: 'Signal title',
+                decoration: const InputDecoration(hintText: 'Signal title'),
                 validator: signalTitleValidator,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
               ),
@@ -133,7 +133,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
               child: TextFormField(
                 key: messageFormKey,
                 controller: messageController,
-                initialValue: 'Notification',
+                decoration: const InputDecoration(hintText: 'Notification'),
                 validator: signalMessageValidator,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
               ),

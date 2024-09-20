@@ -57,7 +57,7 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
                 child: TextFormField(
                   key: emailFormKey,
                   controller: emailController,
-                  initialValue: 'Enter email',
+                  decoration: const InputDecoration(hintText: 'Enter email'),
                   autofillHints: const <String>[AutofillHints.email],
                   validator: emailValidator,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
