@@ -13,10 +13,8 @@ export 'loading.dart';
 // Account //
 
 export 'account/auth.dart';
-export 'account/login.dart';
 export 'account/profile_settings.dart';
 export 'account/reset_password.dart';
-export 'account/sign_up.dart';
 
 // Signal //
 
@@ -36,12 +34,6 @@ export 'settings/text_settings.dart';
 //* Router paths *//
 
 // Account //
-
-/// 'login'
-const String loginPath = 'login';
-
-/// 'sign-up'
-const String signUpPath = 'sign-up';
 
 /// 'reset-password'
 const String resetPasswordPath = 'reset-password';

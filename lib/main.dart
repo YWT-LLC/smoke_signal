@@ -93,16 +93,6 @@ final GoRouter router = GoRouter(
       builder: (_, __) => const HomeScreen(),
       routes: <RouteBase>[
         GoRoute(
-          path: loginPath,
-          name: loginPath,
-          builder: (_, __) => const LoginScreen(),
-        ),
-        GoRoute(
-          path: signUpPath,
-          name: signUpPath,
-          builder: (_, __) => const SignUpScreen(),
-        ),
-        GoRoute(
           path: resetPasswordPath,
           name: resetPasswordPath,
           builder: (_, __) => const ResetPasswordScreen(),
