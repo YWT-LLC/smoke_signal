@@ -73,10 +73,15 @@ class SmokeSignalScaffold extends StatelessWidget {
 
         // Body
         body: body,
+
+        // FAB
         floatingActionButton: fab,
         floatingActionButtonLocation: isLefty
             ? FloatingActionButtonLocation.startFloat
             : FloatingActionButtonLocation.endFloat,
+
+        // Prevent the keyboard from pushing the body up
+        resizeToAvoidBottomInset: false,
       ),
     );
 
