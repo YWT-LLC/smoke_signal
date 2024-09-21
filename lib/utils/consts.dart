@@ -49,10 +49,10 @@ const Set<String> assets = <String>{
   smokeSignalPath,
 };
 
-/// Image path -> image source
+/// Image path -> image creator
 const Map<String, String> credits = <String, String>{
-  appIconPath: 'Empathetech LLC: The Founder\n\nUnnamed',
-  darkForestPath: 'https://edermunizz.itch.io/\n\n\'Dark Forest\'',
-  lightForestPath: 'https://ansimuz.itch.io/\n\n\'Light Forest\'',
-  smokeSignalPath: 'https://pimen.itch.io/\n\n\'Smoke Effect\'',
+  appIconPath: 'The Founder',
+  darkForestPath: 'https://edermunizz.itch.io/',
+  lightForestPath: 'https://ansimuz.itch.io/',
+  smokeSignalPath: 'https://pimen.itch.io/',
 };
