@@ -22,31 +22,38 @@ class SmokeSignalDrawer extends StatelessWidget {
     required this.header,
   });
 
+  static const EzSpacer _spacer = EzSpacer();
+
   // Return the build //
 
   @override
   Widget build(BuildContext context) {
-    const EzSpacer spacer = EzSpacer();
+    final ButtonStyle? style =
+        Theme.of(context).textButtonTheme.style?.copyWith(
+              backgroundColor:
+                  const WidgetStatePropertyAll<Color>(Colors.transparent),
+            );
 
     return NavigationDrawer(
       tilePadding: EdgeInsets.zero,
       children: <Widget>[
         header,
-        spacer,
+        _spacer,
 
         // GoTo settings
-        ElevatedButton.icon(
+        TextButton.icon(
           onPressed: () {
             Navigator.of(context).pop();
             context.goNamed(settingsPath);
           },
+          style: style,
           icon: Icon(PlatformIcons(context).settings),
           label: const Text('Settings'),
         ),
-        spacer,
+        _spacer,
 
         // Show input rules
-        ElevatedButton(
+        TextButton.icon(
           onPressed: () => showPlatformDialog(
             context: context,
             builder: (_) => EzAlertDialog(
@@ -54,9 +61,11 @@ class SmokeSignalDrawer extends StatelessWidget {
               content: const Text(validatorRule),
             ),
           ),
-          child: const Text('Input rules'),
+          style: style,
+          icon: const Icon(Icons.rule),
+          label: const Text('Input rules'),
         ),
-        spacer,
+        _spacer,
       ],
     );
   }
