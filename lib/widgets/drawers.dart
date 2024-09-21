@@ -28,11 +28,10 @@ class SmokeSignalDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle? style =
-        Theme.of(context).textButtonTheme.style?.copyWith(
-              backgroundColor:
-                  const WidgetStatePropertyAll<Color>(Colors.transparent),
-            );
+    final TextStyle style = Theme.of(context)
+        .textTheme
+        .titleLarge!
+        .copyWith(decoration: TextDecoration.none);
 
     return NavigationDrawer(
       tilePadding: EdgeInsets.zero,
@@ -41,29 +40,32 @@ class SmokeSignalDrawer extends StatelessWidget {
         _spacer,
 
         // GoTo settings
-        TextButton.icon(
-          onPressed: () {
+        EzLink(
+          'Settings',
+          style: style,
+          icon: Icon(PlatformIcons(context).settings),
+          backgroundColor: Colors.transparent,
+          onTap: () {
             Navigator.of(context).pop();
             context.goNamed(settingsPath);
           },
-          style: style,
-          icon: Icon(PlatformIcons(context).settings),
-          label: const Text('Settings'),
+          semanticsLabel: 'Settings',
         ),
         _spacer,
 
         // Show input rules
-        TextButton.icon(
-          onPressed: () => showPlatformDialog(
+        EzLink(
+          'Input rules',
+          style: style,
+          icon: const Icon(Icons.rule),
+          onTap: () => showPlatformDialog(
             context: context,
             builder: (_) => EzAlertDialog(
               title: const Text('Input rules', textAlign: TextAlign.center),
               content: const Text(inputRules, textAlign: TextAlign.center),
             ),
           ),
-          style: style,
-          icon: const Icon(Icons.rule),
-          label: const Text('Input rules'),
+          semanticsLabel: 'Input rules',
         ),
         _spacer,
       ],
