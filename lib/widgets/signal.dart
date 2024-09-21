@@ -111,7 +111,7 @@ class _SignalState extends State<Signal> {
       context: context,
       builder: (BuildContext dialogContext) {
         return EzAlertDialog(
-          title: Text(el10n.gOptions),
+          title: Text(el10n.gOptions, textAlign: TextAlign.center),
           contents: <Widget>[
             // Manage members
             ElevatedButton(
