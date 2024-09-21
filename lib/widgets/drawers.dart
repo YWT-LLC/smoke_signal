@@ -31,7 +31,7 @@ class SmokeSignalDrawer extends StatelessWidget {
     final TextStyle style = Theme.of(context)
         .textTheme
         .titleLarge!
-        .copyWith(decoration: TextDecoration.none);
+        .copyWith(fontWeight: FontWeight.normal);
 
     return NavigationDrawer(
       tilePadding: EdgeInsets.zero,
@@ -58,6 +58,7 @@ class SmokeSignalDrawer extends StatelessWidget {
           'Input rules',
           style: style,
           icon: const Icon(Icons.rule),
+          backgroundColor: Colors.transparent,
           onTap: () => showPlatformDialog(
             context: context,
             builder: (_) => EzAlertDialog(
