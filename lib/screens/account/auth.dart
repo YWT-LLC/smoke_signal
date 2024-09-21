@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -25,12 +26,17 @@ class _AuthScreenState extends State<AuthScreen> {
   static const EzSpacer spacer = EzSpacer();
   static const EzSeparator separator = EzSeparator();
 
+  late final double bodyTextSize =
+      Theme.of(context).textTheme.bodyLarge?.fontSize ?? 16;
+
   late final Lang l10n = Lang.of(context)!;
 
   // Define build data //
 
   final GlobalKey<FormState> emailFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> passwordFormKey = GlobalKey<FormState>();
+
+  bool showPwd = false;
 
   late final TextEditingController emailController = TextEditingController();
   late final TextEditingController passwdController = TextEditingController();
@@ -64,11 +70,12 @@ class _AuthScreenState extends State<AuthScreen> {
                     child: TextFormField(
                       key: emailFormKey,
                       controller: emailController,
-                      decoration:
-                          const InputDecoration(hintText: 'Enter email'),
+                      maxLines: 1,
                       autofillHints: const <String>[AutofillHints.email],
                       validator: emailValidator,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      autovalidateMode: AutovalidateMode.onUnfocus,
+                      decoration:
+                          const InputDecoration(hintText: 'Enter email'),
                     ),
                   ),
                   spacer,
@@ -79,10 +86,27 @@ class _AuthScreenState extends State<AuthScreen> {
                     child: TextFormField(
                       key: passwordFormKey,
                       controller: passwdController,
-                      decoration:
-                          const InputDecoration(hintText: 'Enter password'),
-                      obscureText: true,
+                      maxLines: 1,
                       autofillHints: const <String>[AutofillHints.password],
+                      obscureText: !showPwd,
+                      decoration: InputDecoration(
+                        hintText: 'Enter password',
+                        suffixIcon: Padding(
+                          padding: EdgeInsets.only(
+                            right: EzConfig.get(marginKey),
+                          ),
+                          child: InkWell(
+                            onTap: () => setState(() => showPwd = !showPwd),
+                            child: Icon(showPwd
+                                ? PlatformIcons(context).eyeSolid
+                                : PlatformIcons(context).eyeSlashSolid),
+                          ),
+                        ),
+                        suffixIconConstraints: BoxConstraints(
+                          minWidth: bodyTextSize,
+                          minHeight: bodyTextSize,
+                        ),
+                      ),
                     ),
                   ),
                 ],
