@@ -33,9 +33,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
   // Define build data //
 
-  final GlobalKey<FormState> emailFormKey = GlobalKey<FormState>();
-  final GlobalKey<FormState> passwordFormKey = GlobalKey<FormState>();
-
   bool showPwd = false;
 
   late final TextEditingController emailController = TextEditingController();
@@ -68,7 +65,6 @@ class _AuthScreenState extends State<AuthScreen> {
                   ConstrainedBox(
                     constraints: textFieldConstraints(context),
                     child: TextFormField(
-                      key: emailFormKey,
                       controller: emailController,
                       maxLines: 1,
                       autofillHints: const <String>[AutofillHints.email],
@@ -84,7 +80,6 @@ class _AuthScreenState extends State<AuthScreen> {
                   ConstrainedBox(
                     constraints: textFieldConstraints(context),
                     child: TextFormField(
-                      key: passwordFormKey,
                       controller: passwdController,
                       maxLines: 1,
                       autofillHints: const <String>[AutofillHints.password],
@@ -92,8 +87,8 @@ class _AuthScreenState extends State<AuthScreen> {
                       decoration: InputDecoration(
                         hintText: 'Enter password',
                         suffixIcon: Padding(
-                          padding: EdgeInsets.only(
-                            right: EzConfig.get(marginKey),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: EzConfig.get(marginKey),
                           ),
                           child: InkWell(
                             onTap: () => setState(() => showPwd = !showPwd),
@@ -124,7 +119,9 @@ class _AuthScreenState extends State<AuthScreen> {
                     closeKeyboard(context);
 
                     // Don't do anything if the input is invalid
-                    if (!emailFormKey.currentState!.validate()) {
+                    final String email = emailController.text.trim();
+
+                    if (emailValidator(email) != null) {
                       logAlert(context, message: 'Invalid email!');
                       return;
                     }
@@ -132,7 +129,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     // Attempt login
                     await attemptAccountCreation(
                       context,
-                      emailController.text.trim(),
+                      email,
                       passwdController.text.trim(),
                     );
                   },
@@ -146,15 +143,17 @@ class _AuthScreenState extends State<AuthScreen> {
                   onPressed: () async {
                     closeKeyboard(context);
 
-                    // Don't attempt login if we know the input is invalid
-                    if (!emailFormKey.currentState!.validate()) {
+                    // Don't do anything if the input is invalid
+                    final String email = emailController.text.trim();
+
+                    if (emailValidator(email) != null) {
                       logAlert(context, message: 'Invalid email!');
                       return;
                     }
 
                     await attemptLogin(
                       context,
-                      emailController.text.trim(),
+                      email,
                       passwdController.text.trim(),
                     );
                   },
