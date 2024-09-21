@@ -21,8 +21,6 @@ class ResetPasswordScreen extends StatefulWidget {
 class _ResetScreenState extends State<ResetPasswordScreen> {
   // Gather theme data //
 
-  static const EzSpacer spacer = EzSpacer();
-
   late final Lang l10n = Lang.of(context)!;
 
   // Set the page title //
@@ -57,14 +55,15 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
                 child: TextFormField(
                   key: emailFormKey,
                   controller: emailController,
-                  decoration: const InputDecoration(hintText: 'Enter email'),
+                  maxLines: 1,
                   autofillHints: const <String>[AutofillHints.email],
                   validator: emailValidator,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  autovalidateMode: AutovalidateMode.onUnfocus,
+                  decoration: const InputDecoration(hintText: 'Enter email'),
                 ),
               ),
             ),
-            spacer,
+            const EzSeparator(),
 
             // Submit button
             ElevatedButton.icon(
