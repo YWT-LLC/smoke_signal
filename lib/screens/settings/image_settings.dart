@@ -15,15 +15,16 @@ class ImageSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SmokeSignalScaffold(
+    return SmokeSignalScaffold(
       drawerHeader: standardDrawerHeader,
       body: ImageSettings(
+        darkBackgroundCredits: credits[darkForestPath],
+        lightBackgroundCredits: credits[lightForestPath],
         additionalSettings: <Widget>[
           EzImageSetting(
             configKey: signalImageKey,
             label: 'Signal',
-            // dialogTitle: ,
-            // credits: ,
+            credits: credits[smokeSignalPath],
             allowClear: false,
             updateThemeOption: false,
           ),
