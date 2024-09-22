@@ -13,7 +13,7 @@ class ColorSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const SmokeSignalScaffold(
-        drawerHeader: standardDrawerHeader,
+        drawerHeader: StandardHeader(),
         body: ColorSettings(),
       );
 }

@@ -13,7 +13,7 @@ class TextSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const SmokeSignalScaffold(
-        drawerHeader: standardDrawerHeader,
+        drawerHeader: StandardHeader(),
         body: TextSettings(),
       );
 }

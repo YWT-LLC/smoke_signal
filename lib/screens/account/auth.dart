@@ -51,7 +51,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return SmokeSignalScaffold(
-      drawerHeader: standardDrawerHeader,
+      drawerHeader: const StandardHeader(),
       body: EzScreen(
         alignment: Alignment.center,
         child: EzScrollView(

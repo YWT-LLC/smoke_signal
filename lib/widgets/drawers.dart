@@ -3,7 +3,7 @@
  * See LICENSE for distribution and usage details.
  */
 
-import '../utils/export.dart';
+import './export.dart';
 import '../screens/export.dart';
 
 import 'package:flutter/material.dart';
@@ -12,6 +12,9 @@ import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+
+/// 90.0; Chosen via visual inspection
+const double imageSize = 90.0;
 
 class SmokeSignalDrawer extends StatelessWidget {
   final Widget header;
@@ -72,21 +75,40 @@ class SmokeSignalDrawer extends StatelessWidget {
   }
 }
 
-/// Circle avatar of the app's icon
-/// For use on screen in which settings should be available, but no user is logged in
-const Widget standardDrawerHeader = DrawerHeader(
-  margin: EdgeInsets.zero,
-  padding: EdgeInsets.zero,
-  child: EzScrollView(
-    scrollDirection: Axis.horizontal,
-    mainAxisSize: MainAxisSize.min,
-    child: CircleAvatar(
-      backgroundImage: AssetImage(appIconPath),
-      minRadius: 50,
-      maxRadius: 50,
-    ),
-  ),
-);
+/// [appIcon] and welcome [Text] in a horizontal [EzScrollView]
+class StandardHeader extends StatelessWidget {
+  const StandardHeader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DrawerHeader(
+      margin: EdgeInsets.zero,
+      padding: EdgeInsets.zero,
+      child: EzScrollView(
+        scrollDirection: Axis.horizontal,
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.textScalerOf(context).scale(imageSize),
+            ),
+            child: const EzImage(
+              image: appIcon,
+              semanticLabel: 'App icon',
+            ),
+          ),
+          const EzSpacer(vertical: false),
+          Text(
+            "Sign in,\nfire's warm",
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 /// Custom drawer header for Signal Board
 /// Show profile information, GoTo profile settings, and logout
