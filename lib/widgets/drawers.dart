@@ -84,27 +84,32 @@ class StandardHeader extends StatelessWidget {
     return DrawerHeader(
       margin: EdgeInsets.zero,
       padding: EdgeInsets.zero,
-      child: EzScrollView(
-        scrollDirection: Axis.horizontal,
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            constraints: BoxConstraints(
-              maxHeight: MediaQuery.textScalerOf(context).scale(imageSize),
+      child: Center(
+        child: EzScrollView(
+          scrollDirection: Axis.horizontal,
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.textScalerOf(context).scale(imageSize),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(imageSize),
+                child: const EzImage(
+                  image: appIcon,
+                  semanticLabel: 'App icon',
+                ),
+              ),
             ),
-            child: const EzImage(
-              image: appIcon,
-              semanticLabel: 'App icon',
+            const EzSpacer(vertical: false),
+            Text(
+              "Sign in,\nfire's warm",
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
-          ),
-          const EzSpacer(vertical: false),
-          Text(
-            "Sign in,\nfire's warm",
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
