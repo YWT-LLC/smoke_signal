@@ -9,3 +9,6 @@ import 'package:flutter/material.dart';
 
 /// [AssetImage] of [smokeSignalPath]
 const ImageProvider signalGif = AssetImage(smokeSignalPath);
+
+/// [AssetImage] of [appIconPath]
+const ImageProvider appIcon = AssetImage(appIconPath);

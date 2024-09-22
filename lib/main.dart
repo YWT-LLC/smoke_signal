@@ -151,6 +151,7 @@ class SmokeSignal extends StatelessWidget {
   const SmokeSignal({super.key});
 
   Future<void> precacheImages(BuildContext context) async {
+    precacheImage(appIcon, context);
     precacheImage(signalGif, context);
   }
 
