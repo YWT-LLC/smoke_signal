@@ -44,7 +44,6 @@ class SmokeSignalDrawer extends StatelessWidget {
           'Settings',
           style: style,
           icon: Icon(PlatformIcons(context).settings),
-          backgroundColor: Colors.transparent,
           onTap: () {
             Navigator.of(context).pop();
             context.goNamed(settingsPath);
@@ -58,7 +57,6 @@ class SmokeSignalDrawer extends StatelessWidget {
           'Input rules',
           style: style,
           icon: const Icon(Icons.rule),
-          backgroundColor: Colors.transparent,
           onTap: () => showPlatformDialog(
             context: context,
             builder: (_) => EzAlertDialog(
