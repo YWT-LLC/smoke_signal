@@ -19,8 +19,9 @@ const double signalHeight = 200.0;
 /// '100.0'
 const double signalCountHeight = 100.0;
 
-const Map<String, Object> ssDefaults = <String, Object>{
+final Map<String, Object> ssDefaults = <String, Object>{
   ...empathetechConfig,
+  textBackgroundOKey: 0.75,
   darkBackgroundImageKey: darkForestPath,
   lightBackgroundImageKey: lightForestPath,
   signalImageKey: smokeSignalPath,
