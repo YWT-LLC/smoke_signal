@@ -165,11 +165,14 @@ class _AuthScreenState extends State<AuthScreen> {
             separator,
 
             // Forgot password
-            EzLink(
-              'Forgot your password?',
-              style: Theme.of(context).textTheme.bodyLarge!,
-              onTap: () => context.goNamed(resetPasswordPath),
-              semanticsLabel: 'Forgot your password?',
+            EzTextBackground(
+              EzLink(
+                'Forgot your password?',
+                style: Theme.of(context).textTheme.bodyLarge!,
+                onTap: () => context.goNamed(resetPasswordPath),
+                semanticsLabel: 'Forgot your password?',
+              ),
+              borderRadius: ezPillShape,
             ),
             spacer,
           ],
