@@ -33,7 +33,6 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
 
   // Define build data //
 
-  final GlobalKey<FormState> emailFormKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
 
   // Return the build //
@@ -53,13 +52,12 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
               child: ConstrainedBox(
                 constraints: textFieldConstraints(context),
                 child: TextFormField(
-                  key: emailFormKey,
                   controller: emailController,
                   maxLines: 1,
                   autofillHints: const <String>[AutofillHints.email],
+                  decoration: const InputDecoration(hintText: 'Enter email'),
                   validator: emailValidator,
                   autovalidateMode: AutovalidateMode.onUnfocus,
-                  decoration: const InputDecoration(hintText: 'Enter email'),
                 ),
               ),
             ),
@@ -70,17 +68,17 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
               onPressed: () async {
                 closeKeyboard(context);
 
+                final String email = emailController.text.trim();
+
                 // Don't do anything if the email is invalid
-                if (!emailFormKey.currentState!.validate()) {
+                if (emailValidator(email) != null) {
                   logAlert(context, message: 'Invalid email!');
                   return;
                 }
 
                 // Attempt reset
                 try {
-                  await AppUser.auth.sendPasswordResetEmail(
-                    email: emailController.text.trim(),
-                  );
+                  await AppUser.auth.sendPasswordResetEmail(email: email);
 
                   if (context.mounted) {
                     logAlert(

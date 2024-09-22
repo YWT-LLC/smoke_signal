@@ -36,9 +36,6 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
   bool isActive = false;
   final List<String> requestIDs = <String>[];
 
-  final GlobalKey<FormState> titleFormKey = GlobalKey<FormState>();
-  final GlobalKey<FormState> messageFormKey = GlobalKey<FormState>();
-
   late TextEditingController titleController = TextEditingController();
   late TextEditingController messageController = TextEditingController();
 
@@ -118,11 +115,11 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
             ConstrainedBox(
               constraints: textFieldConstraints(context),
               child: TextFormField(
-                key: titleFormKey,
                 controller: titleController,
+                maxLines: 2,
                 decoration: const InputDecoration(hintText: 'Signal title'),
                 validator: signalTitleValidator,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
+                autovalidateMode: AutovalidateMode.onUnfocus,
               ),
             ),
             spacer,
@@ -131,11 +128,11 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
             ConstrainedBox(
               constraints: textFieldConstraints(context),
               child: TextFormField(
-                key: messageFormKey,
                 controller: messageController,
+                maxLines: 1,
                 decoration: const InputDecoration(hintText: 'Notification'),
                 validator: signalMessageValidator,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
+                autovalidateMode: AutovalidateMode.onUnfocus,
               ),
             ),
             spacer,
@@ -189,11 +186,15 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
               onPressed: () async {
                 closeKeyboard(context);
 
-                // Don't do anything if the input is invalid
-                if (!titleFormKey.currentState!.validate()) {
+                // Don't do anything if the inputs are invalid
+                final String title = titleController.text.trim();
+                if (signalTitleValidator(title) != null) {
                   logAlert(context, message: 'Invalid title!');
                   return;
-                } else if (!messageFormKey.currentState!.validate()) {
+                }
+
+                final String message = messageController.text.trim();
+                if (signalMessageValidator(message) != null) {
                   logAlert(context, message: 'Invalid message!');
                   return;
                 }
@@ -201,8 +202,8 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                 // Attempt adding signal
                 final bool added = await addToDB(
                   context: context,
-                  title: titleController.text.trim(),
-                  message: messageController.text.trim(),
+                  title: title,
+                  message: message,
                   isActive: isActive,
                   requestIDs: requestIDs,
                 );
