@@ -10,6 +10,9 @@ import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 /// 'Smoke Signal'
 const String appTitle = 'Smoke Signal';
 
+/// 90.0; Chosen via visual inspection
+const double imageSize = 90.0;
+
 /// 'signalImage'
 const String signalImageKey = 'signalImage';
 
