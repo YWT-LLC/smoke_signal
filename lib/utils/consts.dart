@@ -26,8 +26,8 @@ final Map<String, Object> ssDefaults = <String, Object>{
   ...empathetechConfig,
   darkBackgroundImageKey: darkForestPath,
   lightBackgroundImageKey: lightForestPath,
-  darkTextBackgroundOKey: 0.25,
-  lightTextBackgroundOKey: 0.75,
+  darkTextBackgroundOKey: 0.35,
+  lightTextBackgroundOKey: 0.70,
   signalImageKey: smokeSignalPath,
 };
 
