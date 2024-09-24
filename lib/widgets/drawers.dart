@@ -15,17 +15,15 @@ import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class SmokeSignalDrawer extends StatelessWidget {
+  /// Recommended to use [DrawerHeader]
   final Widget header;
 
   /// Universal [NavigationDrawer] for Smoke Signal
-  const SmokeSignalDrawer({
-    super.key,
-    required this.header,
-  });
-
-  static const EzSpacer _spacer = EzSpacer();
+  const SmokeSignalDrawer({super.key, required this.header});
 
   // Return the build //
+
+  static const EzSpacer _spacer = EzSpacer();
 
   @override
   Widget build(BuildContext context) {
@@ -67,25 +65,24 @@ class SmokeSignalDrawer extends StatelessWidget {
           ),
           semanticsLabel: 'Input rules',
         ),
-        _spacer,
       ],
     );
   }
 }
 
 /// [appIcon] and welcome [Text] in a horizontal [EzScrollView]
-class StandardHeader extends StatelessWidget {
-  const StandardHeader({super.key});
+class LoginHeader extends StatelessWidget {
+  /// [DrawerHeader] for screens where their is no user logged in
+  const LoginHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
     return DrawerHeader(
-      margin: EdgeInsets.zero,
+      margin: EzMargin(),
       padding: EdgeInsets.zero,
       child: Center(
         child: EzScrollView(
           scrollDirection: Axis.horizontal,
-          mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
@@ -113,57 +110,65 @@ class StandardHeader extends StatelessWidget {
   }
 }
 
-/// Custom drawer header for Signal Board
-/// Show profile information, GoTo profile settings, and logout
-Widget signalDrawerHeader(BuildContext context, void Function() refresh) {
-  return Row(
-    mainAxisSize: MainAxisSize.max,
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: <Widget>[
-      // Profile image and name
-      Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          // Profile image
-          CircleAvatar(
-            foregroundImage: CachedNetworkImageProvider(
-              AppUser.account.photoURL ?? defaultAvatarURL,
+class LoggedInHeader extends StatelessWidget {
+  /// [DrawerHeader] for screens where the user is logged in
+  const LoggedInHeader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DrawerHeader(
+      margin: EzMargin(),
+      padding: EdgeInsets.zero,
+      child: Center(
+        child: EzScrollView(
+          scrollDirection: Axis.horizontal,
+          reverseHands: true,
+          children: <Widget>[
+            // Profile name and logout button
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment
+                  .spaceEvenly, // TODO: Are you sure about that?
+              children: <Widget>[
+                // Name
+                Text(
+                  AppUser.account.displayName ?? defaultDisplayName,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                EzSpacer(space: EzConfig.get(paddingKey)),
+
+                // Logout
+                IconButton(
+                  onPressed: () => logout(context),
+                  icon: const Icon(Icons.logout),
+                ),
+              ],
             ),
-            minRadius: 50,
-            maxRadius: 50,
-          ),
+            const EzSeparator(vertical: false),
 
-          // Profile name
-          Text(
-            AppUser.account.displayName ?? defaultDisplayName,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-        ],
+            // Profile link image
+            Container(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.textScalerOf(context).scale(imageSize),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(imageSize),
+                child: EzLinkImageProvider(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    context.goNamed(profileSettingsPath);
+                  },
+                  semanticLabel: 'Profile image: activate to edit',
+                  tooltip: 'Edit profile',
+                  image: CachedNetworkImageProvider(
+                    AppUser.account.photoURL ?? defaultAvatarURL,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
-
-      // Edit and logout buttons
-      Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          // Edit
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              context.goNamed(profileSettingsPath);
-            },
-            icon: Icon(PlatformIcons(context).edit),
-          ),
-          const EzSpacer(),
-
-          // Logout
-          IconButton(
-            onPressed: () => logout(context),
-            icon: const Icon(Icons.logout),
-          ),
-        ],
-      ),
-    ],
-  );
+    );
+  }
 }
