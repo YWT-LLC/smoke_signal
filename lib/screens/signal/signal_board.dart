@@ -64,6 +64,7 @@ class _SignalBoardState extends State<SignalBoard> {
     return SmokeSignalScaffold(
       title: 'Signals',
       drawerHeader: const LoggedInHeader(),
+      extraButtons: const <Widget>[LogoutButton()],
       body: EzScreen(
         child: EzScrollView(
           children: <Widget>[

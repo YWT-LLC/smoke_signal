@@ -108,6 +108,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
     return SmokeSignalScaffold(
       title: 'New signal',
       drawerHeader: const LoggedInHeader(),
+      extraButtons: const <Widget>[LogoutButton()],
       body: EzScreen(
         child: EzScrollView(
           children: <Widget>[

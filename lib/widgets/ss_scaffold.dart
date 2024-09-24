@@ -10,9 +10,17 @@ import 'package:flutter/material.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class SmokeSignalScaffold extends StatelessWidget {
+  /// [AppBar] title
   final String title;
+
+  /// Recommended to use [EzScreen] at the top level
   final Widget body;
+
+  /// Recommended to use [DrawerHeader]
   final Widget drawerHeader;
+
+  /// [SmokeSignalDrawer.extraButtons] passthrough
+  final List<Widget>? extraButtons;
 
   /// [FloatingActionButton]
   final Widget? fab;
@@ -23,6 +31,7 @@ class SmokeSignalScaffold extends StatelessWidget {
     this.title = appTitle,
     required this.body,
     required this.drawerHeader,
+    this.extraButtons,
     this.fab,
   });
 
@@ -44,7 +53,10 @@ class SmokeSignalScaffold extends StatelessWidget {
 
     // Define custom widgets //
 
-    final Widget drawer = SmokeSignalDrawer(header: drawerHeader);
+    final Widget drawer = SmokeSignalDrawer(
+      header: drawerHeader,
+      extraButtons: extraButtons,
+    );
 
     // Return the build //
 

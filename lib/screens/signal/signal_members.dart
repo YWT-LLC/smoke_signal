@@ -167,6 +167,7 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
     return SmokeSignalScaffold(
       title: '${signal.title} members',
       drawerHeader: const LoggedInHeader(),
+      extraButtons: const <Widget>[LogoutButton()],
       body: EzScreen(
         child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: userStream,
