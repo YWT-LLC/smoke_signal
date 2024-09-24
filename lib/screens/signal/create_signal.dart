@@ -139,7 +139,8 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
 
             // Toggle for current participation
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment
+                  .spaceEvenly, // TODO: Are you sure about that?
               children: <Widget>[
                 Text('Currently active?', style: titleStyle),
                 Checkbox(

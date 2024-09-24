@@ -89,7 +89,8 @@ class _SignalBoardState extends State<SignalBoard> {
 
                     return Column(
                       mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment
+                          .spaceEvenly, // TODO: Are you sure about that?
                       children: snapshot.data!.docs
                           .map((DocumentSnapshot<Map<String, dynamic>>
                                   signalDoc) =>
@@ -117,7 +118,8 @@ class _SignalBoardState extends State<SignalBoard> {
 
                     return Column(
                       mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment
+                          .spaceEvenly, // TODO: Are you sure about that?
                       children: snapshot.data!.docs
                           .map((DocumentSnapshot<Map<String, dynamic>>
                                   signalDoc) =>
