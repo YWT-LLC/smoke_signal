@@ -147,6 +147,12 @@ class LoggedInHeader extends StatelessWidget {
               constraints: BoxConstraints(
                 maxHeight: MediaQuery.textScalerOf(context).scale(imageSize),
               ),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                borderRadius: BorderRadius.circular(imageSize),
+              ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(imageSize),
                 child: EzLinkImageProvider(
