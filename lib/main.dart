@@ -43,7 +43,7 @@ void main() async {
 
   // Initialize firebase //
 
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   AppUser.auth = FirebaseAuth.instance;
 
   // Run the app //
