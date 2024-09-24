@@ -122,7 +122,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     final String email = emailController.text.trim();
 
                     if (emailValidator(email) != null) {
-                      logAlert(context, message: 'Invalid email!');
+                      await logAlert(context, message: 'Invalid email!');
                       return;
                     }
 
@@ -147,7 +147,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     final String email = emailController.text.trim();
 
                     if (emailValidator(email) != null) {
-                      logAlert(context, message: 'Invalid email!');
+                      await logAlert(context, message: 'Invalid email!');
                       return;
                     }
 
