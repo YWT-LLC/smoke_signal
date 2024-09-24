@@ -63,7 +63,7 @@ class _SignalBoardState extends State<SignalBoard> {
   Widget build(BuildContext context) {
     return SmokeSignalScaffold(
       title: 'Signals',
-      drawerHeader: signalDrawerHeader(context, refresh),
+      drawerHeader: const LoggedInHeader(),
       body: EzScreen(
         child: EzScrollView(
           children: <Widget>[

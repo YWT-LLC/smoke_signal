@@ -39,7 +39,7 @@ class _AppSettingsState extends State<SettingsHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return SmokeSignalScaffold(
-      drawerHeader: const StandardHeader(),
+      drawerHeader: const LoginHeader(),
       body: EzScreen(
         child: EzScrollView(
           children: <Widget>[

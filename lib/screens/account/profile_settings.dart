@@ -59,7 +59,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
   Widget build(BuildContext context) {
     return SmokeSignalScaffold(
       title: 'Edit Profile',
-      drawerHeader: const StandardHeader(),
+      drawerHeader: const LoginHeader(),
       body: EzScreen(
         alignment: Alignment.center,
         child: EzScrollView(

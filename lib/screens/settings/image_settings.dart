@@ -16,7 +16,7 @@ class ImageSettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SmokeSignalScaffold(
-      drawerHeader: const StandardHeader(),
+      drawerHeader: const LoginHeader(),
       body: ImageSettings(
         darkBackgroundCredits: credits[darkForestPath],
         lightBackgroundCredits: credits[lightForestPath],

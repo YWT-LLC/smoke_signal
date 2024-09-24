@@ -107,7 +107,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
   Widget build(BuildContext context) {
     return SmokeSignalScaffold(
       title: 'New signal',
-      drawerHeader: signalDrawerHeader(context, () {}),
+      drawerHeader: const LoggedInHeader(),
       body: EzScreen(
         child: EzScrollView(
           children: <Widget>[

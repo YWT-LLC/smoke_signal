@@ -41,7 +41,7 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
   Widget build(BuildContext context) {
     return SmokeSignalScaffold(
       title: 'No problem!',
-      drawerHeader: const StandardHeader(),
+      drawerHeader: const LoginHeader(),
       body: EzScreen(
         alignment: Alignment.center,
         child: EzScrollView(
