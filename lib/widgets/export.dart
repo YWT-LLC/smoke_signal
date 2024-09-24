@@ -6,5 +6,6 @@
 export './drawers.dart';
 export './images.dart';
 export './keys.dart';
+export './logout_button.dart';
 export './signal.dart';
 export './ss_scaffold.dart';
