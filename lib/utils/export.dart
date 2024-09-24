@@ -4,5 +4,6 @@
  */
 
 export 'consts.dart';
+export 'firebase_options.dart';
 
 export '../l10n/lang.dart';
