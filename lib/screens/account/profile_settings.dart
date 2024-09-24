@@ -23,6 +23,10 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
   // Gather theme data //
 
   static const EzSpacer spacer = EzSpacer();
+  final EzSpacer padder = EzSpacer(space: EzConfig.get(paddingKey));
+
+  final double spacing = EzConfig.get(spacingKey);
+  final double margin = EzConfig.get(marginKey);
 
   late final Lang l10n = Lang.of(context)!;
 
@@ -30,6 +34,12 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
 
   late String name = AppUser.account.displayName ?? defaultDisplayName;
   late String url = AppUser.account.photoURL ?? defaultAvatarURL;
+
+  late final TextEditingController nameController =
+      TextEditingController(text: name);
+
+  late final TextEditingController urlController =
+      TextEditingController(text: url);
 
   // Define custom functions //
 
@@ -61,46 +71,71 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
       title: 'Edit Profile',
       drawerHeader: const LoginHeader(),
       body: EzScreen(
-        alignment: Alignment.center,
         child: EzScrollView(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            if (spacing > margin) EzSpacer(space: spacing - margin),
+
+            // Display name
+            EzTextBackground(
+              Text(
+                name,
+                style: Theme.of(context).textTheme.titleLarge,
+                textAlign: TextAlign.center,
+              ),
+              useSurface: false,
+            ),
+            padder,
+
+            // Edit name
+            ElevatedButton.icon(
+              onPressed: () async {
+                final bool shouldRefresh = await editName(
+                  context: context,
+                  nameController: nameController,
+                );
+                if (shouldRefresh) await refreshName();
+              },
+              icon: Icon(PlatformIcons(context).edit),
+              label: const Text('New name'),
+            ),
+
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: widthOf(context) * 0.75),
+              child: const Divider(),
+            ),
+
             // Profile image
             CircleAvatar(
               foregroundImage: CachedNetworkImageProvider(url),
               minRadius: 100,
               maxRadius: 100,
             ),
-            spacer,
+            padder,
 
             // Edit picture
             ElevatedButton.icon(
               onPressed: () async {
-                final bool shouldRefresh = await editAvatar(context);
-                if (shouldRefresh) refreshPic();
+                final bool shouldRefresh = await editAvatar(
+                  context: context,
+                  urlController: urlController,
+                );
+                if (shouldRefresh) await refreshPic();
               },
               icon: Icon(PlatformIcons(context).photoCamera),
               label: const Text('New pic'),
-            ),
-            spacer,
-
-            // Display name
-            Text(name, style: Theme.of(context).textTheme.titleLarge),
-            spacer,
-
-            // Edit name
-            ElevatedButton.icon(
-              onPressed: () async {
-                final bool shouldRefresh = await editName(context);
-                if (shouldRefresh) refreshName();
-              },
-              icon: Icon(PlatformIcons(context).edit),
-              label: const Text('New name'),
             ),
             spacer,
           ],
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    urlController.dispose();
+    super.dispose();
   }
 }
