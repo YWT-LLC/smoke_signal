@@ -36,6 +36,7 @@ app.*.symbols
 app.*.map.json
 
 # Firebase related
+firebase_options.dart
 google-services.json
 GoogleService-Info.plist
 .firebaserc
