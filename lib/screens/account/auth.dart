@@ -151,7 +151,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     }
 
                     // Attempt login
-                    await attemptAccountCreation(
+                    await attemptSignUp(
                       context,
                       email,
                       passwdController.text.trim(),
