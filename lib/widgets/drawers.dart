@@ -18,8 +18,11 @@ class SmokeSignalDrawer extends StatelessWidget {
   /// Recommended to use [DrawerHeader]
   final Widget header;
 
+  /// Optional [extraButtons]
+  final List<Widget>? extraButtons;
+
   /// Universal [NavigationDrawer] for Smoke Signal
-  const SmokeSignalDrawer({super.key, required this.header});
+  const SmokeSignalDrawer({super.key, required this.header, this.extraButtons});
 
   // Return the build //
 
@@ -65,6 +68,11 @@ class SmokeSignalDrawer extends StatelessWidget {
           ),
           semanticsLabel: 'Input rules',
         ),
+
+        if (extraButtons != null) ...<Widget>[
+          _spacer,
+          ...extraButtons!,
+        ],
       ],
     );
   }
@@ -121,32 +129,20 @@ class LoggedInHeader extends StatelessWidget {
       padding: EdgeInsets.zero,
       child: Center(
         child: EzScrollView(
-          scrollDirection: Axis.horizontal,
-          reverseHands: true,
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            // Profile name and logout button
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment
-                  .spaceEvenly, // TODO: Are you sure about that?
-              children: <Widget>[
-                // Name
-                Text(
-                  AppUser.account.displayName ?? defaultDisplayName,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                EzSpacer(space: EzConfig.get(paddingKey)),
+            // Profile name and picture
 
-                // Logout
-                IconButton(
-                  onPressed: () => logout(context),
-                  icon: const Icon(Icons.logout),
-                ),
-              ],
+            // Name
+            Flexible(
+              child: Text(
+                AppUser.account.displayName ?? defaultDisplayName,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
-            const EzSeparator(vertical: false),
+            EzSpacer(space: EzConfig.get(marginKey)),
 
-            // Profile link image
+            // Picture
             Container(
               constraints: BoxConstraints(
                 maxHeight: MediaQuery.textScalerOf(context).scale(imageSize),
