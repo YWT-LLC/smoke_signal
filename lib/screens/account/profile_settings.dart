@@ -60,7 +60,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    setPageTitle('Profile settings');
+    setPageTitle('Profile settings', Theme.of(context).colorScheme.primary);
   }
 
   // Return the build //

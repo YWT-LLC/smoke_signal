@@ -43,7 +43,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    setPageTitle('Auth');
+    setPageTitle('Auth', Theme.of(context).colorScheme.primary);
   }
 
   // Return the build //

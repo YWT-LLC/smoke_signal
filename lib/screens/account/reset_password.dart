@@ -28,7 +28,7 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    setPageTitle('Reset password');
+    setPageTitle('Reset password', Theme.of(context).colorScheme.primary);
   }
 
   // Define build data //

@@ -54,7 +54,7 @@ class _SignalBoardState extends State<SignalBoard> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    setPageTitle('Signal board');
+    setPageTitle('Signal board', Theme.of(context).colorScheme.primary);
   }
 
   // Return the build //

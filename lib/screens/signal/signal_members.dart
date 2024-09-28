@@ -157,7 +157,7 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    setPageTitle('Signal members');
+    setPageTitle('Signal members', Theme.of(context).colorScheme.primary);
   }
 
   // Return the build //

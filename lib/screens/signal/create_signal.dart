@@ -98,7 +98,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    setPageTitle('Create signal');
+    setPageTitle('Create signal', Theme.of(context).colorScheme.primary);
   }
 
   // Return the build //

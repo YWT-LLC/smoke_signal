@@ -26,7 +26,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    setPageTitle('Loading');
+    setPageTitle('Loading', Theme.of(context).colorScheme.primary);
   }
 
   // Return the build //
