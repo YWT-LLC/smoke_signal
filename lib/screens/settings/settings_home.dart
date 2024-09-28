@@ -31,7 +31,7 @@ class _AppSettingsState extends State<SettingsHomeScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    setPageTitle(l10n.ssPageTitle);
+    setPageTitle(l10n.ssPageTitle, Theme.of(context).colorScheme.primary);
   }
 
   // Return the build //
