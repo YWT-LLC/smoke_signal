@@ -114,7 +114,7 @@ class _AuthScreenState extends State<AuthScreen> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 // Login
-                ElevatedButton.icon(
+                EzElevatedButton(
                   onPressed: () async {
                     closeKeyboard(context);
 
@@ -133,12 +133,12 @@ class _AuthScreenState extends State<AuthScreen> {
                     );
                   },
                   icon: const Icon(Icons.login),
-                  label: const Text('Login'),
+                  label: 'Login',
                 ),
                 const EzSwapSpacer(),
 
                 // Sign up
-                ElevatedButton.icon(
+                EzElevatedButton(
                   onPressed: () async {
                     closeKeyboard(context);
 
@@ -158,7 +158,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     );
                   },
                   icon: const Icon(Icons.edit_note_rounded),
-                  label: const Text('Sign up'),
+                  label: 'Sign up',
                 ),
               ],
             ),
