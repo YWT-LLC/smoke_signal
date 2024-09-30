@@ -153,8 +153,6 @@ class _SignalState extends State<Signal> {
             // Member: Leave signal
             Column(
               mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment
-                  .spaceEvenly, // ToDo: Are you sure about that?
               children: AppUser.account.uid == widget.owner
                   ? <Widget>[
                       // Reset
@@ -249,9 +247,6 @@ class _SignalState extends State<Signal> {
                     width: widthOf(context),
                     height: signalHeight,
                     child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment
-                          .spaceEvenly, // ToDo: Are you sure about that?
                       children: <Widget>[
                         // Icon image
                         SizedBox(
@@ -316,9 +311,6 @@ class _SignalState extends State<Signal> {
                   ? joinedColor
                   : watchingColor,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment
-                    .spaceEvenly, // ToDo: Are you sure about that?
-
                 // Check AppUser's current participation
                 children: activeMembers.contains(AppUser.account.uid)
                     ? <Widget>[
@@ -354,8 +346,6 @@ class _SignalState extends State<Signal> {
     } else if (memberRequests.contains(AppUser.account.uid)) {
       return Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment:
-            MainAxisAlignment.spaceEvenly, // ToDo: Are you sure about that?
         children: <Widget>[
           // Label
           SizedBox(
@@ -375,8 +365,6 @@ class _SignalState extends State<Signal> {
 
           // Buttons
           Row(
-            mainAxisAlignment:
-                MainAxisAlignment.spaceEvenly, // ToDo: Are you sure about that?
             children: <Widget>[
               ElevatedButton(
                 onPressed: () => declineInvite(context, title),

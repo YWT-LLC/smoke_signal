@@ -50,7 +50,6 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
       return PlatformListTile(
         // User info
         title: Row(
-          mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             // Profile image/avatar

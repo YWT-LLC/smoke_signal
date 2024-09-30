@@ -50,7 +50,6 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
       return PlatformListTile(
         // User info
         title: Row(
-          mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             // Profile image/avatar
@@ -140,8 +139,6 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
 
             // Toggle for current participation
             Row(
-              mainAxisAlignment: MainAxisAlignment
-                  .spaceEvenly, // ToDo: Are you sure about that?
               children: <Widget>[
                 Text('Currently active?', style: titleStyle),
                 Checkbox(
