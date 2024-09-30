@@ -141,7 +141,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
             // Toggle for current participation
             Row(
               mainAxisAlignment: MainAxisAlignment
-                  .spaceEvenly, // TODO: Are you sure about that?
+                  .spaceEvenly, // ToDo: Are you sure about that?
               children: <Widget>[
                 Text('Currently active?', style: titleStyle),
                 Checkbox(
@@ -171,7 +171,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                     if (snapshot.hasError) {
                       logAlert(context,
                           message: snapshot.error
-                              .toString()); // TODO: await (future builder or somethin?)
+                              .toString()); // ToDo: await (future builder or somethin?)
                       return const SizedBox.shrink();
                     }
 

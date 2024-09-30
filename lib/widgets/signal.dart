@@ -154,7 +154,7 @@ class _SignalState extends State<Signal> {
             Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment
-                  .spaceEvenly, // TODO: Are you sure about that?
+                  .spaceEvenly, // ToDo: Are you sure about that?
               children: AppUser.account.uid == widget.owner
                   ? <Widget>[
                       // Reset
@@ -251,7 +251,7 @@ class _SignalState extends State<Signal> {
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment
-                          .spaceEvenly, // TODO: Are you sure about that?
+                          .spaceEvenly, // ToDo: Are you sure about that?
                       children: <Widget>[
                         // Icon image
                         SizedBox(
@@ -317,7 +317,7 @@ class _SignalState extends State<Signal> {
                   : watchingColor,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment
-                    .spaceEvenly, // TODO: Are you sure about that?
+                    .spaceEvenly, // ToDo: Are you sure about that?
 
                 // Check AppUser's current participation
                 children: activeMembers.contains(AppUser.account.uid)
@@ -355,7 +355,7 @@ class _SignalState extends State<Signal> {
       return Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment:
-            MainAxisAlignment.spaceEvenly, // TODO: Are you sure about that?
+            MainAxisAlignment.spaceEvenly, // ToDo: Are you sure about that?
         children: <Widget>[
           // Label
           SizedBox(
@@ -376,7 +376,7 @@ class _SignalState extends State<Signal> {
           // Buttons
           Row(
             mainAxisAlignment:
-                MainAxisAlignment.spaceEvenly, // TODO: Are you sure about that?
+                MainAxisAlignment.spaceEvenly, // ToDo: Are you sure about that?
             children: <Widget>[
               ElevatedButton(
                 onPressed: () => declineInvite(context, title),

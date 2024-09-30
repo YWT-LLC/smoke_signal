@@ -86,14 +86,14 @@ class _SignalBoardState extends State<SignalBoard> {
                     if (snapshot.hasError) {
                       logAlert(context,
                           message: snapshot.error
-                              .toString()); // TODO: await (future builder or somethin?)
+                              .toString()); // ToDo: await (future builder or somethin?)
                       return const SizedBox.shrink();
                     }
 
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment
-                          .spaceEvenly, // TODO: Are you sure about that?
+                          .spaceEvenly, // ToDo: Are you sure about that?
                       children: snapshot.data!.docs
                           .map((DocumentSnapshot<Map<String, dynamic>>
                                   signalDoc) =>
@@ -117,14 +117,14 @@ class _SignalBoardState extends State<SignalBoard> {
                     if (snapshot.hasError) {
                       logAlert(context,
                           message: snapshot.error
-                              .toString()); // TODO: await (future builder or somethin?)
+                              .toString()); // ToDo: await (future builder or somethin?)
                       return const SizedBox.shrink();
                     }
 
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment
-                          .spaceEvenly, // TODO: Are you sure about that?
+                          .spaceEvenly, // ToDo: Are you sure about that?
                       children: snapshot.data!.docs
                           .map((DocumentSnapshot<Map<String, dynamic>>
                                   signalDoc) =>
