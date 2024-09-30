@@ -31,7 +31,7 @@ target 'Runner' do
 
   pod 'FirebaseFirestore',
     :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git',
-    :tag => '11.0.0'
+    :tag => '11.2.0'
     # https://github.com/firebase/flutterfire/blob/master/packages/firebase_core/firebase_core/ios/firebase_sdk_version.rb#L3
 
   flutter_install_all_macos_pods File.dirname(File.realpath(__FILE__))
