@@ -86,7 +86,7 @@ class LoginHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DrawerHeader(
-      margin: EzMargin(),
+      margin: EdgeInsets.all(EzConfig.get(marginKey)),
       padding: EdgeInsets.zero,
       child: Center(
         child: EzScrollView(
@@ -125,7 +125,7 @@ class LoggedInHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DrawerHeader(
-      margin: EzMargin(),
+      margin: EdgeInsets.all(EzConfig.get(marginKey)),
       padding: EdgeInsets.zero,
       child: Center(
         child: EzScrollView(
