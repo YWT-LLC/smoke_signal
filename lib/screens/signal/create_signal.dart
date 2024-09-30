@@ -166,9 +166,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                   case ConnectionState.done:
                   default:
                     if (snapshot.hasError) {
-                      logAlert(context,
-                          message: snapshot.error
-                              .toString()); // ToDo: await (future builder or somethin?)
+                      logAlert(context, message: snapshot.error.toString());
                       return const SizedBox.shrink();
                     }
 
