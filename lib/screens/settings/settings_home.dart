@@ -57,33 +57,37 @@ class _AppSettingsState extends State<SettingsHomeScreen> {
             spacer,
 
             const EzLocaleSetting(),
-            spacer,
+            separator,
 
             // Text settings
-            ElevatedButton(
+            EzElevatedButton(
               onPressed: () => context.goNamed(textSettingsPath),
-              child: Text(l10n.tsPageTitle),
+              icon: const Icon(Icons.navigate_next),
+              label: l10n.tsPageTitle,
             ),
             spacer,
 
             // Layout settings
-            ElevatedButton(
+            EzElevatedButton(
               onPressed: () => context.goNamed(layoutSettingsPath),
-              child: Text(l10n.lsPageTitle),
+              icon: const Icon(Icons.navigate_next),
+              label: l10n.lsPageTitle,
             ),
             spacer,
 
             // Color settings
-            ElevatedButton(
+            EzElevatedButton(
               onPressed: () => context.goNamed(colorSettingsPath),
-              child: Text(l10n.csPageTitle),
+              icon: const Icon(Icons.navigate_next),
+              label: l10n.csPageTitle,
             ),
             spacer,
 
             // Image settings
-            ElevatedButton(
+            EzElevatedButton(
               onPressed: () => context.goNamed(imageSettingsPath),
-              child: Text(l10n.isPageTitle),
+              icon: const Icon(Icons.navigate_next),
+              label: l10n.isPageTitle,
             ),
             separator,
 
