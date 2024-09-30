@@ -98,6 +98,12 @@ abstract class Lang {
     Locale('fr')
   ];
 
+  /// No description provided for @gLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading'**
+  String get gLoading;
+
   /// No description provided for @gSettingsHint.
   ///
   /// In en, this message translates to:
