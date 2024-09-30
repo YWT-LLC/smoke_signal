@@ -30,10 +30,10 @@ class SmokeSignalDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle style = Theme.of(context)
-        .textTheme
-        .titleLarge!
-        .copyWith(fontWeight: FontWeight.normal);
+    final TextTheme textTheme = Theme.of(context).textTheme;
+
+    final TextStyle style =
+        textTheme.bodyLarge!.copyWith(fontSize: textTheme.titleLarge!.fontSize);
 
     return NavigationDrawer(
       tilePadding: EdgeInsets.zero,
