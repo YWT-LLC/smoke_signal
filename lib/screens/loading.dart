@@ -17,29 +17,20 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  // Gather theme data //
-
-  late final Lang l10n = Lang.of(context)!;
-
-  // Set the page title //
+  late final String loading = Lang.of(context)!.gLoading;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    setPageTitle('Loading', Theme.of(context).colorScheme.primary);
+    setPageTitle(loading, Theme.of(context).colorScheme.primary);
   }
-
-  // Return the build //
 
   @override
   Widget build(BuildContext context) {
-    return const SmokeSignalScaffold(
-      drawerHeader: LoginHeader(),
+    return SmokeSignalScaffold(
+      drawerHeader: const LoginHeader(),
       body: EzScreen(
-        child: EzImage(
-          image: signalGif,
-          semanticLabel: 'Loading',
-        ),
+        child: EzImage(image: signalGif, semanticLabel: loading),
       ),
     );
   }
