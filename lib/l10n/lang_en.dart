@@ -7,5 +7,8 @@ class LangEn extends Lang {
   LangEn([String locale = 'en']) : super(locale);
 
   @override
+  String get gLoading => 'Loading';
+
+  @override
   String get gSettingsHint => 'Open the settings page';
 }

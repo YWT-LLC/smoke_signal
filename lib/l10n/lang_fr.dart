@@ -7,5 +7,8 @@ class LangFr extends Lang {
   LangFr([String locale = 'fr']) : super(locale);
 
   @override
+  String get gLoading => 'Chargement';
+
+  @override
   String get gSettingsHint => 'Ouvre la page des paramètres';
 }
