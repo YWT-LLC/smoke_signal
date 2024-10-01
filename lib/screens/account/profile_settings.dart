@@ -83,7 +83,6 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
                 style: Theme.of(context).textTheme.titleLarge,
                 textAlign: TextAlign.center,
               ),
-              useSurface: false,
             ),
             padder,
 

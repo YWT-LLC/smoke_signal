@@ -172,6 +172,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 onTap: () => context.goNamed(resetPasswordPath),
                 semanticsLabel: 'Forgot your password?',
               ),
+              useSurface: true,
               borderRadius: ezPillShape,
             ),
             spacer,
