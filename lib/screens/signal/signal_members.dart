@@ -124,7 +124,7 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
           spacer,
 
           // Submit button
-          ElevatedButton.icon(
+          EzElevatedButton(
             onPressed: () {
               Navigator.of(context).pop();
               requestMembers(
@@ -134,7 +134,7 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
               );
             },
             icon: Icon(PlatformIcons(context).cloudUpload),
-            label: const Text('Send requests'),
+            label: 'Send requests',
           ),
         ],
       );

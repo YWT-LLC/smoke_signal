@@ -188,7 +188,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
             spacer,
 
             // Add button
-            ElevatedButton.icon(
+            EzElevatedButton(
               onPressed: () async {
                 closeKeyboard(context);
 
@@ -217,7 +217,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                 if (added && context.mounted) Navigator.of(context).pop(true);
               },
               icon: Icon(PlatformIcons(context).cloudUpload),
-              label: const Text('Add'),
+              label: 'Add',
             ),
             spacer,
           ],

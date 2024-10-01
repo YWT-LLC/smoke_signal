@@ -64,7 +64,7 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
             const EzSeparator(),
 
             // Submit button
-            ElevatedButton.icon(
+            EzElevatedButton(
               onPressed: () async {
                 closeKeyboard(context);
 
@@ -96,7 +96,7 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
                 }
               },
               icon: Icon(PlatformIcons(context).mail),
-              label: const Text('Send link'),
+              label: 'Send link',
             ),
           ],
         ),

@@ -87,7 +87,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
             padder,
 
             // Edit name
-            ElevatedButton.icon(
+            EzElevatedButton(
               onPressed: () async {
                 final bool shouldRefresh = await editName(
                   context: context,
@@ -96,7 +96,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
                 if (shouldRefresh) await refreshName();
               },
               icon: Icon(PlatformIcons(context).edit),
-              label: const Text('New name'),
+              label: 'New name',
             ),
 
             ConstrainedBox(
@@ -113,7 +113,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
             padder,
 
             // Edit picture
-            ElevatedButton.icon(
+            EzElevatedButton(
               onPressed: () async {
                 final bool shouldRefresh = await editAvatar(
                   context: context,
@@ -122,7 +122,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
                 if (shouldRefresh) await refreshPic();
               },
               icon: Icon(PlatformIcons(context).photoCamera),
-              label: const Text('New pic'),
+              label: 'New pic',
             ),
             spacer,
           ],
