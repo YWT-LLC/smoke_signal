@@ -26,6 +26,9 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
   static const EzSpacer spacer = EzSpacer();
   final EzSpacer padder = EzSpacer(space: EzConfig.get(paddingKey));
 
+  final double margin = EzConfig.get(marginKey);
+  final double spacing = EzConfig.get(spacingKey);
+
   late final Lang l10n = Lang.of(context)!;
   late final TextStyle? titleStyle = Theme.of(context).textTheme.titleLarge;
 
@@ -111,12 +114,15 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
       body: EzScreen(
         child: EzScrollView(
           children: <Widget>[
+            if (spacing > margin) EzSpacer(space: spacing - margin),
+
             // Title field
             ConstrainedBox(
               constraints: textFieldConstraints(context),
               child: TextFormField(
                 controller: titleController,
                 maxLines: 2,
+                textAlign: TextAlign.center,
                 decoration: const InputDecoration(hintText: 'Signal title'),
                 validator: signalTitleValidator,
                 autovalidateMode: AutovalidateMode.onUnfocus,
@@ -130,6 +136,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
               child: TextFormField(
                 controller: messageController,
                 maxLines: 1,
+                textAlign: TextAlign.center,
                 decoration: const InputDecoration(hintText: 'Notification'),
                 validator: signalMessageValidator,
                 autovalidateMode: AutovalidateMode.onUnfocus,
