@@ -24,7 +24,6 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
   // Gather theme data //
 
   static const EzSpacer spacer = EzSpacer();
-  final EzSpacer padder = EzSpacer(space: EzConfig.get(paddingKey));
 
   final double margin = EzConfig.get(marginKey);
   final double spacing = EzConfig.get(spacingKey);
@@ -61,7 +60,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
               minRadius: 35,
               maxRadius: 35,
             ),
-            padder,
+            EzSpacer(space: EzConfig.get(marginKey)),
 
             // Display name
             Text(

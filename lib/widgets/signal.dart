@@ -60,7 +60,6 @@ class _SignalState extends State<Signal> {
   // Gather theme data //
 
   static const EzSpacer spacer = EzSpacer();
-  final EzSpacer padder = EzSpacer(space: EzConfig.get(paddingKey));
 
   late bool showIcon = EzConfig.get(showIconKey) ?? false;
 
@@ -361,7 +360,7 @@ class _SignalState extends State<Signal> {
               ),
             ),
           ),
-          padder,
+          EzSpacer(space: EzConfig.get(marginKey)),
 
           // Buttons
           Row(

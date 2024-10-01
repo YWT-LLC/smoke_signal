@@ -26,7 +26,6 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
   // Gather theme data //
 
   static const EzSpacer spacer = EzSpacer();
-  final EzSpacer padder = EzSpacer(space: EzConfig.get(paddingKey));
 
   late final Lang l10n = Lang.of(context)!;
 
@@ -58,7 +57,7 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
               minRadius: 35,
               maxRadius: 35,
             ),
-            padder,
+            EzSpacer(space: EzConfig.get(marginKey)),
 
             // Display name
             Text(profile.name, textAlign: TextAlign.start),

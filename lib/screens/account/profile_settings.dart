@@ -23,7 +23,8 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
   // Gather theme data //
 
   static const EzSpacer spacer = EzSpacer();
-  final EzSpacer padder = EzSpacer(space: EzConfig.get(paddingKey));
+
+  final EzSpacer titleMargin = EzSpacer(space: EzConfig.get(marginKey));
 
   final double spacing = EzConfig.get(spacingKey);
   final double margin = EzConfig.get(marginKey);
@@ -84,7 +85,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
                 textAlign: TextAlign.center,
               ),
             ),
-            padder,
+            titleMargin,
 
             // Edit name
             EzElevatedButton(
@@ -110,7 +111,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
               minRadius: 100,
               maxRadius: 100,
             ),
-            padder,
+            titleMargin,
 
             // Edit picture
             EzElevatedButton(
