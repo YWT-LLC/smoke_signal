@@ -26,6 +26,8 @@ class _AuthScreenState extends State<AuthScreen> {
   static const EzSpacer spacer = EzSpacer();
   static const EzSeparator separator = EzSeparator();
 
+  final double margin = EzConfig.get(marginKey);
+
   late final double bodyTextSize =
       Theme.of(context).textTheme.bodyLarge?.fontSize ?? 16;
 
@@ -87,9 +89,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       decoration: InputDecoration(
                         hintText: 'Enter password',
                         suffixIcon: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: EzConfig.get(marginKey),
-                          ),
+                          padding: EdgeInsets.symmetric(horizontal: margin),
                           child: InkWell(
                             onTap: () => setState(() => showPwd = !showPwd),
                             child: Icon(showPwd
@@ -173,6 +173,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 semanticsLabel: 'Forgot your password?',
               ),
               useSurface: true,
+              margin: EzInsets.col(margin),
               borderRadius: ezPillShape,
             ),
             spacer,
