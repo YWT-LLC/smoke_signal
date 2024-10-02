@@ -42,23 +42,21 @@ class SmokeSignalDrawer extends StatelessWidget {
         _spacer,
 
         // GoTo settings
-        EzLink(
-          'Settings',
+        EzIconLink(
           style: style,
-          icon: Icon(PlatformIcons(context).settings),
           onTap: () {
             Navigator.of(context).pop();
             context.goNamed(settingsPath);
           },
           semanticsLabel: 'Settings',
+          icon: Icon(PlatformIcons(context).settings),
+          label: 'Settings',
         ),
         _spacer,
 
         // Show input rules
-        EzLink(
-          'Input rules',
+        EzIconLink(
           style: style,
-          icon: const Icon(Icons.rule),
           onTap: () => showPlatformDialog(
             context: context,
             builder: (_) => EzAlertDialog(
@@ -67,6 +65,8 @@ class SmokeSignalDrawer extends StatelessWidget {
             ),
           ),
           semanticsLabel: 'Input rules',
+          icon: const Icon(Icons.rule),
+          label: 'Input rules',
         ),
 
         if (extraButtons != null) ...<Widget>[

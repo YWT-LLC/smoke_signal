@@ -14,14 +14,14 @@ class LogoutButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    return EzLink(
-      'Logout',
+    return EzIconLink(
       style: textTheme.bodyLarge!.copyWith(
         fontSize: textTheme.titleLarge!.fontSize,
       ),
-      icon: const Icon(Icons.logout),
       onTap: () => logout(context),
       semanticsLabel: 'Logout',
+      icon: const Icon(Icons.logout),
+      label: 'Logout',
     );
   }
 }
