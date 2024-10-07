@@ -26,6 +26,7 @@ class ImageSettingsScreen extends StatelessWidget {
             credits: credits[smokeSignalPath],
             allowClear: false,
             updateThemeOption: false,
+            showFitOption: false,
           ),
         ],
       ),
