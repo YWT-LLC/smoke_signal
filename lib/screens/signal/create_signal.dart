@@ -187,7 +187,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
             spacer,
 
             // Add button
-            EzElevatedButton(
+            EzElevatedIconButton(
               onPressed: () async {
                 closeKeyboard(context);
 

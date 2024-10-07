@@ -60,7 +60,7 @@ class _AppSettingsState extends State<SettingsHomeScreen> {
             separator,
 
             // Text settings
-            EzElevatedButton(
+            EzElevatedIconButton(
               onPressed: () => context.goNamed(textSettingsPath),
               icon: const Icon(Icons.navigate_next),
               label: l10n.tsPageTitle,
@@ -68,7 +68,7 @@ class _AppSettingsState extends State<SettingsHomeScreen> {
             spacer,
 
             // Layout settings
-            EzElevatedButton(
+            EzElevatedIconButton(
               onPressed: () => context.goNamed(layoutSettingsPath),
               icon: const Icon(Icons.navigate_next),
               label: l10n.lsPageTitle,
@@ -76,7 +76,7 @@ class _AppSettingsState extends State<SettingsHomeScreen> {
             spacer,
 
             // Color settings
-            EzElevatedButton(
+            EzElevatedIconButton(
               onPressed: () => context.goNamed(colorSettingsPath),
               icon: const Icon(Icons.navigate_next),
               label: l10n.csPageTitle,
@@ -84,7 +84,7 @@ class _AppSettingsState extends State<SettingsHomeScreen> {
             spacer,
 
             // Image settings
-            EzElevatedButton(
+            EzElevatedIconButton(
               onPressed: () => context.goNamed(imageSettingsPath),
               icon: const Icon(Icons.navigate_next),
               label: l10n.isPageTitle,

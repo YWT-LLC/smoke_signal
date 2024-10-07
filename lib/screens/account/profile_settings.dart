@@ -88,7 +88,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
             titleMargin,
 
             // Edit name
-            EzElevatedButton(
+            EzElevatedIconButton(
               onPressed: () async {
                 final bool shouldRefresh = await editName(
                   context: context,
@@ -114,7 +114,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
             titleMargin,
 
             // Edit picture
-            EzElevatedButton(
+            EzElevatedIconButton(
               onPressed: () async {
                 final bool shouldRefresh = await editAvatar(
                   context: context,

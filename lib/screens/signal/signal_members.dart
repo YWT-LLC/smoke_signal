@@ -123,7 +123,7 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
           spacer,
 
           // Submit button
-          EzElevatedButton(
+          EzElevatedIconButton(
             onPressed: () {
               Navigator.of(context).pop();
               requestMembers(

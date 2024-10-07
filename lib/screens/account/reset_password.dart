@@ -64,7 +64,7 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
             const EzSeparator(),
 
             // Submit button
-            EzElevatedButton(
+            EzElevatedIconButton(
               onPressed: () async {
                 closeKeyboard(context);
 
