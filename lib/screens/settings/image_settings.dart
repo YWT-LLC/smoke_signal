@@ -3,8 +3,7 @@
  * See LICENSE for distribution and usage details.
  */
 
-import 'package:smoke_signal/utils/consts.dart';
-
+import '../../utils/consts.dart';
 import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
