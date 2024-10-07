@@ -25,7 +25,9 @@ const double signalCountHeight = 100.0;
 final Map<String, Object> ssDefaults = <String, Object>{
   ...empathetechConfig,
   darkBackgroundImageKey: darkForestPath,
+  '$darkBackgroundImageKey$boxFitSuffix': fill,
   lightBackgroundImageKey: lightForestPath,
+  '$lightBackgroundImageKey$boxFitSuffix': fill,
   darkTextBackgroundOKey: 0.35,
   lightTextBackgroundOKey: 0.70,
   signalImageKey: smokeSignalPath,
