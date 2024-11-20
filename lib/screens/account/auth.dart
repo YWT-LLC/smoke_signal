@@ -65,7 +65,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 children: <Widget>[
                   // Email field
                   ConstrainedBox(
-                    constraints: textFieldConstraints(context),
+                    constraints: ezTextFieldConstraints(context),
                     child: TextFormField(
                       controller: emailController,
                       maxLines: 1,
@@ -80,7 +80,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
                   // Password field
                   ConstrainedBox(
-                    constraints: textFieldConstraints(context),
+                    constraints: ezTextFieldConstraints(context),
                     child: TextFormField(
                       controller: passwdController,
                       maxLines: 1,

@@ -50,7 +50,7 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
             // Email form
             AutofillGroup(
               child: ConstrainedBox(
-                constraints: textFieldConstraints(context),
+                constraints: ezTextFieldConstraints(context),
                 child: TextFormField(
                   controller: emailController,
                   maxLines: 1,

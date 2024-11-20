@@ -117,7 +117,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
 
             // Title field
             ConstrainedBox(
-              constraints: textFieldConstraints(context),
+              constraints: ezTextFieldConstraints(context),
               child: TextFormField(
                 controller: titleController,
                 maxLines: 2,
@@ -131,7 +131,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
 
             // Message field
             ConstrainedBox(
-              constraints: textFieldConstraints(context),
+              constraints: ezTextFieldConstraints(context),
               child: TextFormField(
                 controller: messageController,
                 maxLines: 1,
