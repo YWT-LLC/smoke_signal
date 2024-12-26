@@ -41,7 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
         return const LoadingScreen();
 
       case HomeBuildType.auth:
-      default:
         return const AuthScreen();
     }
   }
