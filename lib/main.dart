@@ -84,8 +84,11 @@ void main() async {
   ));
 }
 
+// Define routes //
+
 final GoRouter router = GoRouter(
   initialLocation: homePath,
+  errorBuilder: (_, GoRouterState state) => ErrorScreen(state.error),
   routes: <RouteBase>[
     GoRoute(
       path: homePath,
@@ -150,17 +153,20 @@ final GoRouter router = GoRouter(
 class SmokeSignal extends StatelessWidget {
   const SmokeSignal({super.key});
 
+  // Define setup functions //
+
   Future<void> precacheImages(BuildContext context) async {
     precacheImage(appIcon, context);
     precacheImage(signalGif, context);
   }
+
+  // Return the build //
 
   @override
   Widget build(BuildContext context) {
     precacheImages(context);
 
     return EzAppProvider(
-      scaffoldMessengerKey: scaffoldMessengerKey,
       app: PlatformApp.router(
         debugShowCheckedModeBanner: false,
         localizationsDelegates: <LocalizationsDelegate<dynamic>>{

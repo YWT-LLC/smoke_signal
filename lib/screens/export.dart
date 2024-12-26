@@ -7,6 +7,7 @@
 
 // General //
 
+export 'error.dart';
 export 'home.dart';
 export 'loading.dart';
 
