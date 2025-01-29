@@ -36,8 +36,8 @@ void main() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
 
   EzConfig.init(
+    assetPaths: assetPaths,
     preferences: prefs,
-    assetPaths: assets,
     defaults: ssDefaults,
   );
 
@@ -77,6 +77,7 @@ void main() async {
     localizationsDelegates: <LocalizationsDelegate<dynamic>>[
       const LocaleNamesLocalizationsDelegate(),
       ...EFUILang.localizationsDelegates,
+      ...Lang.localizationsDelegates,
       EmpathetechFeedbackLocalizationsDelegate(),
     ],
     localeOverride: EzConfig.getLocale(),
@@ -127,16 +128,44 @@ final GoRouter router = GoRouter(
               path: textSettingsPath,
               name: textSettingsPath,
               builder: (_, __) => const TextSettingsScreen(),
-            ),
-            GoRoute(
-              path: colorSettingsPath,
-              name: colorSettingsPath,
-              builder: (_, __) => const ColorSettingsScreen(),
+              routes: <RouteBase>[
+                GoRoute(
+                  path: EzSettingType.quick.path,
+                  name: 'text_${EzSettingType.quick.path}',
+                  builder: (_, __) =>
+                      const TextSettingsScreen(target: EzSettingType.quick),
+                ),
+                GoRoute(
+                  path: EzSettingType.advanced.path,
+                  name: 'text_${EzSettingType.advanced.path}',
+                  builder: (_, __) =>
+                      const TextSettingsScreen(target: EzSettingType.advanced),
+                ),
+              ],
             ),
             GoRoute(
               path: layoutSettingsPath,
               name: layoutSettingsPath,
               builder: (_, __) => const LayoutSettingsScreen(),
+            ),
+            GoRoute(
+              path: colorSettingsPath,
+              name: colorSettingsPath,
+              builder: (_, __) => const ColorSettingsScreen(),
+              routes: <RouteBase>[
+                GoRoute(
+                  path: EzSettingType.quick.path,
+                  name: 'color_${EzSettingType.quick.path}',
+                  builder: (_, __) =>
+                      const ColorSettingsScreen(target: EzSettingType.quick),
+                ),
+                GoRoute(
+                  path: EzSettingType.advanced.path,
+                  name: 'color_${EzSettingType.advanced.path}',
+                  builder: (_, __) =>
+                      const ColorSettingsScreen(target: EzSettingType.advanced),
+                ),
+              ],
             ),
             GoRoute(
               path: imageSettingsPath,
@@ -175,10 +204,7 @@ class SmokeSignal extends StatelessWidget {
           ...Lang.localizationsDelegates,
           EmpathetechFeedbackLocalizationsDelegate(),
         },
-        supportedLocales: const <Locale>[
-          ...EFUILang.supportedLocales,
-          ...Lang.supportedLocales,
-        ],
+        supportedLocales: Lang.supportedLocales,
         locale: EzConfig.getLocale(),
         title: appTitle,
         routerConfig: router,
