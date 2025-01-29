@@ -49,7 +49,7 @@ const String smokeSignalPath = 'assets/images/smoke-signal.gif';
 
 /// Paths to asset files for [EzConfig.assetPaths]
 /// [appIconPath], [darkForestPath], [smokeSignalPath]
-const Set<String> assets = <String>{
+const Set<String> assetPaths = <String>{
   appIconPath,
   darkForestPath,
   lightForestPath,
