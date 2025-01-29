@@ -19,7 +19,7 @@ class LogoutButton extends StatelessWidget {
         fontSize: textTheme.titleLarge!.fontSize,
       ),
       onTap: () => logout(context),
-      semanticsLabel: 'Logout',
+      hint: 'Logout',
       icon: const Icon(Icons.logout),
       label: 'Logout',
     );

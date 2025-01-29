@@ -28,7 +28,7 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    setPageTitle('Reset password', Theme.of(context).colorScheme.primary);
+    ezWindowNamer('Reset password', Theme.of(context).colorScheme.primary);
   }
 
   // Define build data //
@@ -72,7 +72,7 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
 
                 // Don't do anything if the email is invalid
                 if (emailValidator(email) != null) {
-                  await logAlert(context, message: 'Invalid email!');
+                  await ezLogAlert(context, message: 'Invalid email!');
                   return;
                 }
 
@@ -81,14 +81,14 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
                   await AppUser.auth.sendPasswordResetEmail(email: email);
 
                   if (context.mounted) {
-                    await logAlert(
+                    await ezLogAlert(
                       context,
                       message: 'Password reset email has been sent!',
                     );
                   }
                 } on Exception catch (e) {
                   if (context.mounted) {
-                    await logAlert(
+                    await ezLogAlert(
                       context,
                       message: 'Failed to send password reset email:\n$e',
                     );

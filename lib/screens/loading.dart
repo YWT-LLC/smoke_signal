@@ -22,7 +22,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    setPageTitle(loading, Theme.of(context).colorScheme.primary);
+    ezWindowNamer(loading, Theme.of(context).colorScheme.primary);
   }
 
   @override

@@ -16,7 +16,7 @@ class ImageSettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SmokeSignalScaffold(
       drawerHeader: const LoginHeader(),
-      body: ImageSettings(
+      body: EzImageSettings(
         darkBackgroundCredits: credits[darkForestPath],
         lightBackgroundCredits: credits[lightForestPath],
         additionalSettings: <Widget>[
@@ -30,6 +30,7 @@ class ImageSettingsScreen extends StatelessWidget {
           ),
         ],
       ),
+      fab: EzBackFAB(context),
     );
   }
 }

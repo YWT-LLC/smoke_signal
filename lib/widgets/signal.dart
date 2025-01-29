@@ -252,7 +252,7 @@ class _SignalState extends State<Signal> {
                           width: signalHeight,
                           height: signalHeight,
                           child: EzImage(
-                            image: provideImage(iconPathKey),
+                            image: ezImageProvider(iconPathKey),
                             semanticLabel: 'Semantics label',
                           ),
                         ),
@@ -315,7 +315,7 @@ class _SignalState extends State<Signal> {
                     ? <Widget>[
                         // Active: show the current count surrounded by smoke signals
                         EzImage(
-                          image: provideImage(signalImageKey),
+                          image: ezImageProvider(signalImageKey),
                           semanticLabel: 'Semantics label',
                         ),
                         Text(
@@ -323,7 +323,7 @@ class _SignalState extends State<Signal> {
                           style: joinedTextStyle,
                         ),
                         EzImage(
-                          image: provideImage(signalImageKey),
+                          image: ezImageProvider(signalImageKey),
                           semanticLabel: 'Semantics label',
                         ),
                       ]

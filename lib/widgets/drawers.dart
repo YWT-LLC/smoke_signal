@@ -48,7 +48,7 @@ class SmokeSignalDrawer extends StatelessWidget {
             Navigator.of(context).pop();
             context.goNamed(settingsPath);
           },
-          semanticsLabel: 'Settings',
+          hint: 'Settings',
           icon: Icon(PlatformIcons(context).settings),
           label: 'Settings',
         ),
@@ -64,7 +64,7 @@ class SmokeSignalDrawer extends StatelessWidget {
               content: const Text(inputRules, textAlign: TextAlign.center),
             ),
           ),
-          semanticsLabel: 'Input rules',
+          hint: 'Input rules',
           icon: const Icon(Icons.rule),
           label: 'Input rules',
         ),
@@ -160,7 +160,8 @@ class LoggedInHeader extends StatelessWidget {
                     Navigator.of(context).pop();
                     context.goNamed(profileSettingsPath);
                   },
-                  semanticLabel: 'Profile image: activate to edit',
+                  semanticLabel: 'Profile image.',
+                  hint: 'Activate to edit.',
                   tooltip: 'Edit profile',
                   image: CachedNetworkImageProvider(
                     AppUser.account.photoURL ?? defaultAvatarURL,

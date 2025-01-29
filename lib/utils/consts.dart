@@ -28,8 +28,8 @@ final Map<String, Object> ssDefaults = <String, Object>{
   '$darkBackgroundImageKey$boxFitSuffix': fill,
   lightBackgroundImageKey: lightForestPath,
   '$lightBackgroundImageKey$boxFitSuffix': fill,
-  darkTextBackgroundOKey: 0.35,
-  lightTextBackgroundOKey: 0.70,
+  darkTextBackgroundOpacityKey: 0.35,
+  lightTextBackgroundOpacityKey: 0.70,
   signalImageKey: smokeSignalPath,
 };
 

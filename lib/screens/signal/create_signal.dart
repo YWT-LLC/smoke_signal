@@ -99,7 +99,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    setPageTitle('Create signal', Theme.of(context).colorScheme.primary);
+    ezWindowNamer('Create signal', Theme.of(context).colorScheme.primary);
   }
 
   // Return the build //
@@ -172,7 +172,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                   case ConnectionState.done:
                   default:
                     if (snapshot.hasError) {
-                      logAlert(context, message: snapshot.error.toString());
+                      ezLogAlert(context, message: snapshot.error.toString());
                       return const SizedBox.shrink();
                     }
 
@@ -194,13 +194,13 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                 // Don't do anything if the inputs are invalid
                 final String title = titleController.text.trim();
                 if (signalTitleValidator(title) != null) {
-                  await logAlert(context, message: 'Invalid title!');
+                  await ezLogAlert(context, message: 'Invalid title!');
                   return;
                 }
 
                 final String message = messageController.text.trim();
                 if (signalMessageValidator(message) != null) {
-                  await logAlert(context, message: 'Invalid message!');
+                  await ezLogAlert(context, message: 'Invalid message!');
                   return;
                 }
 

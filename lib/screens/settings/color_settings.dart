@@ -9,11 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class ColorSettingsScreen extends StatelessWidget {
-  const ColorSettingsScreen({super.key});
+  final EzSettingType? target;
+
+  const ColorSettingsScreen({super.key, this.target});
 
   @override
-  Widget build(BuildContext context) => const SmokeSignalScaffold(
-        drawerHeader: LoginHeader(),
-        body: ColorSettings(),
+  Widget build(BuildContext context) => SmokeSignalScaffold(
+        drawerHeader: const LoginHeader(),
+        body: EzColorSettings(target: target),
+        fab: EzBackFAB(context),
       );
 }

@@ -45,7 +45,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    setPageTitle('Auth', Theme.of(context).colorScheme.primary);
+    ezWindowNamer('Auth', Theme.of(context).colorScheme.primary);
   }
 
   // Return the build //
@@ -122,7 +122,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     final String email = emailController.text.trim();
 
                     if (emailValidator(email) != null) {
-                      await logAlert(context, message: 'Invalid email!');
+                      await ezLogAlert(context, message: 'Invalid email!');
                       return;
                     }
 
@@ -146,7 +146,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     final String email = emailController.text.trim();
 
                     if (emailValidator(email) != null) {
-                      await logAlert(context, message: 'Invalid email!');
+                      await ezLogAlert(context, message: 'Invalid email!');
                       return;
                     }
 
@@ -170,7 +170,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 'Forgot your password?',
                 style: Theme.of(context).textTheme.bodyLarge!,
                 onTap: () => context.goNamed(resetPasswordPath),
-                semanticsLabel: 'Forgot your password?',
+                hint: 'Go to the password reset page',
               ),
               useSurface: true,
               margin: EzInsets.col(margin),

@@ -54,7 +54,7 @@ class _SignalBoardState extends State<SignalBoard> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    setPageTitle('Signal board', Theme.of(context).colorScheme.primary);
+    ezWindowNamer('Signal board', Theme.of(context).colorScheme.primary);
   }
 
   // Return the build //
@@ -84,7 +84,7 @@ class _SignalBoardState extends State<SignalBoard> {
                   case ConnectionState.done:
                   default:
                     if (snapshot.hasError) {
-                      logAlert(context, message: snapshot.error.toString());
+                      ezLogAlert(context, message: snapshot.error.toString());
                       return const SizedBox.shrink();
                     }
 
@@ -111,7 +111,7 @@ class _SignalBoardState extends State<SignalBoard> {
                   case ConnectionState.done:
                   default:
                     if (snapshot.hasError) {
-                      logAlert(context, message: snapshot.error.toString());
+                      ezLogAlert(context, message: snapshot.error.toString());
                       return const SizedBox.shrink();
                     }
 

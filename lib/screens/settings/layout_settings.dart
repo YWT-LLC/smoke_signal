@@ -12,8 +12,9 @@ class LayoutSettingsScreen extends StatelessWidget {
   const LayoutSettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => const SmokeSignalScaffold(
-        drawerHeader: LoginHeader(),
-        body: LayoutSettings(),
+  Widget build(BuildContext context) => SmokeSignalScaffold(
+        drawerHeader: const LoginHeader(),
+        body: const EzLayoutSettings(),
+        fab: EzBackFAB(context),
       );
 }
