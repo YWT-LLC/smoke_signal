@@ -1,11 +1,11 @@
 {
-    "name": "smoke_signal",
-    "short_name": "smoke_signal",
+    "name": "Smoke Signal",
+    "short_name": "Smoke Signal",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "An Empathetech live activities social network designed to keep us off our screens.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

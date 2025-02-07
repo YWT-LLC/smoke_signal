@@ -11,10 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:feedback/feedback.dart';
 import 'package:go_router/go_router.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
@@ -40,11 +37,6 @@ void main() async {
     preferences: prefs,
     defaults: ssDefaults,
   );
-
-  // Initialize firebase //
-
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  AppUser.auth = FirebaseAuth.instance;
 
   // Run the app //
   // With a feedback wrapper
