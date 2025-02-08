@@ -13,7 +13,7 @@ import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-class Signal extends StatefulWidget {
+class SignalCard extends StatefulWidget {
   final String owner;
   final String title;
   final String message;
@@ -23,7 +23,7 @@ class Signal extends StatefulWidget {
   final void Function() reloadBoard;
 
   /// Happy signaling!
-  const Signal({
+  const SignalCard({
     super.key,
     required this.owner,
     required this.title,
@@ -34,14 +34,14 @@ class Signal extends StatefulWidget {
     required this.reloadBoard,
   });
 
-  /// Construct a [Signal] from a Firebase signal [DocumentSnapshot]
-  static Signal buildSignal(
+  /// Construct a [SignalCard] from a Firebase signal [DocumentSnapshot]
+  static SignalCard buildSignal(
     DocumentSnapshot<Map<String, dynamic>> signalDoc,
     void Function() reloadBoard,
   ) {
     final Map<String, dynamic> data = signalDoc.data() as Map<String, dynamic>;
 
-    return Signal(
+    return SignalCard(
       title: signalDoc.id,
       message: data[messagePath],
       members: List<String>.from(data[membersPath]),
@@ -53,10 +53,10 @@ class Signal extends StatefulWidget {
   }
 
   @override
-  State<Signal> createState() => _SignalState();
+  State<SignalCard> createState() => _SignalState();
 }
 
-class _SignalState extends State<Signal> {
+class _SignalState extends State<SignalCard> {
   // Gather theme data //
 
   static const EzSpacer spacer = EzSpacer();
@@ -95,7 +95,7 @@ class _SignalState extends State<Signal> {
 
   // Define custom functions //
 
-  /// Toggle whether the [Signal]s icon ([Image]) is being shown
+  /// Toggle whether the [SignalCard]s icon ([Image]) is being shown
   void toggleIcon() async {
     showIcon
         ? await EzConfig.remove(showIconKey)
@@ -104,7 +104,7 @@ class _SignalState extends State<Signal> {
     setState(() {});
   }
 
-  /// Show all [Signal] edits the user can make
+  /// Show all [SignalCard] edits the user can make
   Future<dynamic> showEdits() {
     return showPlatformDialog(
       context: context,
@@ -118,7 +118,7 @@ class _SignalState extends State<Signal> {
                 Navigator.of(dialogContext).pop();
                 context.goNamed(
                   signalMembersPath,
-                  extra: Signal(
+                  extra: SignalCard(
                     owner: widget.owner,
                     title: title,
                     message: message,
@@ -230,7 +230,7 @@ class _SignalState extends State<Signal> {
 
       return Column(
         children: <Widget>[
-          // Signal button
+          // SignalCard button
           showIcon
               // With icon image
               ? GestureDetector(
@@ -301,7 +301,7 @@ class _SignalState extends State<Signal> {
                   ),
                 ),
 
-          // Signal count
+          // SignalCard count
           SizedBox(
             width: widthOf(context) * (2 / 3),
             height: signalCountHeight,
