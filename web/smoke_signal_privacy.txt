@@ -4,7 +4,7 @@ Smoke Signal Privacy Policy
 
 Smoke Signal does not send data outside your social network.
 
-There are no cookies, ads, or payments.
+There are no external cookies, ads, or payments.
 
 It's pretty chill.
 
@@ -18,7 +18,7 @@ Política de privacidad de Smoke Signal
 
 Smoke Signal no envía datos fuera de su red social.
 
-No hay cookies, anuncios ni pagos.
+No hay cookies externas, anuncios ni pagos.
 
 Es bastante tranquilo.
 
@@ -32,7 +32,7 @@ Politique de confidentialité d'Smoke Signal
 
 Smoke Signal n'envoie pas de données en dehors de votre réseau social.
 
-Il n'y a pas de cookies, de publicités ou de paiements.
+Il n'y a pas de cookies externes, de publicités ou de paiements.
 
 C'est plutôt cool.
 
