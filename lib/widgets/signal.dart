@@ -46,7 +46,7 @@ class _SignalCardState extends State<SignalCard> {
   // Define build data //
 
   // Aliases
-  late final String signalID = widget.signal.id;
+  late final String? signalID = widget.signal.id;
   late final User owner = widget.signal.owner;
   late final String title = widget.signal.title;
   late final String message = widget.signal.message;

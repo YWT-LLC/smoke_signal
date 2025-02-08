@@ -7,7 +7,6 @@ import '../../utils/export.dart';
 import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
@@ -33,7 +32,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
 
   // Define build data //
 
-  late Stream<QuerySnapshot<Map<String, dynamic>>> userStream;
+  Stream<User>? userStream;
 
   bool isActive = false;
   final List<String> requestIDs = <String>[];
@@ -91,7 +90,28 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
   @override
   void initState() {
     super.initState();
-    userStream = streamUsers();
+    getUsers();
+  }
+
+  void getUsers() async {
+    if (userStream == null) {
+      final dynamic results = await streamUsers();
+
+      if (context.mounted) {
+        switch (results.runtimeType) {
+          case const (Stream<User>):
+            userStream = results as Stream<User>;
+            break;
+          case const (String):
+            // ignore: use_build_context_synchronously
+            await ezLogAlert(context, message: results as String);
+            break;
+          default:
+            await ezLogAlert(context, message: 'Unknown error');
+            break;
+        }
+      }
+    }
   }
 
   // Set the page title //
@@ -205,15 +225,22 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                 }
 
                 // Attempt adding signal
-                final bool added = await addToDB(
-                  context: context,
+                final String? added = await addToDB(Signal(
                   title: title,
+                  description: '',
                   message: message,
-                  isActive: isActive,
-                  requestIDs: requestIDs,
-                );
+                  owner: AppUser,
+                  members: <User>[AppUser],
+                ));
 
-                if (added && context.mounted) Navigator.of(context).pop(true);
+                if (added == null) {
+                  if (context.mounted) Navigator.of(context).pop(true);
+                } else {
+                  if (context.mounted) {
+                    Navigator.of(context).pop(true);
+                    await ezLogAlert(context, message: 'Invalid title!');
+                  }
+                }
               },
               icon: Icon(PlatformIcons(context).cloudUpload),
               label: 'Add',
