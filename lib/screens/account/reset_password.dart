@@ -56,7 +56,7 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
                   maxLines: 1,
                   autofillHints: const <String>[AutofillHints.email],
                   decoration: const InputDecoration(hintText: 'Enter email'),
-                  validator: emailValidator,
+                  validator: validateEmail,
                   autovalidateMode: AutovalidateMode.onUnfocus,
                 ),
               ),
@@ -71,7 +71,7 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
                 final String email = emailController.text.trim();
 
                 // Don't do anything if the email is invalid
-                if (emailValidator(email) != null) {
+                if (validateEmail(email) != null) {
                   await ezLogAlert(context, message: 'Invalid email!');
                   return;
                 }

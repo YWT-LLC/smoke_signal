@@ -70,7 +70,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       controller: emailController,
                       maxLines: 1,
                       autofillHints: const <String>[AutofillHints.email],
-                      validator: emailValidator,
+                      validator: validateEmail,
                       autovalidateMode: AutovalidateMode.onUnfocus,
                       decoration:
                           const InputDecoration(hintText: 'Enter email'),
@@ -121,7 +121,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     // Don't do anything if the input is invalid
                     final String email = emailController.text.trim();
 
-                    if (emailValidator(email) != null) {
+                    if (validateEmail(email) != null) {
                       await ezLogAlert(context, message: 'Invalid email!');
                       return;
                     }
@@ -145,7 +145,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     // Don't do anything if the input is invalid
                     final String email = emailController.text.trim();
 
-                    if (emailValidator(email) != null) {
+                    if (validateEmail(email) != null) {
                       await ezLogAlert(context, message: 'Invalid email!');
                       return;
                     }

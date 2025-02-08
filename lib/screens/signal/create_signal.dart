@@ -123,7 +123,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                 maxLines: 2,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(hintText: 'Signal title'),
-                validator: signalTitleValidator,
+                validator: validateSignalTitle,
                 autovalidateMode: AutovalidateMode.onUnfocus,
               ),
             ),
@@ -137,7 +137,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                 maxLines: 1,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(hintText: 'Notification'),
-                validator: signalMessageValidator,
+                validator: validateSignalMessage,
                 autovalidateMode: AutovalidateMode.onUnfocus,
               ),
             ),
@@ -193,13 +193,13 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
 
                 // Don't do anything if the inputs are invalid
                 final String title = titleController.text.trim();
-                if (signalTitleValidator(title) != null) {
+                if (validateSignalTitle(title) != null) {
                   await ezLogAlert(context, message: 'Invalid title!');
                   return;
                 }
 
                 final String message = messageController.text.trim();
-                if (signalMessageValidator(message) != null) {
+                if (validateSignalMessage(message) != null) {
                   await ezLogAlert(context, message: 'Invalid message!');
                   return;
                 }
