@@ -8,6 +8,7 @@ import '../utils/export.dart';
 import '../screens/export.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -124,6 +125,8 @@ class LoggedInHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppUser? appUser = Provider.of<AppUserProvider>(context).value;
+
     return DrawerHeader(
       margin: EdgeInsets.all(EzConfig.get(marginKey)),
       padding: EdgeInsets.zero,
@@ -136,7 +139,7 @@ class LoggedInHeader extends StatelessWidget {
             // Name
             Flexible(
               child: Text(
-                AppUser.account.displayName ?? defaultDisplayName,
+                appUser?.displayName ?? defaultDisplayName,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
@@ -160,11 +163,11 @@ class LoggedInHeader extends StatelessWidget {
                     Navigator.of(context).pop();
                     context.goNamed(profileSettingsPath);
                   },
-                  semanticLabel: 'Profile image.',
+                  label: 'Profile image.',
                   hint: 'Activate to edit.',
                   tooltip: 'Edit profile',
                   image: CachedNetworkImageProvider(
-                    AppUser.account.photoURL ?? defaultAvatarURL,
+                    appUser?.avatarURL ?? defaultAvatarURL,
                   ),
                 ),
               ),
