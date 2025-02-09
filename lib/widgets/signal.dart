@@ -7,6 +7,7 @@ import '../utils/export.dart';
 import '../screens/export.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
@@ -45,12 +46,15 @@ class _SignalCardState extends State<SignalCard> {
 
   // Define build data //
 
-  // Aliases
-  late final String? signalID = widget.signal.id;
-  late final User owner = widget.signal.owner;
-  late final String title = widget.signal.title;
-  late final String message = widget.signal.message;
-  late final List<User> members = widget.signal.members;
+  late final AppUser appUser = Provider.of<AppUserProvider>(context).value!;
+
+  late final Signal signal = widget.signal;
+  late final String? signalID = signal.id;
+  late final User owner = signal.owner;
+  late final String title = signal.title;
+  late final String message = signal.message;
+  late final List<User> members = signal.members;
+  late final List<User> memberRequests = <User>[];
 
   late final String showIconKey = '${signalID}_show_icon';
   late final String iconPathKey = '${signalID}_icon_path';
@@ -64,6 +68,8 @@ class _SignalCardState extends State<SignalCard> {
   late final TextStyle? watchingTextStyle = textTheme.titleLarge?.copyWith(
     color: colorScheme.onPrimary,
   );
+
+  bool active = false;
 
   // Define custom functions //
 
@@ -90,7 +96,7 @@ class _SignalCardState extends State<SignalCard> {
                 Navigator.of(dialogContext).pop();
                 context.goNamed(
                   signalMembersPath,
-                  extra: widget.signal,
+                  extra: signal,
                 );
               },
               child: const Text('Members'),
@@ -116,13 +122,13 @@ class _SignalCardState extends State<SignalCard> {
             // Member: Leave signal
             Column(
               mainAxisSize: MainAxisSize.min,
-              children: AppUser.uid == owner
+              children: appUser.uid == owner.uid
                   ? <Widget>[
                       // Reset
                       ElevatedButton(
                         onPressed: () async {
                           Navigator.of(context).pop(true);
-                          await resetSignal(widget.signal);
+                          await resetSignal(signal);
                         },
                         child: const Text('Reset signal'),
                       ),
@@ -132,7 +138,7 @@ class _SignalCardState extends State<SignalCard> {
                       ElevatedButton(
                         onPressed: () async {
                           Navigator.of(context).pop();
-                          await updateMessage(widget.signal, title);
+                          await updateMessage(signal, title);
                         },
                         child: const Text('Update message'),
                       ),
@@ -142,7 +148,7 @@ class _SignalCardState extends State<SignalCard> {
                       ElevatedButton(
                         onPressed: () async {
                           Navigator.of(context).pop();
-                          await transferOwnership(widget.signal, AppUser);
+                          await transferOwnership(signal, appUser);
                         },
                         child: const Text('Transfer signal'),
                       ),
@@ -152,7 +158,7 @@ class _SignalCardState extends State<SignalCard> {
                       ElevatedButton(
                         onPressed: () async {
                           Navigator.of(context).pop();
-                          await deleteSignal(widget.signal);
+                          await deleteSignal(signal);
                         },
                         child: const Text('Delete signal'),
                       ),
@@ -162,7 +168,7 @@ class _SignalCardState extends State<SignalCard> {
                       ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).pop();
-                          leaveSignal(widget.signal);
+                          leaveSignal(signal);
                         },
                         child: const Text('Leave signal'),
                       ),
@@ -176,23 +182,14 @@ class _SignalCardState extends State<SignalCard> {
 
   @override
   Widget build(BuildContext context) {
-    if (members.contains()) {
-      // Current user is a member
-      final bool active = activeMembers.contains(AppUser.account.uid);
-
+    if (members.contains(appUser)) {
       return Column(
         children: <Widget>[
           // SignalCard button
           showIcon
               // With icon image
               ? GestureDetector(
-                  onTap: () => toggleParticipation(
-                    context: context,
-                    active: active,
-                    title: title,
-                    memberIDs: members,
-                    message: message,
-                  ),
+                  onTap: () => toggleParticipation(signal),
                   onLongPress: showEdits,
                   child: SizedBox(
                     width: widthOf(context),
@@ -230,13 +227,7 @@ class _SignalCardState extends State<SignalCard> {
                   ),
                 )
               : GestureDetector(
-                  onTap: () => toggleParticipation(
-                    context: context,
-                    active: active,
-                    title: title,
-                    memberIDs: members,
-                    message: message,
-                  ),
+                  onTap: () => toggleParticipation(signal),
                   onLongPress: showEdits,
                   child: SizedBox(
                     width: widthOf(context),
@@ -258,12 +249,10 @@ class _SignalCardState extends State<SignalCard> {
             width: widthOf(context) * (2 / 3),
             height: signalCountHeight,
             child: Card(
-              color: activeMembers.contains(AppUser.account.uid)
-                  ? joinedColor
-                  : defaultColor,
+              color: active ? joinedColor : defaultColor,
               child: Row(
                 // Check AppUser's current participation
-                children: activeMembers.contains(AppUser.account.uid)
+                children: active
                     ? <Widget>[
                         // Active: show the current count surrounded by smoke signals
                         EzImage(
@@ -271,7 +260,7 @@ class _SignalCardState extends State<SignalCard> {
                           semanticLabel: 'Semantics label',
                         ),
                         Text(
-                          activeMembers.length.toString(),
+                          '1', // TODO
                           style: joinedTextStyle,
                         ),
                         EzImage(
@@ -282,7 +271,7 @@ class _SignalCardState extends State<SignalCard> {
                     : <Widget>[
                         // Inactive: only show the current count
                         Text(
-                          activeMembers.length.toString(),
+                          '0', // TODO
                           style: watchingTextStyle,
                         ),
                       ],
@@ -294,7 +283,7 @@ class _SignalCardState extends State<SignalCard> {
       );
 
       // Current user is a prospective/requested member
-    } else if (memberRequests.contains(AppUser.account.uid)) {
+    } else if (memberRequests.contains(appUser)) {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
