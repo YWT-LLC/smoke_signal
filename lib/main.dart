@@ -9,6 +9,7 @@ import './widgets/export.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:feedback/feedback.dart';
 import 'package:go_router/go_router.dart';
 import 'package:empathetech_ss_api/empathetech_ss_api.dart';
@@ -189,18 +190,21 @@ class SmokeSignal extends StatelessWidget {
     precacheImages(context);
 
     return EzAppProvider(
-      app: PlatformApp.router(
-        debugShowCheckedModeBanner: false,
-        localizationsDelegates: <LocalizationsDelegate<dynamic>>{
-          const LocaleNamesLocalizationsDelegate(),
-          ...EFUILang.localizationsDelegates,
-          ...Lang.localizationsDelegates,
-          EmpathetechFeedbackLocalizationsDelegate(),
-        },
-        supportedLocales: Lang.supportedLocales,
-        locale: EzConfig.getLocale(),
-        title: appTitle,
-        routerConfig: router,
+      app: ChangeNotifierProvider<AppUserProvider>(
+        create: (_) => AppUserProvider(null),
+        child: PlatformApp.router(
+          debugShowCheckedModeBanner: false,
+          localizationsDelegates: <LocalizationsDelegate<dynamic>>{
+            const LocaleNamesLocalizationsDelegate(),
+            ...EFUILang.localizationsDelegates,
+            ...Lang.localizationsDelegates,
+            EmpathetechFeedbackLocalizationsDelegate(),
+          },
+          supportedLocales: Lang.supportedLocales,
+          locale: EzConfig.getLocale(),
+          title: appTitle,
+          routerConfig: router,
+        ),
       ),
     );
   }
