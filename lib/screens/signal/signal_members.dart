@@ -7,6 +7,7 @@ import '../../utils/export.dart';
 import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
@@ -25,26 +26,27 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
   // Gather theme data //
 
   static const EzSpacer spacer = EzSpacer();
+  final double iconSize = EzConfig.get(iconSizeKey);
 
   late final Lang l10n = Lang.of(context)!;
 
   // Define build data //
 
-  late final Signal signal = widget.signal;
-  final List<String> requestIDs = <String>[];
+  late final AppUser appUser = Provider.of<AppUserProvider>(context).value!;
 
-  late Stream<QuerySnapshot<Map<String, dynamic>>> userStream;
+  late Stream<List<User>> userStream;
+
+  late final Signal signal = widget.signal;
+  final List<User> requestedUsers = <User>[];
 
   // Define custom widgets //
 
   // Creates the widgets for the toggle list from the gathered profiles
-  List<PlatformListTile> buildSwitchTiles(List<UserProfile> profiles) {
-    final List<UserProfile> copy = List<UserProfile>.from(profiles);
-    copy.removeWhere(
-      (UserProfile profile) => profile.id == AppUser.account.uid,
-    );
+  List<PlatformListTile> buildSwitchTiles(List<User> users) {
+    final List<User> copy = List<User>.from(users);
+    copy.removeWhere((User user) => user == appUser);
 
-    return copy.map((UserProfile profile) {
+    return copy.map((User user) {
       return PlatformListTile(
         // User info
         title: Row(
@@ -52,25 +54,27 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
           children: <Widget>[
             // Profile image/avatar
             CircleAvatar(
-              foregroundImage: CachedNetworkImageProvider(profile.avatarURL),
-              minRadius: 35,
-              maxRadius: 35,
+              foregroundImage: user.avatarURL != null
+                  ? CachedNetworkImageProvider(user.avatarURL!)
+                  : null,
+              minRadius: iconSize,
+              maxRadius: iconSize,
             ),
             EzSpacer(space: EzConfig.get(marginKey)),
 
             // Display name
-            Text(profile.name, textAlign: TextAlign.start),
+            Text(user.displayName, textAlign: TextAlign.start),
           ],
         ),
 
         // Toggle
         trailing: Checkbox(
-          value: requestIDs.contains(profile.id),
+          value: requestedUsers.contains(user),
           onChanged: (bool? value) {
             if (value == true) {
-              setState(() => requestIDs.add(profile.id));
+              setState(() => requestedUsers.add(user));
             } else {
-              setState(() => requestIDs.remove(profile.id));
+              setState(() => requestedUsers.remove(user));
             }
           },
         ),
@@ -78,35 +82,35 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
     }).toList();
   }
 
-  Widget sortUsers(List<UserProfile> profiles) {
-    final List<UserProfile> memberProfiles = <UserProfile>[];
-    final List<UserProfile> activeProfiles = <UserProfile>[];
-    final List<UserProfile> pendingProfiles = <UserProfile>[];
-    final List<UserProfile> unAddedProfiles = <UserProfile>[];
+  Widget sortUsers(List<User> users) {
+    final List<User> memberProfiles = <User>[];
+    final List<User> activeProfiles = <User>[];
+    // final List<User> pendingProfiles = <User>[];
+    final List<User> unAddedProfiles = <User>[];
 
-    for (final UserProfile profile in profiles) {
-      if (signal.members.contains(profile.id)) {
-        memberProfiles.add(profile);
+    for (final User user in users) {
+      if (signal.members.contains(user)) {
+        memberProfiles.add(user);
 
-        if (signal.activeMembers.contains(profile.id)) {
-          activeProfiles.add(profile);
-        }
-      } else if (signal.memberRequests.contains(profile.id)) {
-        pendingProfiles.add(profile);
+        //   if (signal.activeMembers.contains(user.id)) {
+        //     activeProfiles.add(user);
+        //   }
+        // } else if (signal.memberRequests.contains(user.id)) {
+        //   pendingProfiles.add(user);
       } else {
-        unAddedProfiles.add(profile);
+        unAddedProfiles.add(user);
       }
     }
 
     final List<Widget> viewChildren = <Widget>[
       // Available members - show all pictures
       const Text('Available'),
-      showUserPics(context, memberProfiles),
+      UserCoinScroll(users: memberProfiles),
       spacer,
 
       // Active members - show all pictures
       const Text('Active'),
-      showUserPics(context, activeProfiles),
+      UserCoinScroll(users: activeProfiles),
       spacer,
     ];
 
@@ -114,8 +118,7 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
       // Addable users - expandable, toggle-able, profiles
       viewChildren.addAll(
         <Widget>[
-          addProfilesWindow(
-            context: context,
+          AddProfilesWindow(
             title: 'Add?',
             items: buildSwitchTiles(unAddedProfiles),
           ),
@@ -125,11 +128,7 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
           EzElevatedIconButton(
             onPressed: () {
               Navigator.of(context).pop();
-              requestMembers(
-                context: context,
-                title: signal.title,
-                toAdd: requestIDs,
-              );
+              requestMembers(signal, requestedUsers);
             },
             icon: Icon(PlatformIcons(context).cloudUpload),
             label: 'Send requests',
@@ -166,11 +165,11 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
       drawerHeader: const LoggedInHeader(),
       extraButtons: const <Widget>[LogoutButton()],
       body: EzScreen(
-        child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        child: StreamBuilder<List<User>>(
           stream: userStream,
           builder: (
-            BuildContext sBContext,
-            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
+            _,
+            AsyncSnapshot<List<User>> snapshot,
           ) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
@@ -183,7 +182,7 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
                 if (snapshot.hasError) {
                   return Center(child: Text(snapshot.error.toString()));
                 }
-                return sortUsers(buildProfiles(snapshot.data!.docs));
+                return sortUsers(snapshot.data!);
             }
           },
         ),

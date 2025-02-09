@@ -7,6 +7,7 @@ import '../../utils/export.dart';
 import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
@@ -33,8 +34,10 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
 
   // Define build data //
 
-  late String name = AppUser.account.displayName ?? defaultDisplayName;
-  late String url = AppUser.account.photoURL ?? defaultAvatarURL;
+  late final AppUser user = Provider.of<AppUserProvider>(context).value!;
+
+  late String name = user.displayName;
+  late String url = user.avatarURL ?? defaultAvatarURL;
 
   late final TextEditingController nameController =
       TextEditingController(text: name);
@@ -46,14 +49,12 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
 
   /// Get the display name from source
   Future<void> refreshName() async {
-    final String newName = await getName();
-    setState(() => name = newName);
+    doNothing(); // TODO
   }
 
   /// Get the pic URL from source
   Future<void> refreshPic() async {
-    final String newUrl = await getAvatar();
-    setState(() => url = newUrl);
+    doNothing(); // TODO
   }
 
   // Set the page title //
@@ -90,11 +91,8 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
             // Edit name
             EzElevatedIconButton(
               onPressed: () async {
-                final bool shouldRefresh = await editName(
-                  context: context,
-                  nameController: nameController,
-                );
-                if (shouldRefresh) await refreshName();
+                final dynamic shouldRefresh = await updateName('Caw');
+                if (shouldRefresh == null) await refreshName();
               },
               icon: Icon(PlatformIcons(context).edit),
               label: 'New name',
@@ -116,11 +114,9 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
             // Edit picture
             EzElevatedIconButton(
               onPressed: () async {
-                final bool shouldRefresh = await editAvatar(
-                  context: context,
-                  urlController: urlController,
-                );
-                if (shouldRefresh) await refreshPic();
+                final dynamic shouldRefresh = await updateAvatar(
+                    'https://media.istockphoto.com/id/537389352/photo/tropical-rainforest.jpg?s=612x612&w=0&k=20&c=Gbweh81zqVDWihcJ5KA_41C0bufuIkgxZkDLc9h4HpI=');
+                if (shouldRefresh == null) await refreshPic();
               },
               icon: Icon(PlatformIcons(context).photoCamera),
               label: 'New pic',
