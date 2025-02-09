@@ -7,6 +7,7 @@ import '../../utils/export.dart';
 import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
@@ -26,11 +27,14 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
 
   final double margin = EzConfig.get(marginKey);
   final double spacing = EzConfig.get(spacingKey);
+  final double iconSize = EzConfig.get(iconSizeKey);
 
   late final Lang l10n = Lang.of(context)!;
   late final TextStyle? titleStyle = Theme.of(context).textTheme.titleLarge;
 
   // Define build data //
+
+  late final AppUser appUser = Provider.of<AppUserProvider>(context).value!;
 
   Stream<User>? userStream;
 
@@ -41,13 +45,11 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
   late TextEditingController messageController = TextEditingController();
 
   /// Creates a [List] of [PlatformListTile]s for displaying [UserProfile]s alongside
-  List<PlatformListTile> buildSwitches(List<UserProfile> profiles) {
-    final List<UserProfile> copy = List<UserProfile>.from(profiles);
-    copy.removeWhere(
-      (UserProfile profile) => profile.id == AppUser.account.uid,
-    );
+  List<PlatformListTile> buildSwitches(List<User> users) {
+    final List<User> copy = List<User>.from(users);
+    copy.removeWhere((User user) => user == appUser);
 
-    return copy.map((UserProfile profile) {
+    return copy.map((User user) {
       return PlatformListTile(
         // User info
         title: Row(
@@ -55,15 +57,17 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
           children: <Widget>[
             // Profile image/avatar
             CircleAvatar(
-              foregroundImage: CachedNetworkImageProvider(profile.avatarURL),
-              minRadius: 35,
-              maxRadius: 35,
+              foregroundImage: user.avatarURL != null
+                  ? CachedNetworkImageProvider(user.avatarURL!)
+                  : null,
+              minRadius: iconSize,
+              maxRadius: iconSize,
             ),
             EzSpacer(space: EzConfig.get(marginKey)),
 
             // Display name
             Text(
-              profile.name,
+              user.displayName,
               style: titleStyle,
               textAlign: TextAlign.start,
             ),
@@ -72,12 +76,12 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
 
         // Toggle
         trailing: Checkbox(
-          value: requestIDs.contains(profile.id),
+          value: requestIDs.contains(user.uid),
           onChanged: (bool? value) {
             if (value == true) {
-              setState(() => requestIDs.add(profile.id));
+              setState(() => requestIDs.add(user.uid));
             } else {
-              setState(() => requestIDs.remove(profile.id));
+              setState(() => requestIDs.remove(user.uid));
             }
           },
         ),
@@ -179,10 +183,9 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
             spacer,
 
             // List of toggle-able members to send join requests on creation
-            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            StreamBuilder<User>(
               stream: userStream,
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+              builder: (_, AsyncSnapshot<User> snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
                     return const EzImage(
@@ -196,10 +199,9 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                       return const SizedBox.shrink();
                     }
 
-                    return addProfilesWindow(
-                      context: context,
+                    return const AddProfilesWindow(
                       title: 'Starting members',
-                      items: buildSwitches(buildProfiles(snapshot.data!.docs)),
+                      items: <PlatformListTile>[],
                     );
                 }
               },
@@ -229,8 +231,8 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                   title: title,
                   description: '',
                   message: message,
-                  owner: AppUser,
-                  members: <User>[AppUser],
+                  owner: appUser,
+                  members: <User>[appUser],
                 ));
 
                 if (added == null) {

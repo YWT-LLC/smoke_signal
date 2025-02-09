@@ -27,28 +27,21 @@ class _SignalBoardState extends State<SignalBoard> {
 
   // Define build data //
 
-  late Stream<QuerySnapshot<Map<String, dynamic>>> signalStream;
-  late Stream<QuerySnapshot<Map<String, dynamic>>> requestStream;
+  late Stream<List<Signal>> signalStream;
 
   // Define custom functions //
 
   void refresh() => setState(() {});
 
-  void reload() => setState(() {
-        signalStream = streamSignals(membersPath);
-        requestStream = streamSignals(memberRequestsPath);
-      });
+  void reload() => setState(() => signalStream = streamSignals());
 
   // Init //
 
   @override
   void initState() {
     super.initState();
-    signalStream = streamSignals(membersPath);
-    requestStream = streamSignals(memberRequestsPath);
+    signalStream = streamSignals();
   }
-
-  // Set the page title //
 
   @override
   void didChangeDependencies() {
@@ -68,12 +61,9 @@ class _SignalBoardState extends State<SignalBoard> {
         child: EzScrollView(
           children: <Widget>[
             // Signals the user is a member of
-            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            StreamBuilder<List<Signal>>(
               stream: signalStream,
-              builder: (
-                BuildContext sBContext,
-                AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
-              ) {
+              builder: (_, AsyncSnapshot<List<Signal>> snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
                     return const EzImage(
@@ -89,42 +79,43 @@ class _SignalBoardState extends State<SignalBoard> {
 
                     return Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: snapshot.data!.docs
-                          .map((DocumentSnapshot<Map<String, dynamic>>
-                                  signalDoc) =>
-                              Signal.buildSignal(signalDoc, reload))
+                      children: snapshot.data!
+                          .map((Signal signal) => SignalCard(
+                                signal: signal,
+                                reloadBoard: reload,
+                              ))
                           .toList(),
                     );
                 }
               },
             ),
 
-            // Signal requests pending the user's approval
-            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: requestStream,
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return const SizedBox.shrink();
-                  case ConnectionState.done:
-                  default:
-                    if (snapshot.hasError) {
-                      ezLogAlert(context, message: snapshot.error.toString());
-                      return const SizedBox.shrink();
-                    }
+            // // Signal requests pending the user's approval
+            // StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            //   stream: requestStream,
+            //   builder: (BuildContext context,
+            //       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            //     switch (snapshot.connectionState) {
+            //       case ConnectionState.waiting:
+            //         return const SizedBox.shrink();
+            //       case ConnectionState.done:
+            //       default:
+            //         if (snapshot.hasError) {
+            //           ezLogAlert(context, message: snapshot.error.toString());
+            //           return const SizedBox.shrink();
+            //         }
 
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: snapshot.data!.docs
-                          .map((DocumentSnapshot<Map<String, dynamic>>
-                                  signalDoc) =>
-                              Signal.buildSignal(signalDoc, reload))
-                          .toList(),
-                    );
-                }
-              },
-            ),
+            //         return Column(
+            //           mainAxisSize: MainAxisSize.min,
+            //           children: snapshot.data!.docs
+            //               .map((DocumentSnapshot<Map<String, dynamic>>
+            //                       signalDoc) =>
+            //                   Signal.buildSignal(signalDoc, reload))
+            //               .toList(),
+            //         );
+            //     }
+            //   },
+            // ),
           ],
         ),
       ),

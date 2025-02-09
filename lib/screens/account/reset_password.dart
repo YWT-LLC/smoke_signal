@@ -78,7 +78,7 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
 
                 // Attempt reset
                 try {
-                  await AppUser.auth.sendPasswordResetEmail(email: email);
+                  // await appUser.sendPasswordResetEmail();
 
                   if (context.mounted) {
                     await ezLogAlert(

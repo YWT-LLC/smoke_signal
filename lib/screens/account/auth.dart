@@ -126,10 +126,9 @@ class _AuthScreenState extends State<AuthScreen> {
                       return;
                     }
 
-                    await attemptLogin(
-                      context,
-                      email,
-                      passwdController.text.trim(),
+                    await login(
+                      email: email,
+                      password: passwdController.text.trim(),
                     );
                   },
                   icon: const Icon(Icons.login),
@@ -151,10 +150,9 @@ class _AuthScreenState extends State<AuthScreen> {
                     }
 
                     // Attempt login
-                    await attemptSignUp(
-                      context,
-                      email,
-                      passwdController.text.trim(),
+                    await signUp(
+                      email: email,
+                      password: passwdController.text.trim(),
                     );
                   },
                   icon: const Icon(Icons.edit_note_rounded),
