@@ -28,7 +28,7 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    ezWindowNamer('Reset password', Theme.of(context).colorScheme.primary);
+    ezWindowNamer(context, 'Reset password');
   }
 
   // Define build data //

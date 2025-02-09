@@ -61,7 +61,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    ezWindowNamer('Profile settings', Theme.of(context).colorScheme.primary);
+    ezWindowNamer(context, 'Profile settings');
   }
 
   // Return the build //

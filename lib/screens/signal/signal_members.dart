@@ -154,7 +154,7 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    ezWindowNamer('Signal members', Theme.of(context).colorScheme.primary);
+    ezWindowNamer(context, 'Signal members');
   }
 
   // Return the build //

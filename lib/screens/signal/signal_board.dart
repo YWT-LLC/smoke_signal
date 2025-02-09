@@ -53,7 +53,7 @@ class _SignalBoardState extends State<SignalBoard> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    ezWindowNamer('Signal board', Theme.of(context).colorScheme.primary);
+    ezWindowNamer(context, 'Signal board');
   }
 
   // Return the build //

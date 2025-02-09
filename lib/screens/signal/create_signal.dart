@@ -119,7 +119,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    ezWindowNamer('Create signal', Theme.of(context).colorScheme.primary);
+    ezWindowNamer(context, 'Create signal');
   }
 
   // Return the build //

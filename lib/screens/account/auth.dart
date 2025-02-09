@@ -45,7 +45,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    ezWindowNamer('Auth', Theme.of(context).colorScheme.primary);
+    ezWindowNamer(context, 'Auth');
   }
 
   // Return the build //
