@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    ezWindowNamer(context, Lang.of(context)!.gLoading); // TODO
+    ezWindowNamer(context, appTitle);
   }
 
   @override

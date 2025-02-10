@@ -4,8 +4,8 @@
  */
 
 import '../export.dart';
-import '../../widgets/export.dart';
 import '../../utils/export.dart';
+import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -163,16 +163,11 @@ class _AuthScreenState extends State<AuthScreen> {
             separator,
 
             // Forgot password
-            EzTextBackground(
-              EzLink(
-                'Forgot your password?',
-                style: Theme.of(context).textTheme.bodyLarge!,
-                onTap: () => context.goNamed(resetPasswordPath),
-                hint: 'Go to the password reset page',
-              ),
-              useSurface: true,
-              margin: EzInsets.col(margin),
-              borderRadius: ezPillShape,
+            EzLink(
+              'Forgot your password?',
+              style: Theme.of(context).textTheme.bodyLarge!,
+              onTap: () => context.goNamed(resetPasswordPath),
+              hint: 'Go to the password reset page',
             ),
             spacer,
           ],
