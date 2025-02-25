@@ -31,10 +31,7 @@ class SmokeSignalDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-
-    final TextStyle style =
-        textTheme.bodyLarge!.copyWith(fontSize: textTheme.titleLarge!.fontSize);
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return NavigationDrawer(
       tilePadding: EdgeInsets.zero,
@@ -43,29 +40,31 @@ class SmokeSignalDrawer extends StatelessWidget {
         _spacer,
 
         // GoTo settings
-        EzIconLink(
-          style: style,
-          onTap: () {
+        EzTextIconButton(
+          style: TextButton.styleFrom(
+            backgroundColor: colorScheme.surfaceContainer,
+          ),
+          onPressed: () {
             Navigator.of(context).pop();
             context.goNamed(settingsPath);
           },
-          hint: 'Settings',
           icon: Icon(PlatformIcons(context).settings),
           label: 'Settings',
         ),
         _spacer,
 
         // Show input rules
-        EzIconLink(
-          style: style,
-          onTap: () => showPlatformDialog(
+        EzTextIconButton(
+          style: TextButton.styleFrom(
+            backgroundColor: colorScheme.surfaceContainer,
+          ),
+          onPressed: () => showPlatformDialog(
             context: context,
             builder: (_) => EzAlertDialog(
               title: const Text('Input rules', textAlign: TextAlign.center),
               content: const Text(inputRules, textAlign: TextAlign.center),
             ),
           ),
-          hint: 'Input rules',
           icon: const Icon(Icons.rule),
           label: 'Input rules',
         ),
@@ -86,6 +85,8 @@ class LoginHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double iconSize = ezImageSize(context) * 0.667;
+
     return DrawerHeader(
       margin: EdgeInsets.all(EzConfig.get(marginKey)),
       padding: EdgeInsets.zero,
@@ -95,11 +96,9 @@ class LoginHeader extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              constraints: BoxConstraints(
-                maxHeight: MediaQuery.textScalerOf(context).scale(imageSize),
-              ),
+              constraints: BoxConstraints(maxHeight: iconSize),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(imageSize),
+                borderRadius: BorderRadius.circular(iconSize),
                 child: const EzImage(
                   image: appIcon,
                   semanticLabel: 'App icon',
@@ -125,6 +124,8 @@ class LoggedInHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double iconSize = ezImageSize(context) * 0.667;
+
     final AppUser? appUser = Provider.of<AppUserProvider>(context).value;
 
     return DrawerHeader(
@@ -147,17 +148,15 @@ class LoggedInHeader extends StatelessWidget {
 
             // Picture
             Container(
-              constraints: BoxConstraints(
-                maxHeight: MediaQuery.textScalerOf(context).scale(imageSize),
-              ),
+              constraints: BoxConstraints(maxHeight: iconSize),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                borderRadius: BorderRadius.circular(imageSize),
+                borderRadius: BorderRadius.circular(iconSize),
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(imageSize),
+                borderRadius: BorderRadius.circular(iconSize),
                 child: EzLinkImageProvider(
                   onTap: () {
                     Navigator.of(context).pop();
