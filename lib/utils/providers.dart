@@ -3,8 +3,9 @@
  * See LICENSE for distribution and usage details.
  */
 
+import '../../api/export.dart';
+
 import 'package:flutter/material.dart';
-import 'package:empathetech_ss_api/empathetech_ss_api.dart';
 
 class AppUserProvider extends ChangeNotifier {
   AppUser? _user;
