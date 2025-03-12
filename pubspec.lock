@@ -202,7 +202,7 @@ packages:
     source: hosted
     version: "2.1.1"
   email_validator:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: email_validator
       sha256: b19aa5d92fdd76fbc65112060c94d45ba855105a28bb6e462de7ff03b12fa1fb
@@ -216,13 +216,6 @@ packages:
       relative: true
     source: path
     version: "8.0.1"
-  empathetech_ss_api:
-    dependency: "direct main"
-    description:
-      path: "../empathetech_ss_api"
-      relative: true
-    source: path
-    version: "2.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -438,7 +431,7 @@ packages:
     source: hosted
     version: "0.15.5"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       sha256: fe7ab022b76f3034adc518fb6ea04a82387620e19977665ea18d30a1cf43442f
