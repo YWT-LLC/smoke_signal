@@ -101,19 +101,18 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
     if (userStream == null) {
       final dynamic results = await streamUsers();
 
-      if (context.mounted) {
-        switch (results.runtimeType) {
-          case const (Stream<User>):
-            userStream = results as Stream<User>;
-            break;
-          case const (String):
-            // ignore: use_build_context_synchronously
+      switch (results.runtimeType) {
+        case const (Stream<User>):
+          userStream = results as Stream<User>;
+          break;
+        case const (String):
+          if (mounted) {
             await ezLogAlert(context, message: results as String);
-            break;
-          default:
-            await ezLogAlert(context, message: 'Unknown error');
-            break;
-        }
+          }
+          break;
+        default:
+          await ezLogAlert(context, message: 'Unknown error');
+          break;
       }
     }
   }
