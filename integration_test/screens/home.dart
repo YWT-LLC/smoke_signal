@@ -16,7 +16,7 @@ void testSuite({
     testWidgets('home-screen', (WidgetTester tester) async {
       // Load the app //
 
-      debugPrint('Loading Smoke Signal');
+      ezLog('Loading Smoke Signal');
       await tester.pumpWidget(const SmokeSignal());
       await tester.pumpAndSettle();
     });
