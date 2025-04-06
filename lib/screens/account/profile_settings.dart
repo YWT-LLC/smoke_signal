@@ -97,11 +97,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
               icon: Icon(PlatformIcons(context).edit),
               label: 'New name',
             ),
-
-            ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: widthOf(context) * 0.75),
-              child: const Divider(),
-            ),
+            const EzDivider(),
 
             // Profile image
             CircleAvatar(
