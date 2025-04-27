@@ -19,8 +19,7 @@ const double signalHeight = 200.0;
 /// '100.0'
 const double signalCountHeight = 100.0;
 
-final Map<String, Object> ssDefaults = <String, Object>{
-  ...empathetechConfig,
+const Map<String, Object> ssConfigEntries = <String, Object>{
   darkBackgroundImageKey: darkForestPath,
   '$darkBackgroundImageKey$boxFitSuffix': fill,
   lightBackgroundImageKey: lightForestPath,

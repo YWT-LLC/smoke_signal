@@ -37,7 +37,9 @@ void main() async {
   EzConfig.init(
     assetPaths: assetPaths,
     preferences: prefs,
-    defaults: ssDefaults,
+    defaults: isMobile()
+        ? <String, Object>{...mobileEmpathConfig, ...ssConfigEntries}
+        : <String, Object>{...desktopEmpathConfig, ...ssConfigEntries},
   );
 
   // Run the app //
