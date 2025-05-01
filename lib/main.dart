@@ -35,11 +35,12 @@ void main() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
 
   EzConfig.init(
-    assetPaths: assetPaths,
     preferences: prefs,
     defaults: isMobile()
         ? <String, Object>{...mobileEmpathConfig, ...ssConfigEntries}
         : <String, Object>{...desktopEmpathConfig, ...ssConfigEntries},
+    fallbackLang: await EFUILang.delegate.load(english),
+    assetPaths: assetPaths,
   );
 
   // Run the app //
