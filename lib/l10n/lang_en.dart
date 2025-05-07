@@ -14,3 +14,14 @@ class LangEn extends Lang {
   @override
   String get gSettingsHint => 'Open the settings page';
 }
+
+/// The translations for English, as used in the United States (`en_US`).
+class LangEnUs extends LangEn {
+  LangEnUs() : super('en_US');
+
+  @override
+  String get gLoading => 'Loading';
+
+  @override
+  String get gSettingsHint => 'Open the settings page';
+}
