@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class SmokeSignalScaffold extends StatelessWidget {
-  /// [AppBar] title
+  /// [AppBar.title] passthrough (via [Text] widget)
   final String title;
 
   /// Recommended to use [EzScreen] at the top level
@@ -42,12 +42,7 @@ class SmokeSignalScaffold extends StatelessWidget {
     final bool isLefty = EzConfig.get(isLeftyKey) ?? false;
     // final EFUILang l10n = EFUILang.of(context)!;
 
-    final double toolbarHeight = ezTextSize(
-          appTitle,
-          style: Theme.of(context).appBarTheme.titleTextStyle,
-          context: context,
-        ).height +
-        EzConfig.get(marginKey);
+    final double toolbarHeight = ezToolbarHeight(context, appTitle);
 
     // Define custom widgets //
 
@@ -67,8 +62,14 @@ class SmokeSignalScaffold extends StatelessWidget {
             excludeHeaderSemantics: true,
             toolbarHeight: toolbarHeight,
 
+            // Leading (aka left)
+            leading: isLefty ? null : const EzBackAction(),
+            leadingWidth: toolbarHeight,
+
             // Title
             title: Text(title),
+            centerTitle: true,
+            titleSpacing: 0,
 
             // Actions (aka trailing aka right)
             actions: isLefty ? const <Widget>[EzBackAction()] : null,
