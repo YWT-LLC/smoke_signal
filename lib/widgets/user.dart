@@ -18,8 +18,8 @@ class NoUserCoin extends StatelessWidget {
   Widget build(BuildContext context) => GestureDetector(
         onLongPress: () => showPlatformDialog(
           context: context,
-          builder: (_) => EzAlertDialog(
-            title: const Text('Nobody!', textAlign: TextAlign.center),
+          builder: (_) => const EzAlertDialog(
+            title: Text('Nobody!', textAlign: TextAlign.center),
           ),
         ),
         child: Container(

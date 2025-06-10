@@ -60,9 +60,9 @@ class SmokeSignalDrawer extends StatelessWidget {
           ),
           onPressed: () => showPlatformDialog(
             context: context,
-            builder: (_) => EzAlertDialog(
-              title: const Text('Input rules', textAlign: TextAlign.center),
-              content: const Text(inputRules, textAlign: TextAlign.center),
+            builder: (_) => const EzAlertDialog(
+              title: Text('Input rules', textAlign: TextAlign.center),
+              content: Text(inputRules, textAlign: TextAlign.center),
             ),
           ),
           icon: const Icon(Icons.rule),
