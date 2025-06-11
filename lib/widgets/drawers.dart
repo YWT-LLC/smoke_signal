@@ -157,7 +157,7 @@ class LoggedInHeader extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(iconSize),
-                child: EzLinkImageProvider(
+                child: EzImageLink(
                   onTap: () {
                     Navigator.of(context).pop();
                     context.goNamed(profileSettingsPath);
