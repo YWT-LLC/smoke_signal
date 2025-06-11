@@ -17,6 +17,5 @@ class TextSettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) => SmokeSignalScaffold(
         drawerHeader: const LoginHeader(),
         body: EzTextSettings(target: target),
-        fab: EzBackFAB(context),
       );
 }

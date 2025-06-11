@@ -30,7 +30,6 @@ class ImageSettingsScreen extends StatelessWidget {
           ),
         ],
       ),
-      fab: EzBackFAB(context),
     );
   }
 }
