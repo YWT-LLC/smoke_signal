@@ -36,6 +36,11 @@ class _SignalCardState extends State<SignalCard> {
 
   static const EzSpacer spacer = EzSpacer();
 
+  final double signalHeight =
+      EzConfig.get(signalHeightKey) ?? EzConfig.getDefault(signalHeightKey);
+  final double signalCountHeight = EzConfig.get(signalCountHeightKey) ??
+      EzConfig.getDefault(signalCountHeightKey);
+
   late final ColorScheme colorScheme = Theme.of(context).colorScheme;
   late final Color joinedColor = colorScheme.secondary;
   late final Color defaultColor = colorScheme.primary;
