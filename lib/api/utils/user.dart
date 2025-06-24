@@ -43,7 +43,7 @@ Future<dynamic> login({
 }) async {
   try {
     final Response response = await post(
-      Uri.parse('https://your-activitypub-server.com/api/login'), // TODO
+      Uri.parse('https://your-activitypub-server.com/api/login'), // In progress
       body: jsonEncode(<String, String>{'email': email, 'password': password}),
       headers: <String, String>{'Content-Type': 'application/json'},
     );

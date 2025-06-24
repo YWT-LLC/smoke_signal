@@ -265,7 +265,7 @@ class _SignalCardState extends State<SignalCard> {
                           semanticLabel: 'Semantics label',
                         ),
                         Text(
-                          '1', // TODO
+                          '1',
                           style: joinedTextStyle,
                         ),
                         EzImage(
@@ -276,7 +276,7 @@ class _SignalCardState extends State<SignalCard> {
                     : <Widget>[
                         // Inactive: only show the current count
                         Text(
-                          '0', // TODO
+                          '0',
                           style: watchingTextStyle,
                         ),
                       ],

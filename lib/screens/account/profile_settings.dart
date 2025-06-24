@@ -49,12 +49,12 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
 
   /// Get the display name from source
   Future<void> refreshName() async {
-    doNothing(); // TODO
+    doNothing();
   }
 
   /// Get the pic URL from source
   Future<void> refreshPic() async {
-    doNothing(); // TODO
+    doNothing();
   }
 
   // Set the page title //
