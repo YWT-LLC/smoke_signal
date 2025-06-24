@@ -5,30 +5,6 @@
 
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
-// App config //
-
-/// 'Smoke Signal'
-const String appTitle = 'Smoke Signal';
-
-/// 'signalImage'
-const String signalImageKey = 'signalImage';
-
-/// '200.0'
-const double signalHeight = 200.0;
-
-/// '100.0'
-const double signalCountHeight = 100.0;
-
-const Map<String, Object> ssConfigEntries = <String, Object>{
-  darkBackgroundImageKey: darkForestPath,
-  '$darkBackgroundImageKey$boxFitSuffix': fill,
-  lightBackgroundImageKey: lightForestPath,
-  '$lightBackgroundImageKey$boxFitSuffix': fill,
-  darkTextBackgroundOpacityKey: 0.35,
-  lightTextBackgroundOpacityKey: 0.70,
-  signalImageKey: smokeSignalPath,
-};
-
 // Images //
 
 /// 'assets/images/app-icon.png'
@@ -43,8 +19,7 @@ const String lightForestPath = 'assets/images/light-forest.png';
 /// 'assets/images/smoke-signal.gif'
 const String smokeSignalPath = 'assets/images/smoke-signal.gif';
 
-/// Paths to asset files for [EzConfig.assetPaths]
-/// [appIconPath], [darkForestPath], [smokeSignalPath]
+/// Entries for [EzConfig.assetPaths]
 const Set<String> assetPaths = <String>{
   appIconPath,
   darkForestPath,
@@ -54,8 +29,62 @@ const Set<String> assetPaths = <String>{
 
 /// Image path -> image creator
 const Map<String, String> credits = <String, String>{
-  appIconPath: 'The Founder',
+  appIconPath: 'Michael Waldron',
   darkForestPath: 'https://edermunizz.itch.io/',
   lightForestPath: 'https://ansimuz.itch.io/',
   smokeSignalPath: 'https://pimen.itch.io/',
+};
+
+// EzConfig //
+
+/// 'Smoke Signal'
+const String appTitle = 'Smoke Signal';
+
+/// 'signal_image'
+const String signalImageKey = 'signal_image';
+
+/// 'signal_height'
+const String signalHeightKey = 'signal_height';
+
+/// 'signal_count_height'
+const String signalCountHeightKey = 'signal_count_height';
+
+final Map<String, Object> mobileSmokeSignalConfig = <String, Object>{
+  ...mobileEmpathConfig,
+
+  // Text settings
+  darkTextBackgroundOpacityKey: 0.35,
+  lightTextBackgroundOpacityKey: 0.70,
+
+  // TODO: Layout? Design?
+  signalHeightKey: 200.0,
+  signalCountHeightKey: 100.0,
+
+  // Image settings
+  darkBackgroundImageKey: darkForestPath,
+  '$darkBackgroundImageKey$boxFitSuffix': fill,
+  lightBackgroundImageKey: lightForestPath,
+  '$lightBackgroundImageKey$boxFitSuffix': fill,
+  signalImageKey: smokeSignalPath,
+  '$signalImageKey$boxFitSuffix': fill,
+};
+
+final Map<String, Object> desktopSmokeSignalConfig = <String, Object>{
+  ...desktopEmpathConfig,
+
+  // Text settings
+  darkTextBackgroundOpacityKey: 0.35,
+  lightTextBackgroundOpacityKey: 0.70,
+
+  // TODO: Layout? Design?
+  signalHeightKey: 250.0,
+  signalCountHeightKey: 125.0,
+
+  // Image settings
+  darkBackgroundImageKey: darkForestPath,
+  '$darkBackgroundImageKey$boxFitSuffix': fill,
+  lightBackgroundImageKey: lightForestPath,
+  '$lightBackgroundImageKey$boxFitSuffix': fill,
+  signalImageKey: smokeSignalPath,
+  '$signalImageKey$boxFitSuffix': fill,
 };

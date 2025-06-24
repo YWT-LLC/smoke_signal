@@ -36,9 +36,7 @@ void main() async {
 
   EzConfig.init(
     preferences: prefs,
-    defaults: isMobile()
-        ? <String, Object>{...mobileEmpathConfig, ...ssConfigEntries}
-        : <String, Object>{...desktopEmpathConfig, ...ssConfigEntries},
+    defaults: isMobile() ? mobileSmokeSignalConfig : desktopSmokeSignalConfig,
     fallbackLang: await EFUILang.delegate.load(english),
     assetPaths: assetPaths,
   );
