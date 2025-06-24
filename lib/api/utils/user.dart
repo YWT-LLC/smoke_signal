@@ -13,18 +13,19 @@ import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 // Me //
 
 /// Attempt user creation
-/// TODO: Attempt login if username is found
 Future<dynamic> signUp({
   required String email,
   required String password,
 }) async {
   try {
     final Response response = await post(
-      Uri.parse('https://your-activitypub-server.com/api/signUp'), // TODO
+      Uri.parse(
+          'https://your-activitypub-server.com/api/signUp'), // In progress
       body: jsonEncode(<String, String>{'email': email, 'password': password}),
       headers: <String, String>{'Content-Type': 'application/json'},
     );
 
+    // Add login attempt if username is found
     if (response.statusCode == 201) {
       return AppUser.fromJson(jsonDecode(response.body));
     } else {
@@ -36,7 +37,6 @@ Future<dynamic> signUp({
 }
 
 /// Attempt user authentication
-/// TODO: Attempt sign up if email is not found... make the vibe shift clear to the user
 Future<dynamic> login({
   required String email,
   required String password,
@@ -64,7 +64,7 @@ Future<String?> logout(BuildContext context) async {
     return route.settings.name == homePath;
   });
 
-  // TODO: Update the provider
+  // Update the provider
 
   return null;
 }

@@ -56,7 +56,7 @@ final Map<String, Object> mobileSmokeSignalConfig = <String, Object>{
   darkTextBackgroundOpacityKey: 0.35,
   lightTextBackgroundOpacityKey: 0.70,
 
-  // TODO: Layout? Design?
+  // Layout? Design?
   signalHeightKey: 200.0,
   signalCountHeightKey: 100.0,
 
@@ -76,7 +76,7 @@ final Map<String, Object> desktopSmokeSignalConfig = <String, Object>{
   darkTextBackgroundOpacityKey: 0.35,
   lightTextBackgroundOpacityKey: 0.70,
 
-  // TODO: Layout? Design?
+  // Layout? Design?
   signalHeightKey: 250.0,
   signalCountHeightKey: 125.0,
 
