@@ -19,7 +19,7 @@ class ImageSettingsScreen extends StatelessWidget {
       body: EzImageSettings(
         darkBackgroundCredits: credits[darkForestPath],
         lightBackgroundCredits: credits[lightForestPath],
-        additionalSettings: <Widget>[
+        afterBackground: <Widget>[
           EzImageSetting(
             configKey: signalImageKey,
             label: 'Signal',
