@@ -39,10 +39,9 @@ class SmokeSignalScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     // Gather the theme data //
 
-    final bool isLefty = EzConfig.get(isLeftyKey) ?? false;
-    // final EFUILang l10n = EFUILang.of(context)!;
-
     final double toolbarHeight = ezToolbarHeight(context, appTitle);
+
+    final bool isLefty = EzConfig.get(isLeftyKey) ?? false;
 
     // Define custom widgets //
 
@@ -53,53 +52,49 @@ class SmokeSignalScaffold extends StatelessWidget {
 
     // Return the build //
 
-    final Widget theBuild = SelectionArea(
-      child: Scaffold(
-        // AppBar
-        appBar: PreferredSize(
-          preferredSize: Size(double.infinity, toolbarHeight),
-          child: AppBar(
-            excludeHeaderSemantics: true,
-            toolbarHeight: toolbarHeight,
+    return EzAdaptiveScaffold(
+      small: SelectionArea(
+        child: Scaffold(
+          // AppBar
+          appBar: PreferredSize(
+            preferredSize: Size(double.infinity, toolbarHeight),
+            child: AppBar(
+              excludeHeaderSemantics: true,
+              toolbarHeight: toolbarHeight,
 
-            // Leading (aka left)
-            leading: isLefty ? null : const EzBackAction(),
-            leadingWidth: toolbarHeight,
+              // Leading (aka left)
+              leading: isLefty ? null : const EzBackAction(),
+              leadingWidth: toolbarHeight,
 
-            // Title
-            title: Text(title),
-            centerTitle: true,
-            titleSpacing: 0,
+              // Title
+              title: Text(title),
+              centerTitle: true,
+              titleSpacing: 0,
 
-            // Actions (aka trailing aka right)
-            actions: isLefty ? const <Widget>[EzBackAction()] : null,
+              // Actions (aka trailing aka right)
+              actions: isLefty ? const <Widget>[EzBackAction()] : null,
+            ),
           ),
+
+          // Drawer replaces leading (aka left)
+          drawer: isLefty ? drawer : null,
+
+          // End drawer replaces actions (aka trailing aka right)
+          endDrawer: isLefty ? null : drawer,
+
+          // Body
+          body: body,
+
+          // FAB
+          floatingActionButton: fab,
+          floatingActionButtonLocation: isLefty
+              ? FloatingActionButtonLocation.startFloat
+              : FloatingActionButtonLocation.endFloat,
+
+          // Prevent the keyboard from pushing the body up
+          resizeToAvoidBottomInset: false,
         ),
-
-        // Drawer replaces leading (aka left)
-        drawer: isLefty ? drawer : null,
-
-        // End drawer replaces actions (aka trailing aka right)
-        endDrawer: isLefty ? null : drawer,
-
-        // Body
-        body: body,
-
-        // FAB
-        floatingActionButton: fab,
-        floatingActionButtonLocation: isLefty
-            ? FloatingActionButtonLocation.startFloat
-            : FloatingActionButtonLocation.endFloat,
-
-        // Prevent the keyboard from pushing the body up
-        resizeToAvoidBottomInset: false,
       ),
-    );
-
-    return EzSwapScaffold(
-      small: theBuild,
-      large: theBuild,
-      threshold: smallBreakpoint,
     );
   }
 }
