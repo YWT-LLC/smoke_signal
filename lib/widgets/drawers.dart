@@ -42,7 +42,7 @@ class SmokeSignalDrawer extends StatelessWidget {
         // GoTo settings
         EzTextIconButton(
           style: TextButton.styleFrom(
-            backgroundColor: colorScheme.surfaceContainer,
+            backgroundColor: colorScheme.surfaceDim,
           ),
           onPressed: () {
             Navigator.of(context).pop();
@@ -56,7 +56,7 @@ class SmokeSignalDrawer extends StatelessWidget {
         // Show input rules
         EzTextIconButton(
           style: TextButton.styleFrom(
-            backgroundColor: colorScheme.surfaceContainer,
+            backgroundColor: colorScheme.surfaceDim,
           ),
           onPressed: () => showPlatformDialog(
             context: context,
