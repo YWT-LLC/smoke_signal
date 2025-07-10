@@ -164,29 +164,27 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
       title: '${signal.title} members',
       drawerHeader: const LoggedInHeader(),
       extraButtons: const <Widget>[LogoutButton()],
-      body: EzScreen(
-        child: StreamBuilder<List<User>>(
-          stream: userStream,
-          builder: (
-            _,
-            AsyncSnapshot<List<User>> snapshot,
-          ) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return const EzImage(
-                  image: signalGif,
-                  semanticLabel: 'Loading',
-                );
-              case ConnectionState.done:
-              default:
-                if (snapshot.hasError) {
-                  return Center(child: Text(snapshot.error.toString()));
-                }
-                return sortUsers(snapshot.data!);
-            }
-          },
-        ),
-      ),
+      body: EzScreen(StreamBuilder<List<User>>(
+        stream: userStream,
+        builder: (
+          _,
+          AsyncSnapshot<List<User>> snapshot,
+        ) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return const EzImage(
+                image: signalGif,
+                semanticLabel: 'Loading',
+              );
+            case ConnectionState.done:
+            default:
+              if (snapshot.hasError) {
+                return Center(child: Text(snapshot.error.toString()));
+              }
+              return sortUsers(snapshot.data!);
+          }
+        },
+      )),
     );
   }
 }

@@ -133,123 +133,119 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
       title: 'New signal',
       drawerHeader: const LoggedInHeader(),
       extraButtons: const <Widget>[LogoutButton()],
-      body: EzScreen(
-        child: EzScrollView(
+      body: EzScreen(EzScrollView(children: <Widget>[
+        if (spacing > margin) EzSpacer(space: spacing - margin),
+
+        // Title field
+        ConstrainedBox(
+          constraints: ezTextFieldConstraints(context),
+          child: TextFormField(
+            controller: titleController,
+            maxLines: 2,
+            textAlign: TextAlign.center,
+            decoration: const InputDecoration(hintText: 'Signal title'),
+            validator: validateSignalTitle,
+            autovalidateMode: AutovalidateMode.onUnfocus,
+          ),
+        ),
+        spacer,
+
+        // Message field
+        ConstrainedBox(
+          constraints: ezTextFieldConstraints(context),
+          child: TextFormField(
+            controller: messageController,
+            maxLines: 1,
+            textAlign: TextAlign.center,
+            decoration: const InputDecoration(hintText: 'Notification'),
+            validator: validateSignalMessage,
+            autovalidateMode: AutovalidateMode.onUnfocus,
+          ),
+        ),
+        spacer,
+
+        // Toggle for current participation
+        Row(
           children: <Widget>[
-            if (spacing > margin) EzSpacer(space: spacing - margin),
-
-            // Title field
-            ConstrainedBox(
-              constraints: ezTextFieldConstraints(context),
-              child: TextFormField(
-                controller: titleController,
-                maxLines: 2,
-                textAlign: TextAlign.center,
-                decoration: const InputDecoration(hintText: 'Signal title'),
-                validator: validateSignalTitle,
-                autovalidateMode: AutovalidateMode.onUnfocus,
-              ),
-            ),
-            spacer,
-
-            // Message field
-            ConstrainedBox(
-              constraints: ezTextFieldConstraints(context),
-              child: TextFormField(
-                controller: messageController,
-                maxLines: 1,
-                textAlign: TextAlign.center,
-                decoration: const InputDecoration(hintText: 'Notification'),
-                validator: validateSignalMessage,
-                autovalidateMode: AutovalidateMode.onUnfocus,
-              ),
-            ),
-            spacer,
-
-            // Toggle for current participation
-            Row(
-              children: <Widget>[
-                Text('Currently active?', style: titleStyle),
-                Checkbox(
-                  value: isActive,
-                  onChanged: (bool? value) {
-                    closeKeyboard(context);
-                    setState(() => isActive = value!);
-                  },
-                ),
-              ],
-            ),
-            spacer,
-
-            // List of toggle-able members to send join requests on creation
-            StreamBuilder<User>(
-              stream: userStream,
-              builder: (_, AsyncSnapshot<User> snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return const EzImage(
-                      image: signalGif,
-                      semanticLabel: 'Loading',
-                    );
-                  case ConnectionState.done:
-                  default:
-                    if (snapshot.hasError) {
-                      ezLogAlert(context, message: snapshot.error.toString());
-                      return const SizedBox.shrink();
-                    }
-
-                    return const AddProfilesWindow(
-                      title: 'Starting members',
-                      items: <PlatformListTile>[],
-                    );
-                }
-              },
-            ),
-            spacer,
-
-            // Add button
-            EzElevatedIconButton(
-              onPressed: () async {
+            Text('Currently active?', style: titleStyle),
+            Checkbox(
+              value: isActive,
+              onChanged: (bool? value) {
                 closeKeyboard(context);
-
-                // Don't do anything if the inputs are invalid
-                final String title = titleController.text.trim();
-                if (validateSignalTitle(title) != null) {
-                  await ezLogAlert(context, message: 'Invalid title!');
-                  return;
-                }
-
-                final String message = messageController.text.trim();
-                if (validateSignalMessage(message) != null) {
-                  await ezLogAlert(context, message: 'Invalid message!');
-                  return;
-                }
-
-                // Attempt adding signal
-                final String? added = await addToDB(Signal(
-                  title: title,
-                  description: '',
-                  message: message,
-                  owner: appUser,
-                  members: <User>[appUser],
-                ));
-
-                if (added == null) {
-                  if (context.mounted) Navigator.of(context).pop(true);
-                } else {
-                  if (context.mounted) {
-                    Navigator.of(context).pop(true);
-                    await ezLogAlert(context, message: 'Invalid title!');
-                  }
-                }
+                setState(() => isActive = value!);
               },
-              icon: Icon(PlatformIcons(context).cloudUpload),
-              label: 'Add',
             ),
-            spacer,
           ],
         ),
-      ),
+        spacer,
+
+        // List of toggle-able members to send join requests on creation
+        StreamBuilder<User>(
+          stream: userStream,
+          builder: (_, AsyncSnapshot<User> snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return const EzImage(
+                  image: signalGif,
+                  semanticLabel: 'Loading',
+                );
+              case ConnectionState.done:
+              default:
+                if (snapshot.hasError) {
+                  ezLogAlert(context, message: snapshot.error.toString());
+                  return const SizedBox.shrink();
+                }
+
+                return const AddProfilesWindow(
+                  title: 'Starting members',
+                  items: <PlatformListTile>[],
+                );
+            }
+          },
+        ),
+        spacer,
+
+        // Add button
+        EzElevatedIconButton(
+          onPressed: () async {
+            closeKeyboard(context);
+
+            // Don't do anything if the inputs are invalid
+            final String title = titleController.text.trim();
+            if (validateSignalTitle(title) != null) {
+              await ezLogAlert(context, message: 'Invalid title!');
+              return;
+            }
+
+            final String message = messageController.text.trim();
+            if (validateSignalMessage(message) != null) {
+              await ezLogAlert(context, message: 'Invalid message!');
+              return;
+            }
+
+            // Attempt adding signal
+            final String? added = await addToDB(Signal(
+              title: title,
+              description: '',
+              message: message,
+              owner: appUser,
+              members: <User>[appUser],
+            ));
+
+            if (added == null) {
+              if (context.mounted) Navigator.of(context).pop(true);
+            } else {
+              if (context.mounted) {
+                Navigator.of(context).pop(true);
+                await ezLogAlert(context, message: 'Invalid title!');
+              }
+            }
+          },
+          icon: Icon(PlatformIcons(context).cloudUpload),
+          label: 'Add',
+        ),
+        spacer,
+      ])),
     );
   }
 

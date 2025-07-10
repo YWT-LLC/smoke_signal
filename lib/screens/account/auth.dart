@@ -55,8 +55,7 @@ class _AuthScreenState extends State<AuthScreen> {
     return SmokeSignalScaffold(
       drawerHeader: const LoginHeader(),
       body: EzScreen(
-        alignment: Alignment.center,
-        child: EzScrollView(
+        EzScrollView(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             AutofillGroup(
@@ -172,6 +171,7 @@ class _AuthScreenState extends State<AuthScreen> {
             spacer,
           ],
         ),
+        alignment: Alignment.center,
       ),
     );
   }

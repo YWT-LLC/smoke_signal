@@ -57,68 +57,64 @@ class _SignalBoardState extends State<SignalBoard> {
       title: 'Signals',
       drawerHeader: const LoggedInHeader(),
       extraButtons: const <Widget>[LogoutButton()],
-      body: EzScreen(
-        child: EzScrollView(
-          children: <Widget>[
-            // Signals the user is a member of
-            StreamBuilder<List<Signal>>(
-              stream: signalStream,
-              builder: (_, AsyncSnapshot<List<Signal>> snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return const EzImage(
-                      image: signalGif,
-                      semanticLabel: 'Loading',
-                    );
-                  case ConnectionState.done:
-                  default:
-                    if (snapshot.hasError) {
-                      ezLogAlert(context, message: snapshot.error.toString());
-                      return const SizedBox.shrink();
-                    }
-
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: snapshot.data!
-                          .map((Signal signal) => SignalCard(
-                                signal: signal,
-                                reloadBoard: reload,
-                              ))
-                          .toList(),
-                    );
+      body: EzScreen(EzScrollView(children: <Widget>[
+        // Signals the user is a member of
+        StreamBuilder<List<Signal>>(
+          stream: signalStream,
+          builder: (_, AsyncSnapshot<List<Signal>> snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return const EzImage(
+                  image: signalGif,
+                  semanticLabel: 'Loading',
+                );
+              case ConnectionState.done:
+              default:
+                if (snapshot.hasError) {
+                  ezLogAlert(context, message: snapshot.error.toString());
+                  return const SizedBox.shrink();
                 }
-              },
-            ),
 
-            // // Signal requests pending the user's approval
-            // StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            //   stream: requestStream,
-            //   builder: (BuildContext context,
-            //       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-            //     switch (snapshot.connectionState) {
-            //       case ConnectionState.waiting:
-            //         return const SizedBox.shrink();
-            //       case ConnectionState.done:
-            //       default:
-            //         if (snapshot.hasError) {
-            //           ezLogAlert(context, message: snapshot.error.toString());
-            //           return const SizedBox.shrink();
-            //         }
-
-            //         return Column(
-            //           mainAxisSize: MainAxisSize.min,
-            //           children: snapshot.data!.docs
-            //               .map((DocumentSnapshot<Map<String, dynamic>>
-            //                       signalDoc) =>
-            //                   Signal.buildSignal(signalDoc, reload))
-            //               .toList(),
-            //         );
-            //     }
-            //   },
-            // ),
-          ],
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: snapshot.data!
+                      .map((Signal signal) => SignalCard(
+                            signal: signal,
+                            reloadBoard: reload,
+                          ))
+                      .toList(),
+                );
+            }
+          },
         ),
-      ),
+
+        // // Signal requests pending the user's approval
+        // StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        //   stream: requestStream,
+        //   builder: (BuildContext context,
+        //       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+        //     switch (snapshot.connectionState) {
+        //       case ConnectionState.waiting:
+        //         return const SizedBox.shrink();
+        //       case ConnectionState.done:
+        //       default:
+        //         if (snapshot.hasError) {
+        //           ezLogAlert(context, message: snapshot.error.toString());
+        //           return const SizedBox.shrink();
+        //         }
+
+        //         return Column(
+        //           mainAxisSize: MainAxisSize.min,
+        //           children: snapshot.data!.docs
+        //               .map((DocumentSnapshot<Map<String, dynamic>>
+        //                       signalDoc) =>
+        //                   Signal.buildSignal(signalDoc, reload))
+        //               .toList(),
+        //         );
+        //     }
+        //   },
+        // ),
+      ])),
       fab: FloatingActionButton(
         onPressed: () => context.goNamed(createSignalPath),
         tooltip: 'Create a new signal',

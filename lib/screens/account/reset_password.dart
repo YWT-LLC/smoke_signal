@@ -43,8 +43,7 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
       title: 'No problem!',
       drawerHeader: const LoginHeader(),
       body: EzScreen(
-        alignment: Alignment.center,
-        child: EzScrollView(
+        EzScrollView(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             // Email form
@@ -100,6 +99,7 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
             ),
           ],
         ),
+        alignment: Alignment.center,
       ),
     );
   }

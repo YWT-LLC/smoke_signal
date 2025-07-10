@@ -72,55 +72,53 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
     return SmokeSignalScaffold(
       title: 'Edit Profile',
       drawerHeader: const LoginHeader(),
-      body: EzScreen(
-        child: EzScrollView(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            if (spacing > margin) EzSpacer(space: spacing - margin),
+      body: EzScreen(EzScrollView(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          if (spacing > margin) EzSpacer(space: spacing - margin),
 
-            // Display name
-            EzTextBackground(
-              Text(
-                name,
-                style: Theme.of(context).textTheme.titleLarge,
-                textAlign: TextAlign.center,
-              ),
+          // Display name
+          EzTextBackground(
+            Text(
+              name,
+              style: Theme.of(context).textTheme.titleLarge,
+              textAlign: TextAlign.center,
             ),
-            titleMargin,
+          ),
+          titleMargin,
 
-            // Edit name
-            EzElevatedIconButton(
-              onPressed: () async {
-                final dynamic shouldRefresh = await updateName('Caw');
-                if (shouldRefresh == null) await refreshName();
-              },
-              icon: Icon(PlatformIcons(context).edit),
-              label: 'New name',
-            ),
-            const EzDivider(),
+          // Edit name
+          EzElevatedIconButton(
+            onPressed: () async {
+              final dynamic shouldRefresh = await updateName('Caw');
+              if (shouldRefresh == null) await refreshName();
+            },
+            icon: Icon(PlatformIcons(context).edit),
+            label: 'New name',
+          ),
+          const EzDivider(),
 
-            // Profile image
-            CircleAvatar(
-              foregroundImage: CachedNetworkImageProvider(url),
-              minRadius: 100,
-              maxRadius: 100,
-            ),
-            titleMargin,
+          // Profile image
+          CircleAvatar(
+            foregroundImage: CachedNetworkImageProvider(url),
+            minRadius: 100,
+            maxRadius: 100,
+          ),
+          titleMargin,
 
-            // Edit picture
-            EzElevatedIconButton(
-              onPressed: () async {
-                final dynamic shouldRefresh = await updateAvatar(
-                    'https://media.istockphoto.com/id/537389352/photo/tropical-rainforest.jpg?s=612x612&w=0&k=20&c=Gbweh81zqVDWihcJ5KA_41C0bufuIkgxZkDLc9h4HpI=');
-                if (shouldRefresh == null) await refreshPic();
-              },
-              icon: Icon(PlatformIcons(context).photoCamera),
-              label: 'New pic',
-            ),
-            spacer,
-          ],
-        ),
-      ),
+          // Edit picture
+          EzElevatedIconButton(
+            onPressed: () async {
+              final dynamic shouldRefresh = await updateAvatar(
+                  'https://media.istockphoto.com/id/537389352/photo/tropical-rainforest.jpg?s=612x612&w=0&k=20&c=Gbweh81zqVDWihcJ5KA_41C0bufuIkgxZkDLc9h4HpI=');
+              if (shouldRefresh == null) await refreshPic();
+            },
+            icon: Icon(PlatformIcons(context).photoCamera),
+            label: 'New pic',
+          ),
+          spacer,
+        ],
+      )),
     );
   }
 
