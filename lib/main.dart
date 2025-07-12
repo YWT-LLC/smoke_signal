@@ -32,7 +32,7 @@ void main() async {
   EzConfig.init(
     preferences: prefs,
     defaults: isMobile() ? mobileSmokeSignalConfig : desktopSmokeSignalConfig,
-    fallbackLang: await EFUILang.delegate.load(english),
+    fallbackLang: await EFUILang.delegate.load(americanEnglish),
     assetPaths: assetPaths,
   );
 

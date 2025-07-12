@@ -26,7 +26,7 @@ void main() async {
   EzConfig.init(
     preferences: prefs,
     defaults: testConfig,
-    fallbackLang: await EFUILang.delegate.load(english),
+    fallbackLang: await EFUILang.delegate.load(americanEnglish),
     assetPaths: <String>{},
   );
 
