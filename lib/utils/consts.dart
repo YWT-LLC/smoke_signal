@@ -50,7 +50,7 @@ const String signalHeightKey = 'signal_height';
 const String signalCountHeightKey = 'signal_count_height';
 
 final Map<String, Object> mobileSmokeSignalConfig = <String, Object>{
-  ...mobileEmpathConfig,
+  ...empathMobileConfig,
 
   // Text settings
   darkTextBackgroundOpacityKey: 0.35,
@@ -70,7 +70,7 @@ final Map<String, Object> mobileSmokeSignalConfig = <String, Object>{
 };
 
 final Map<String, Object> desktopSmokeSignalConfig = <String, Object>{
-  ...desktopEmpathConfig,
+  ...empathDesktopConfig,
 
   // Text settings
   darkTextBackgroundOpacityKey: 0.35,

@@ -39,7 +39,8 @@ class SmokeSignalScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     // Gather the theme data //
 
-    final double toolbarHeight = ezToolbarHeight(context, appTitle);
+    final double toolbarHeight =
+        ezToolbarHeight(context: context, title: appTitle);
 
     final bool isLefty = EzConfig.get(isLeftyKey) ?? false;
 

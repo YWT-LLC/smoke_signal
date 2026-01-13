@@ -16,10 +16,10 @@ class SettingsHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) => const SmokeSignalScaffold(
         drawerHeader: LoginHeader(),
         body: EzSettingsHome(
-          textSettingsPath: textSettingsPath,
-          layoutSettingsPath: layoutSettingsPath,
           colorSettingsPath: colorSettingsPath,
           imageSettingsPath: imageSettingsPath,
+          layoutSettingsPath: layoutSettingsPath,
+          textSettingsPath: textSettingsPath,
         ),
       );
 }
