@@ -20,12 +20,11 @@ dependencies:
 
   # Community
   email_validator: ^3.0.0
-  feedback: ^3.2.0
   cached_network_image: ^3.4.1
   flutter_localized_locales: ^2.0.5
-  flutter_platform_widgets: ^9.0.0
   provider: ^6.1.5+1
 
+  # Empathetech
   empathetech_flutter_ui:
     path: ../empathetech_flutter_ui
 
