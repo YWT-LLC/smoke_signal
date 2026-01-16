@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class SignalCard extends StatefulWidget {
   /// [Signal] to visualize
@@ -87,7 +86,7 @@ class _SignalCardState extends State<SignalCard> {
 
   /// Show all [SignalCard] edits the user can make
   Future<dynamic> showEdits() {
-    return showPlatformDialog(
+    return showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
         return EzAlertDialog(
@@ -304,18 +303,18 @@ class _SignalCardState extends State<SignalCard> {
               ),
             ),
           ),
-          EzSpacer(space: EzConfig.get(marginKey)),
+          EzSpacer(space: EzConfig.marginVal),
 
           // Buttons
-          Row(
+          const Row(
             children: <Widget>[
-              ElevatedButton(
+              EzIconButton(
                 onPressed: doNothing,
-                child: Icon(PlatformIcons(context).clear),
+                icon: Icon(Icons.clear),
               ),
-              ElevatedButton(
+              EzIconButton(
                 onPressed: doNothing,
-                child: Icon(PlatformIcons(context).checkMark),
+                icon: Icon(Icons.check),
               ),
             ],
           ),

@@ -28,7 +28,7 @@ class SmokeSignalScaffold extends StatelessWidget {
   /// Standardized [Scaffold] for all of Smoke Signals's screens
   const SmokeSignalScaffold({
     super.key,
-    this.title = appTitle,
+    this.title = appName,
     required this.body,
     required this.drawerHeader,
     this.extraButtons,
@@ -40,7 +40,7 @@ class SmokeSignalScaffold extends StatelessWidget {
     // Gather the theme data //
 
     final double toolbarHeight =
-        ezToolbarHeight(context: context, title: appTitle);
+        ezToolbarHeight(context: context, title: appName);
 
     final bool isLefty = EzConfig.get(isLeftyKey) ?? false;
 
@@ -53,7 +53,7 @@ class SmokeSignalScaffold extends StatelessWidget {
 
     // Return the build //
 
-    return EzAdaptiveScaffold(
+    return EzAdaptiveParent(
       small: SelectionArea(
         child: Scaffold(
           // AppBar

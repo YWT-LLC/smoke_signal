@@ -5,21 +5,26 @@
 
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
-// Images //
+// App config //
 
-/// 'assets/images/app-icon.png'
+/// Smoke Signal
+const String appName = 'Smoke Signal';
+
+// Local assets //
+
+/// assets/images/app-icon.png
 const String appIconPath = 'assets/images/app-icon.png';
 
-/// 'assets/images/dark-forest.png'
+/// assets/images/dark-forest.png
 const String darkForestPath = 'assets/images/dark-forest.png';
 
-/// 'assets/images/light-forest.png'
+/// assets/images/light-forest.png
 const String lightForestPath = 'assets/images/light-forest.png';
 
-/// 'assets/images/smoke-signal.gif'
+/// assets/images/smoke-signal.gif
 const String smokeSignalPath = 'assets/images/smoke-signal.gif';
 
-/// Entries for [EzConfig.assetPaths]
+/// Entries for [EzConfig.init]
 const Set<String> assetPaths = <String>{
   appIconPath,
   darkForestPath,
@@ -35,19 +40,27 @@ const Map<String, String> credits = <String, String>{
   smokeSignalPath: 'https://pimen.itch.io/',
 };
 
-// EzConfig //
+//* EzConfig *//
 
-/// 'Smoke Signal'
-const String appTitle = 'Smoke Signal';
+// Signal settings // TODO: dark/light split
 
-/// 'signal_image'
+/// signal_image
 const String signalImageKey = 'signal_image';
 
-/// 'signal_height'
+/// signal_height
 const String signalHeightKey = 'signal_height';
 
-/// 'signal_count_height'
+/// signal_count_height
 const String signalCountHeightKey = 'signal_count_height';
+
+/// [signalImageKey], [signalHeightKey], [signalCountHeightKey]
+const Map<String, Type> allSignalKeys = <String, Type>{
+  signalImageKey: String,
+  signalHeightKey: double,
+  signalCountHeightKey: double,
+};
+
+// EzConfig default //
 
 final Map<String, Object> mobileSmokeSignalConfig = <String, Object>{
   ...empathMobileConfig,
@@ -87,4 +100,9 @@ final Map<String, Object> desktopSmokeSignalConfig = <String, Object>{
   '$lightBackgroundImageKey$boxFitSuffix': fill,
   signalImageKey: smokeSignalPath,
   '$signalImageKey$boxFitSuffix': fill,
+};
+
+const Map<String, Type> allSmokeSignalKeys = <String, Type>{
+  ...allEZConfigKeys,
+  ...allSignalKeys,
 };
