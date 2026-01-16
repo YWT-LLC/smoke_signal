@@ -24,44 +24,44 @@ export 'signal/signal_members.dart';
 
 // Settings //
 
-export 'settings/settings_home.dart';
+export 'settings/home.dart';
 
-export 'settings/color_settings.dart';
-export 'settings/image_settings.dart';
-export 'settings/layout_settings.dart';
-export 'settings/text_settings.dart';
+export 'settings/color.dart';
+export 'settings/design.dart';
+export 'settings/layout.dart';
+export 'settings/text.dart';
 
 //* Router paths *//
 
 // Account //
 
-/// 'reset-password'
+/// reset-password
 const String resetPasswordPath = 'reset-password';
 
-/// 'profile-settings'
+/// profile-settings
 const String profileSettingsPath = 'profile-settings';
 
 // Signal //
 
-/// 'create-signal'
+/// create-signal
 const String createSignalPath = 'create-signal';
 
-/// 'signal-members'
+/// signal-members
 const String signalMembersPath = 'signal-members';
 
 // Settings //
 
-/// 'settings'
+/// settings
 const String settingsPath = 'settings';
 
-/// 'text-settings'
-const String textSettingsPath = 'text-settings';
-
-/// 'layout-settings'
-const String layoutSettingsPath = 'layout-settings';
-
-/// 'color-settings'
+/// color-settings
 const String colorSettingsPath = 'color-settings';
 
-/// 'image-settings'
-const String imageSettingsPath = 'image-settings';
+/// design-settings
+const String designSettingsPath = 'design-settings';
+
+/// layout-settings
+const String layoutSettingsPath = 'layout-settings';
+
+/// text-settings
+const String textSettingsPath = 'text-settings';

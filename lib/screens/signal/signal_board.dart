@@ -11,7 +11,6 @@ import '../../widgets/export.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class SignalBoard extends StatefulWidget {
   const SignalBoard({super.key});
@@ -118,7 +117,7 @@ class _SignalBoardState extends State<SignalBoard> {
       fab: FloatingActionButton(
         onPressed: () => context.goNamed(createSignalPath),
         tooltip: 'Create a new signal',
-        child: Icon(PlatformIcons(context).add),
+        child: const Icon(Icons.add),
       ),
     );
   }

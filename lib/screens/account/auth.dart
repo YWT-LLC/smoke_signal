@@ -5,13 +5,11 @@
 
 import '../export.dart';
 import '../../api/export.dart';
-import '../../utils/export.dart';
 import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -21,19 +19,10 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  // Gather theme data //
-
-  static const EzSpacer spacer = EzSpacer();
-  static const EzSeparator separator = EzSeparator();
-
-  final double margin = EzConfig.get(marginKey);
+  // Define the build data //
 
   late final double bodyTextSize =
       Theme.of(context).textTheme.bodyLarge?.fontSize ?? 16;
-
-  late final Lang l10n = Lang.of(context)!;
-
-  // Define build data //
 
   bool showPwd = false;
 
@@ -75,7 +64,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           const InputDecoration(hintText: 'Enter email'),
                     ),
                   ),
-                  spacer,
+                  EzConfig.spacer,
 
                   // Password field
                   ConstrainedBox(
@@ -88,12 +77,13 @@ class _AuthScreenState extends State<AuthScreen> {
                       decoration: InputDecoration(
                         hintText: 'Enter password',
                         suffixIcon: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: margin),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: EzConfig.marginVal),
                           child: InkWell(
                             onTap: () => setState(() => showPwd = !showPwd),
                             child: Icon(showPwd
-                                ? PlatformIcons(context).eyeSolid
-                                : PlatformIcons(context).eyeSlashSolid),
+                                ? Icons.visibility
+                                : Icons.visibility_off),
                           ),
                         ),
                         suffixIconConstraints: BoxConstraints(
@@ -106,7 +96,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 ],
               ),
             ),
-            separator,
+            EzConfig.separator,
 
             // Buttons
             EzRowCol.sym(
@@ -159,7 +149,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
               ],
             ),
-            separator,
+            EzConfig.separator,
 
             // Forgot password
             EzLink(
@@ -168,7 +158,7 @@ class _AuthScreenState extends State<AuthScreen> {
               onTap: () => context.goNamed(resetPasswordPath),
               hint: 'Go to the password reset page',
             ),
-            spacer,
+            EzConfig.spacer,
           ],
         ),
         alignment: Alignment.center,

@@ -5,13 +5,13 @@
 
 // Config //
 
-/// 'id'
+/// id
 const String idKey = 'id';
 
-/// 'uid'
+/// uid
 const String uidKey = 'uid';
 
-/// 'Anon'
+/// Anon
 const String defaultDisplayName = 'Anon';
 
 /// 'https://raw.githubusercontent.com/Empathetech-LLC/smoke_signal/main/assets/app-icon.png'
@@ -20,29 +20,29 @@ const String defaultAvatarURL =
 
 // Paths //
 
-/// 'users'
+/// users
 const String usersPath = 'users';
 
-/// 'displayName'
+/// displayName
 const String displayNamePath = 'displayName';
 
-/// 'avatarURL'
+/// avatarURL
 const String avatarURLPath = 'avatarURL';
 
-/// 'signals'
+/// signals
 const String signalsPath = 'signals';
 
-/// 'owner'
+/// owner
 const String ownerPath = 'owner';
 
-/// 'message'
+/// message
 const String messagePath = 'message';
 
-/// 'members'
+/// members
 const String membersPath = 'members';
 
-/// 'activeMembers'
+/// activeMembers
 const String activeMembersPath = 'activeMembers';
 
-/// 'memberRequests'
+/// memberRequests
 const String memberRequestsPath = 'memberRequests';

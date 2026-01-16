@@ -13,7 +13,6 @@ import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class SmokeSignalDrawer extends StatelessWidget {
   /// Recommended to use [DrawerHeader]
@@ -48,7 +47,7 @@ class SmokeSignalDrawer extends StatelessWidget {
             Navigator.of(context).pop();
             context.goNamed(settingsPath);
           },
-          icon: Icon(PlatformIcons(context).settings),
+          icon: const Icon(Icons.settings),
           label: 'Settings',
         ),
         _spacer,
@@ -58,7 +57,7 @@ class SmokeSignalDrawer extends StatelessWidget {
           style: TextButton.styleFrom(
             backgroundColor: colorScheme.surfaceDim,
           ),
-          onPressed: () => showPlatformDialog(
+          onPressed: () => showDialog(
             context: context,
             builder: (_) => const EzAlertDialog(
               title: Text('Input rules', textAlign: TextAlign.center),
@@ -88,7 +87,7 @@ class LoginHeader extends StatelessWidget {
     final double iconSize = ezImageSize(context) * 0.667;
 
     return DrawerHeader(
-      margin: EdgeInsets.all(EzConfig.get(marginKey)),
+      margin: EdgeInsets.all(EzConfig.marginVal),
       padding: EdgeInsets.zero,
       child: Center(
         child: EzScrollView(
@@ -129,7 +128,7 @@ class LoggedInHeader extends StatelessWidget {
     final AppUser? appUser = Provider.of<AppUserProvider>(context).value;
 
     return DrawerHeader(
-      margin: EdgeInsets.all(EzConfig.get(marginKey)),
+      margin: EdgeInsets.all(EzConfig.marginVal),
       padding: EdgeInsets.zero,
       child: Center(
         child: EzScrollView(
@@ -144,7 +143,7 @@ class LoggedInHeader extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
-            EzSpacer(space: EzConfig.get(marginKey)),
+            EzConfig.margin,
 
             // Picture
             Container(
