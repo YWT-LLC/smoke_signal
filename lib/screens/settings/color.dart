@@ -3,6 +3,7 @@
  * See LICENSE for distribution and usage details.
  */
 
+import '../../utils/export.dart';
 import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
@@ -16,6 +17,6 @@ class ColorSettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SmokeSignalScaffold(
         drawerHeader: const LoginHeader(),
-        body: EzColorSettings(target: target),
+        body: EzColorSettings(target: target, appName: appName),
       );
 }

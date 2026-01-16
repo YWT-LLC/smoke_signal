@@ -9,17 +9,18 @@ import '../../widgets/export.dart';
 import 'package:flutter/material.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
-class ImageSettingsScreen extends StatelessWidget {
-  const ImageSettingsScreen({super.key});
+class DesignSettingsScreen extends StatelessWidget {
+  const DesignSettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return SmokeSignalScaffold(
       drawerHeader: const LoginHeader(),
-      body: EzImageSettings(
+      body: EzDesignSettings(
+        appName: appName,
         darkBackgroundCredits: credits[darkForestPath],
         lightBackgroundCredits: credits[lightForestPath],
-        afterBackground: <Widget>[
+        globalSettingsPostpend: <Widget>[
           EzImageSetting(
             configKey: signalImageKey,
             label: 'Signal',
