@@ -44,7 +44,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
   Widget build(BuildContext context) {
     return SmokeSignalScaffold(
       drawerHeader: DrawerHeader(
-        margin: EdgeInsets.all(EzConfig.get(marginKey)),
+        margin: EdgeInsets.all(EzConfig.margining),
         padding: EdgeInsets.zero,
         child: Center(
           child: EzScrollView(
