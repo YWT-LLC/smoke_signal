@@ -15,19 +15,15 @@ void main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
 
-  final Map<String, Object> testConfig = <String, Object>{
-    ...mobileEmpathConfig,
-    isLeftyKey: true,
-  };
-
-  SharedPreferences.setMockInitialValues(testConfig);
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-
   EzConfig.init(
-    preferences: prefs,
-    defaults: testConfig,
-    fallbackLang: await EFUILang.delegate.load(americanEnglish),
     assetPaths: <String>{},
+    defaults: <String, Object>{...empathMobileConfig, isLeftyKey: true},
+    localeFallback: americanEnglish,
+    l10nFallback: await EFUILang.delegate.load(americanEnglish),
+    preferences: await SharedPreferencesWithCache.create(
+      cacheOptions: SharedPreferencesWithCacheOptions(
+          allowList: allEZConfigKeys.keys.toSet()),
+    ),
   );
 
   group(

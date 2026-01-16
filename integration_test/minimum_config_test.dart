@@ -15,14 +15,15 @@ void main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
 
-  SharedPreferences.setMockInitialValues(empathetechMinConfig);
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-
   EzConfig.init(
-    preferences: prefs,
-    defaults: empathetechMinConfig,
-    fallbackLang: await EFUILang.delegate.load(americanEnglish),
     assetPaths: <String>{},
+    defaults: empathMinConfig,
+    localeFallback: americanEnglish,
+    l10nFallback: await EFUILang.delegate.load(americanEnglish),
+    preferences: await SharedPreferencesWithCache.create(
+      cacheOptions: SharedPreferencesWithCacheOptions(
+          allowList: allEZConfigKeys.keys.toSet()),
+    ),
   );
 
   group(
