@@ -8,7 +8,6 @@ import '../../api/export.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class NoUserCoin extends StatelessWidget {
   /// [Widget] to display when there are no users found
@@ -16,7 +15,7 @@ class NoUserCoin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onLongPress: () => showPlatformDialog(
+        onLongPress: () => showDialog(
           context: context,
           builder: (_) => const EzAlertDialog(
             title: Text('Nobody!', textAlign: TextAlign.center),
@@ -27,7 +26,7 @@ class NoUserCoin extends StatelessWidget {
             color: Theme.of(context).colorScheme.primary,
             shape: BoxShape.circle,
           ),
-          child: EzIcon(PlatformIcons(context).clear),
+          child: EzIcon(Icons.clear),
         ),
       );
 }
@@ -39,37 +38,33 @@ class UserCoinScroll extends StatelessWidget {
   const UserCoinScroll({super.key, required this.users});
 
   @override
-  Widget build(BuildContext context) {
-    final double iconSize = EzConfig.get(iconSizeKey);
-
-    return (users.isEmpty)
-        ? const NoUserCoin()
-        : EzScrollView(
-            scrollDirection: Axis.horizontal,
-            children: users
-                .map(
-                  (User user) => GestureDetector(
-                    onLongPress: () => showPlatformDialog(
-                      context: context,
-                      builder: (_) => EzAlertDialog(
-                        content: Text(
-                          user.displayName,
-                          textAlign: TextAlign.center,
-                        ),
+  Widget build(BuildContext context) => (users.isEmpty)
+      ? const NoUserCoin()
+      : EzScrollView(
+          scrollDirection: Axis.horizontal,
+          children: users
+              .map(
+                (User user) => GestureDetector(
+                  onLongPress: () => showDialog(
+                    context: context,
+                    builder: (_) => EzAlertDialog(
+                      content: Text(
+                        user.displayName,
+                        textAlign: TextAlign.center,
                       ),
                     ),
-                    child: CircleAvatar(
-                      foregroundImage: user.avatarURL != null
-                          ? CachedNetworkImageProvider(user.avatarURL!)
-                          : null,
-                      minRadius: iconSize,
-                      maxRadius: iconSize,
-                    ),
                   ),
-                )
-                .toList(),
-          );
-  }
+                  child: CircleAvatar(
+                    foregroundImage: user.avatarURL != null
+                        ? CachedNetworkImageProvider(user.avatarURL!)
+                        : null,
+                    minRadius: EzConfig.iconSize,
+                    maxRadius: EzConfig.iconSize,
+                  ),
+                ),
+              )
+              .toList(),
+        );
 }
 
 class UserProfileScroll extends StatelessWidget {
@@ -79,41 +74,37 @@ class UserProfileScroll extends StatelessWidget {
   const UserProfileScroll({super.key, required this.users});
 
   @override
-  Widget build(BuildContext context) {
-    final double iconSize = EzConfig.get(iconSizeKey);
+  Widget build(BuildContext context) => (users.isEmpty)
+      ? const NoUserCoin()
+      : EzScrollView(
+          children: users
+              .map(
+                (User user) => Row(
+                  children: <Widget>[
+                    // Profile image/avatar
+                    CircleAvatar(
+                      foregroundImage: user.avatarURL != null
+                          ? CachedNetworkImageProvider(user.avatarURL!)
+                          : null,
+                      minRadius: EzConfig.iconSize,
+                      maxRadius: EzConfig.iconSize,
+                    ),
 
-    return (users.isEmpty)
-        ? const NoUserCoin()
-        : EzScrollView(
-            children: users
-                .map(
-                  (User user) => Row(
-                    children: <Widget>[
-                      // Profile image/avatar
-                      CircleAvatar(
-                        foregroundImage: user.avatarURL != null
-                            ? CachedNetworkImageProvider(user.avatarURL!)
-                            : null,
-                        minRadius: iconSize,
-                        maxRadius: iconSize,
-                      ),
-
-                      // Display name
-                      Text(
-                        user.displayName,
-                        textAlign: TextAlign.start,
-                      ),
-                    ],
-                  ),
-                )
-                .toList(),
-          );
-  }
+                    // Display name
+                    Text(
+                      user.displayName,
+                      textAlign: TextAlign.start,
+                    ),
+                  ],
+                ),
+              )
+              .toList(),
+        );
 }
 
 class AddProfilesWindow extends StatelessWidget {
   final String title;
-  final List<PlatformListTile> items;
+  final List<ListTile> items;
   final double? customHeight;
 
   /// Wraps [items]s in an [EzScrollView] with a [title]

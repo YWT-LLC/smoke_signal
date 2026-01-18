@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class SignalMembersScreen extends StatefulWidget {
   final Signal signal;
@@ -23,14 +22,9 @@ class SignalMembersScreen extends StatefulWidget {
 }
 
 class _SignalMembersScreenState extends State<SignalMembersScreen> {
-  // Gather theme data //
-
-  static const EzSpacer spacer = EzSpacer();
-  final double iconSize = EzConfig.get(iconSizeKey);
+  // Define the build data //
 
   late final Lang l10n = Lang.of(context)!;
-
-  // Define build data //
 
   late final AppUser appUser = Provider.of<AppUserProvider>(context).value!;
 
@@ -42,12 +36,12 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
   // Define custom widgets //
 
   // Creates the widgets for the toggle list from the gathered profiles
-  List<PlatformListTile> buildSwitchTiles(List<User> users) {
+  List<ListTile> buildSwitchTiles(List<User> users) {
     final List<User> copy = List<User>.from(users);
     copy.removeWhere((User user) => user == appUser);
 
     return copy.map((User user) {
-      return PlatformListTile(
+      return ListTile(
         // User info
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -57,10 +51,10 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
               foregroundImage: user.avatarURL != null
                   ? CachedNetworkImageProvider(user.avatarURL!)
                   : null,
-              minRadius: iconSize,
-              maxRadius: iconSize,
+              minRadius: EzConfig.iconSize,
+              maxRadius: EzConfig.iconSize,
             ),
-            EzSpacer(space: EzConfig.get(marginKey)),
+            EzMargin(),
 
             // Display name
             Text(user.displayName, textAlign: TextAlign.start),
@@ -106,12 +100,12 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
       // Available members - show all pictures
       const Text('Available'),
       UserCoinScroll(users: memberProfiles),
-      spacer,
+      EzConfig.spacer,
 
       // Active members - show all pictures
       const Text('Active'),
       UserCoinScroll(users: activeProfiles),
-      spacer,
+      EzConfig.spacer,
     ];
 
     if (unAddedProfiles.isNotEmpty) {
@@ -122,7 +116,7 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
             title: 'Add?',
             items: buildSwitchTiles(unAddedProfiles),
           ),
-          spacer,
+          EzConfig.spacer,
 
           // Submit button
           EzElevatedIconButton(
@@ -130,7 +124,7 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
               Navigator.of(context).pop();
               requestMembers(signal, requestedUsers);
             },
-            icon: Icon(PlatformIcons(context).cloudUpload),
+            icon: const Icon(Icons.cloud_upload),
             label: 'Send requests',
           ),
         ],

@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class CreateSignalScreen extends StatefulWidget {
   const CreateSignalScreen({super.key});
@@ -22,12 +21,6 @@ class CreateSignalScreen extends StatefulWidget {
 
 class _CreateSignalScreenState extends State<CreateSignalScreen> {
   // Gather theme data //
-
-  static const EzSpacer spacer = EzSpacer();
-
-  final double margin = EzConfig.get(marginKey);
-  final double spacing = EzConfig.get(spacingKey);
-  final double iconSize = EzConfig.get(iconSizeKey);
 
   late final Lang l10n = Lang.of(context)!;
   late final TextStyle? titleStyle = Theme.of(context).textTheme.titleLarge;
@@ -45,12 +38,12 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
   late TextEditingController messageController = TextEditingController();
 
   /// Creates a [List] of [PlatformListTile]s for displaying [UserProfile]s alongside
-  List<PlatformListTile> buildSwitches(List<User> users) {
+  List<ListTile> buildSwitches(List<User> users) {
     final List<User> copy = List<User>.from(users);
     copy.removeWhere((User user) => user == appUser);
 
     return copy.map((User user) {
-      return PlatformListTile(
+      return ListTile(
         // User info
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -60,10 +53,10 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
               foregroundImage: user.avatarURL != null
                   ? CachedNetworkImageProvider(user.avatarURL!)
                   : null,
-              minRadius: iconSize,
-              maxRadius: iconSize,
+              minRadius: EzConfig.iconSize,
+              maxRadius: EzConfig.iconSize,
             ),
-            EzSpacer(space: EzConfig.get(marginKey)),
+            EzMargin(),
 
             // Display name
             Text(
@@ -134,7 +127,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
       drawerHeader: const LoggedInHeader(),
       extraButtons: const <Widget>[LogoutButton()],
       body: EzScreen(EzScrollView(children: <Widget>[
-        if (spacing > margin) EzSpacer(space: spacing - margin),
+        EzHeader(),
 
         // Title field
         ConstrainedBox(
@@ -148,7 +141,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
             autovalidateMode: AutovalidateMode.onUnfocus,
           ),
         ),
-        spacer,
+        EzConfig.spacer,
 
         // Message field
         ConstrainedBox(
@@ -162,7 +155,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
             autovalidateMode: AutovalidateMode.onUnfocus,
           ),
         ),
-        spacer,
+        EzConfig.spacer,
 
         // Toggle for current participation
         Row(
@@ -177,7 +170,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
             ),
           ],
         ),
-        spacer,
+        EzConfig.spacer,
 
         // List of toggle-able members to send join requests on creation
         StreamBuilder<User>(
@@ -198,12 +191,12 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
 
                 return const AddProfilesWindow(
                   title: 'Starting members',
-                  items: <PlatformListTile>[],
+                  items: <ListTile>[],
                 );
             }
           },
         ),
-        spacer,
+        EzConfig.spacer,
 
         // Add button
         EzElevatedIconButton(
@@ -241,10 +234,10 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
               }
             }
           },
-          icon: Icon(PlatformIcons(context).cloudUpload),
+          icon: const Icon(Icons.cloud_upload),
           label: 'Add',
         ),
-        spacer,
+        EzConfig.spacer,
       ])),
     );
   }

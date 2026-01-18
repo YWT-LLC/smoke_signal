@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class ProfileSettingsScreen extends StatefulWidget {
   const ProfileSettingsScreen({super.key});
@@ -21,18 +20,9 @@ class ProfileSettingsScreen extends StatefulWidget {
 }
 
 class _ProfileSettingsState extends State<ProfileSettingsScreen> {
-  // Gather theme data //
-
-  static const EzSpacer spacer = EzSpacer();
-
-  final EzSpacer titleMargin = EzSpacer(space: EzConfig.get(marginKey));
-
-  final double spacing = EzConfig.get(spacingKey);
-  final double margin = EzConfig.get(marginKey);
+  // Define the build data //
 
   late final Lang l10n = Lang.of(context)!;
-
-  // Define build data //
 
   late final AppUser user = Provider.of<AppUserProvider>(context).value!;
 
@@ -75,7 +65,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
       body: EzScreen(EzScrollView(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          if (spacing > margin) EzSpacer(space: spacing - margin),
+          EzHeader(),
 
           // Display name
           EzTextBackground(
@@ -85,7 +75,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
               textAlign: TextAlign.center,
             ),
           ),
-          titleMargin,
+          EzConfig.margin,
 
           // Edit name
           EzElevatedIconButton(
@@ -93,7 +83,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
               final dynamic shouldRefresh = await updateName('Caw');
               if (shouldRefresh == null) await refreshName();
             },
-            icon: Icon(PlatformIcons(context).edit),
+            icon: const Icon(Icons.edit),
             label: 'New name',
           ),
           const EzDivider(),
@@ -104,7 +94,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
             minRadius: 100,
             maxRadius: 100,
           ),
-          titleMargin,
+          EzConfig.margin,
 
           // Edit picture
           EzElevatedIconButton(
@@ -113,10 +103,10 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
                   'https://media.istockphoto.com/id/537389352/photo/tropical-rainforest.jpg?s=612x612&w=0&k=20&c=Gbweh81zqVDWihcJ5KA_41C0bufuIkgxZkDLc9h4HpI=');
               if (shouldRefresh == null) await refreshPic();
             },
-            icon: Icon(PlatformIcons(context).photoCamera),
+            icon: const Icon(Icons.camera),
             label: 'New pic',
           ),
-          spacer,
+          EzConfig.spacer,
         ],
       )),
     );

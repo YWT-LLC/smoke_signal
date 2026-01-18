@@ -11,11 +11,9 @@ import './widgets/export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:feedback/feedback.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 
 void main() async {
@@ -27,26 +25,21 @@ void main() async {
 
   // Initialize EzConfig //
 
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-
   EzConfig.init(
-    preferences: prefs,
-    defaults: isMobile() ? mobileSmokeSignalConfig : desktopSmokeSignalConfig,
-    fallbackLang: await EFUILang.delegate.load(americanEnglish),
     assetPaths: assetPaths,
+    defaults: isMobile() ? mobileSmokeSignalConfig : desktopSmokeSignalConfig,
+    localeFallback: americanEnglish,
+    l10nFallback: await EFUILang.delegate.load(americanEnglish),
+    preferences: await SharedPreferencesWithCache.create(
+      cacheOptions: SharedPreferencesWithCacheOptions(
+          allowList: allSmokeSignalKeys.keys.toSet()),
+    ),
   );
 
   // Run the app //
   // With a feedback wrapper
 
-  runApp(BetterFeedback(
-    theme: empathFeedbackLight,
-    darkTheme: empathFeedbackDark,
-    themeMode: EzConfig.getThemeMode(),
-    localizationsDelegates: <LocalizationsDelegate<dynamic>>[EzFeedbackLD()],
-    localeOverride: EzConfig.getLocale(),
-    child: const SmokeSignal(),
-  ));
+  runApp(const SmokeSignal());
 }
 
 // Define routes //
@@ -89,30 +82,6 @@ final GoRouter router = GoRouter(
           builder: (_, __) => const SettingsHomeScreen(),
           routes: <RouteBase>[
             GoRoute(
-              path: textSettingsPath,
-              name: textSettingsPath,
-              builder: (_, __) => const TextSettingsScreen(),
-              routes: <RouteBase>[
-                GoRoute(
-                  path: EzTSType.quick.path,
-                  name: EzTSType.quick.name,
-                  builder: (_, __) =>
-                      const TextSettingsScreen(target: EzTSType.quick),
-                ),
-                GoRoute(
-                  path: EzTSType.advanced.path,
-                  name: EzTSType.advanced.name,
-                  builder: (_, __) =>
-                      const TextSettingsScreen(target: EzTSType.advanced),
-                ),
-              ],
-            ),
-            GoRoute(
-              path: layoutSettingsPath,
-              name: layoutSettingsPath,
-              builder: (_, __) => const LayoutSettingsScreen(),
-            ),
-            GoRoute(
               path: colorSettingsPath,
               name: colorSettingsPath,
               builder: (_, __) => const ColorSettingsScreen(),
@@ -132,9 +101,33 @@ final GoRouter router = GoRouter(
               ],
             ),
             GoRoute(
-              path: imageSettingsPath,
-              name: imageSettingsPath,
-              builder: (_, __) => const ImageSettingsScreen(),
+              path: designSettingsPath,
+              name: designSettingsPath,
+              builder: (_, __) => const DesignSettingsScreen(),
+            ),
+            GoRoute(
+              path: layoutSettingsPath,
+              name: layoutSettingsPath,
+              builder: (_, __) => const LayoutSettingsScreen(),
+            ),
+            GoRoute(
+              path: textSettingsPath,
+              name: textSettingsPath,
+              builder: (_, __) => const TextSettingsScreen(),
+              routes: <RouteBase>[
+                GoRoute(
+                  path: EzTSType.quick.path,
+                  name: EzTSType.quick.name,
+                  builder: (_, __) =>
+                      const TextSettingsScreen(target: EzTSType.quick),
+                ),
+                GoRoute(
+                  path: EzTSType.advanced.path,
+                  name: EzTSType.advanced.name,
+                  builder: (_, __) =>
+                      const TextSettingsScreen(target: EzTSType.advanced),
+                ),
+              ],
             ),
           ],
         ),
@@ -162,7 +155,7 @@ class SmokeSignal extends StatelessWidget {
     return EzAppProvider(
       app: ChangeNotifierProvider<AppUserProvider>(
         create: (_) => AppUserProvider(null),
-        child: PlatformApp.router(
+        child: MaterialApp.router(
           debugShowCheckedModeBanner: false,
           localizationsDelegates: <LocalizationsDelegate<dynamic>>{
             const LocaleNamesLocalizationsDelegate(),
@@ -170,8 +163,8 @@ class SmokeSignal extends StatelessWidget {
             ...Lang.localizationsDelegates,
           },
           supportedLocales: Lang.supportedLocales,
-          locale: EzConfig.getLocale(),
-          title: appTitle,
+          locale: EzConfig.locale,
+          title: appName,
           routerConfig: router,
         ),
       ),
