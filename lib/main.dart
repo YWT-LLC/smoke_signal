@@ -58,119 +58,106 @@ class SmokeSignal extends StatelessWidget {
   Widget build(BuildContext context) {
     precacheImages(context);
 
-    return EzConfigurableApp(
-      app: ChangeNotifierProvider<AppUserProvider>(
-        create: (_) => AppUserProvider(null),
-        child: MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: <LocalizationsDelegate<dynamic>>{
-            const LocaleNamesLocalizationsDelegate(),
-            ...EFUILang.localizationsDelegates,
-            ...Lang.localizationsDelegates,
-          },
-          supportedLocales: Lang.supportedLocales,
-          locale: EzConfig.locale,
-
-          // App title
-          title: appName,
-
-          // App theme
-          themeMode: EzConfig.provider.themeMode,
-          darkTheme: EzConfig.provider.darkTheme,
-          theme: EzConfig.provider.lightTheme,
-
-          // Router (page) config
-          routerConfig: GoRouter(
-            initialLocation: homePath,
-            errorBuilder: (_, GoRouterState state) => ErrorScreen(state.error),
-            routes: <RouteBase>[
-              GoRoute(
-                path: homePath,
-                name: homePath,
-                builder: (_, __) => const HomeScreen(),
-                routes: <RouteBase>[
-                  GoRoute(
-                    path: resetPasswordPath,
-                    name: resetPasswordPath,
-                    builder: (_, __) => const ResetPasswordScreen(),
-                  ),
-                  GoRoute(
-                    path: profileSettingsPath,
-                    name: profileSettingsPath,
-                    builder: (_, __) => const ProfileSettingsScreen(),
-                  ),
-                  GoRoute(
-                    path: createSignalPath,
-                    name: createSignalPath,
-                    builder: (_, __) => const CreateSignalScreen(),
-                  ),
-                  GoRoute(
-                    path: signalMembersPath,
-                    name: signalMembersPath,
-                    builder: (_, GoRouterState state) {
-                      final Signal signal = state.extra as Signal;
-                      return SignalMembersScreen(signal: signal);
-                    },
-                  ),
-                  GoRoute(
-                    path: settingsPath,
-                    name: settingsPath,
-                    builder: (_, __) => const SettingsHomeScreen(),
-                    routes: <RouteBase>[
-                      GoRoute(
-                        path: colorSettingsPath,
-                        name: colorSettingsPath,
-                        builder: (_, __) => const ColorSettingsScreen(),
-                        routes: <RouteBase>[
-                          GoRoute(
-                            path: EzCSType.quick.path,
-                            name: EzCSType.quick.name,
-                            builder: (_, __) => const ColorSettingsScreen(
-                                target: EzCSType.quick),
-                          ),
-                          GoRoute(
-                            path: EzCSType.advanced.path,
-                            name: EzCSType.advanced.name,
-                            builder: (_, __) => const ColorSettingsScreen(
-                                target: EzCSType.advanced),
-                          ),
-                        ],
-                      ),
-                      GoRoute(
-                        path: designSettingsPath,
-                        name: designSettingsPath,
-                        builder: (_, __) => const DesignSettingsScreen(),
-                      ),
-                      GoRoute(
-                        path: layoutSettingsPath,
-                        name: layoutSettingsPath,
-                        builder: (_, __) => const LayoutSettingsScreen(),
-                      ),
-                      GoRoute(
-                        path: textSettingsPath,
-                        name: textSettingsPath,
-                        builder: (_, __) => const TextSettingsScreen(),
-                        routes: <RouteBase>[
-                          GoRoute(
-                            path: EzTSType.quick.path,
-                            name: EzTSType.quick.name,
-                            builder: (_, __) => const TextSettingsScreen(
-                                target: EzTSType.quick),
-                          ),
-                          GoRoute(
-                            path: EzTSType.advanced.path,
-                            name: EzTSType.advanced.name,
-                            builder: (_, __) => const TextSettingsScreen(
-                                target: EzTSType.advanced),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
+    return ChangeNotifierProvider<AppUserProvider>(
+      create: (_) => AppUserProvider(null),
+      child: EzConfigurableApp(
+        localizationsDelegates: <LocalizationsDelegate<dynamic>>{
+          const LocaleNamesLocalizationsDelegate(),
+          ...EFUILang.localizationsDelegates,
+          ...Lang.localizationsDelegates,
+        },
+        supportedLocales: Lang.supportedLocales,
+        appName: appName,
+        routerConfig: GoRouter(
+          initialLocation: homePath,
+          errorBuilder: (_, GoRouterState state) => ErrorScreen(state.error),
+          routes: <RouteBase>[
+            GoRoute(
+              path: homePath,
+              name: homePath,
+              builder: (_, __) => const HomeScreen(),
+              routes: <RouteBase>[
+                GoRoute(
+                  path: resetPasswordPath,
+                  name: resetPasswordPath,
+                  builder: (_, __) => const ResetPasswordScreen(),
+                ),
+                GoRoute(
+                  path: profileSettingsPath,
+                  name: profileSettingsPath,
+                  builder: (_, __) => const ProfileSettingsScreen(),
+                ),
+                GoRoute(
+                  path: createSignalPath,
+                  name: createSignalPath,
+                  builder: (_, __) => const CreateSignalScreen(),
+                ),
+                GoRoute(
+                  path: signalMembersPath,
+                  name: signalMembersPath,
+                  builder: (_, GoRouterState state) {
+                    final Signal signal = state.extra as Signal;
+                    return SignalMembersScreen(signal: signal);
+                  },
+                ),
+                GoRoute(
+                  path: settingsPath,
+                  name: settingsPath,
+                  builder: (_, __) => const SettingsHomeScreen(),
+                  routes: <RouteBase>[
+                    GoRoute(
+                      path: colorSettingsPath,
+                      name: colorSettingsPath,
+                      builder: (_, __) => const ColorSettingsScreen(),
+                      routes: <RouteBase>[
+                        GoRoute(
+                          path: EzCSType.quick.path,
+                          name: EzCSType.quick.name,
+                          builder: (_, __) =>
+                              const ColorSettingsScreen(target: EzCSType.quick),
+                        ),
+                        GoRoute(
+                          path: EzCSType.advanced.path,
+                          name: EzCSType.advanced.name,
+                          builder: (_, __) => const ColorSettingsScreen(
+                              target: EzCSType.advanced),
+                        ),
+                      ],
+                    ),
+                    GoRoute(
+                      path: designSettingsPath,
+                      name: designSettingsPath,
+                      builder: (_, __) => const DesignSettingsScreen(),
+                    ),
+                    GoRoute(
+                      path: layoutSettingsPath,
+                      name: layoutSettingsPath,
+                      builder: (_, __) => const LayoutSettingsScreen(),
+                    ),
+                    GoRoute(
+                      path: textSettingsPath,
+                      name: textSettingsPath,
+                      builder: (_, __) => const TextSettingsScreen(),
+                      routes: <RouteBase>[
+                        GoRoute(
+                          path: EzTSType.quick.path,
+                          name: EzTSType.quick.name,
+                          builder: (_, __) =>
+                              const TextSettingsScreen(target: EzTSType.quick),
+                        ),
+                        GoRoute(
+                          path: EzTSType.advanced.path,
+                          name: EzTSType.advanced.name,
+                          builder: (_, __) => const TextSettingsScreen(
+                              target: EzTSType.advanced),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
