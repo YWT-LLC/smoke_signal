@@ -96,10 +96,7 @@ class _SignalCardState extends State<SignalCard> {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(dialogContext).pop();
-                context.goNamed(
-                  signalMembersPath,
-                  extra: signal,
-                );
+                context.goNamed(signalMembersPath, extra: signal);
               },
               child: const Text('Members'),
             ),
