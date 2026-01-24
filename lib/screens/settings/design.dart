@@ -20,7 +20,7 @@ class DesignSettingsScreen extends StatelessWidget {
         appName: appName,
         darkBackgroundCredits: credits[darkForestPath],
         lightBackgroundCredits: credits[lightForestPath],
-        globalSettingsPostpend: <Widget>[
+        afterDesign: <Widget>[
           EzImageSetting(
             configKey: signalImageKey,
             label: 'Signal',
