@@ -22,8 +22,6 @@ class ProfileSettingsScreen extends StatefulWidget {
 class _ProfileSettingsState extends State<ProfileSettingsScreen> {
   // Define the build data //
 
-  late final Lang l10n = Lang.of(context)!;
-
   late final AppUser user = Provider.of<AppUserProvider>(context).value!;
 
   late String name = user.displayName;

@@ -4,7 +4,6 @@
  */
 
 import '../../api/export.dart';
-import '../../utils/export.dart';
 import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
@@ -18,10 +17,6 @@ class ResetPasswordScreen extends StatefulWidget {
 }
 
 class _ResetScreenState extends State<ResetPasswordScreen> {
-  // Gather theme data //
-
-  late final Lang l10n = Lang.of(context)!;
-
   // Set the page title //
 
   @override

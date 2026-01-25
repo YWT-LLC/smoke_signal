@@ -5,7 +5,6 @@
 
 import '../export.dart';
 import '../../api/export.dart';
-import '../../utils/export.dart';
 import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
@@ -20,10 +19,6 @@ class SignalBoard extends StatefulWidget {
 }
 
 class _SignalBoardState extends State<SignalBoard> {
-  // Gather theme data //
-
-  late final Lang l10n = Lang.of(context)!;
-
   // Define build data //
 
   late Stream<List<Signal>> signalStream;

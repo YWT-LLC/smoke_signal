@@ -22,7 +22,6 @@ class CreateSignalScreen extends StatefulWidget {
 class _CreateSignalScreenState extends State<CreateSignalScreen> {
   // Gather theme data //
 
-  late final Lang l10n = Lang.of(context)!;
   late final TextStyle? titleStyle = Theme.of(context).textTheme.titleLarge;
 
   // Define build data //

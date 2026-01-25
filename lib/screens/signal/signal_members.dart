@@ -24,8 +24,6 @@ class SignalMembersScreen extends StatefulWidget {
 class _SignalMembersScreenState extends State<SignalMembersScreen> {
   // Define the build data //
 
-  late final Lang l10n = Lang.of(context)!;
-
   late final AppUser appUser = Provider.of<AppUserProvider>(context).value!;
 
   late Stream<List<User>> userStream;
