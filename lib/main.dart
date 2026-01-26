@@ -37,7 +37,6 @@ void main() async {
   );
 
   // Run the app //
-  // With a feedback wrapper
 
   runApp(const SmokeSignal());
 }
