@@ -3,6 +3,7 @@
  * See LICENSE for distribution and usage details.
  */
 
+import 'package:flutter/material.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 // App config //
@@ -42,22 +43,34 @@ const Map<String, String> credits = <String, String>{
 
 //* EzConfig *//
 
-// Signal settings // TODO: dark/light split
+// Signal settings //
 
-/// signal_image
-const String signalImageKey = 'signal_image';
+/// darkSignalImage
+const String darkSignalImageKey = 'darkSignalImage';
 
-/// signal_height
-const String signalHeightKey = 'signal_height';
+/// lightSignalImage
+const String lightSignalImageKey = 'lightSignalImage';
 
-/// signal_count_height
-const String signalCountHeightKey = 'signal_count_height';
+/// darkSignalHeight
+const String darkSignalHeightKey = 'darkSignalHeight';
 
-/// [signalImageKey], [signalHeightKey], [signalCountHeightKey]
-const Map<String, Type> allSignalKeys = <String, Type>{
-  signalImageKey: String,
-  signalHeightKey: double,
-  signalCountHeightKey: double,
+/// lightSignalHeight
+const String lightSignalHeightKey = 'lightSignalHeight';
+
+/// darkSignalCountHeight
+const String darkSignalCountHeightKey = 'darkSignalCountHeight';
+
+/// lightSignalCountHeight
+const String lightSignalCountHeightKey = 'lightSignalCountHeight';
+
+/// dark/light x [signal image, height, count height]
+const Map<String, Type> signalConfigKeys = <String, Type>{
+  darkSignalImageKey: String,
+  darkSignalHeightKey: double,
+  darkSignalCountHeightKey: double,
+  lightSignalImageKey: String,
+  lightSignalHeightKey: double,
+  lightSignalCountHeightKey: double,
 };
 
 // EzConfig default //
@@ -65,44 +78,50 @@ const Map<String, Type> allSignalKeys = <String, Type>{
 final Map<String, Object> mobileSmokeSignalConfig = <String, Object>{
   ...empathMobileConfig,
 
+  // Design settings
+  darkSignalHeightKey: 200.0,
+  darkSignalCountHeightKey: 100.0,
+  darkBackgroundImageKey: darkForestPath,
+  '$darkBackgroundImageKey$boxFitSuffix': BoxFit.fill.name,
+  darkSignalImageKey: smokeSignalPath,
+  '$darkSignalImageKey$boxFitSuffix': BoxFit.fill.name,
+
+  lightSignalHeightKey: 200.0,
+  lightSignalCountHeightKey: 100.0,
+  lightBackgroundImageKey: lightForestPath,
+  '$lightBackgroundImageKey$boxFitSuffix': BoxFit.fill.name,
+  lightSignalImageKey: smokeSignalPath,
+  '$lightSignalImageKey$boxFitSuffix': BoxFit.fill.name,
+
   // Text settings
   darkTextBackgroundOpacityKey: 0.35,
   lightTextBackgroundOpacityKey: 0.70,
-
-  // Layout? Design?
-  signalHeightKey: 200.0,
-  signalCountHeightKey: 100.0,
-
-  // Image settings
-  darkBackgroundImageKey: darkForestPath,
-  '$darkBackgroundImageKey$boxFitSuffix': fill,
-  lightBackgroundImageKey: lightForestPath,
-  '$lightBackgroundImageKey$boxFitSuffix': fill,
-  signalImageKey: smokeSignalPath,
-  '$signalImageKey$boxFitSuffix': fill,
 };
 
 final Map<String, Object> desktopSmokeSignalConfig = <String, Object>{
   ...empathDesktopConfig,
 
+  // Design settings
+  darkSignalHeightKey: 250.0,
+  darkSignalCountHeightKey: 125.0,
+  darkBackgroundImageKey: darkForestPath,
+  '$darkBackgroundImageKey$boxFitSuffix': BoxFit.fill.name,
+  darkSignalImageKey: smokeSignalPath,
+  '$darkSignalImageKey$boxFitSuffix': BoxFit.fill.name,
+
+  lightSignalHeightKey: 250.0,
+  lightSignalCountHeightKey: 125.0,
+  lightBackgroundImageKey: lightForestPath,
+  '$lightBackgroundImageKey$boxFitSuffix': BoxFit.fill.name,
+  lightSignalImageKey: smokeSignalPath,
+  '$lightSignalImageKey$boxFitSuffix': BoxFit.fill.name,
+
   // Text settings
   darkTextBackgroundOpacityKey: 0.35,
   lightTextBackgroundOpacityKey: 0.70,
-
-  // Layout? Design?
-  signalHeightKey: 250.0,
-  signalCountHeightKey: 125.0,
-
-  // Image settings
-  darkBackgroundImageKey: darkForestPath,
-  '$darkBackgroundImageKey$boxFitSuffix': fill,
-  lightBackgroundImageKey: lightForestPath,
-  '$lightBackgroundImageKey$boxFitSuffix': fill,
-  signalImageKey: smokeSignalPath,
-  '$signalImageKey$boxFitSuffix': fill,
 };
 
 const Map<String, Type> allSmokeSignalKeys = <String, Type>{
   ...allEZConfigKeys,
-  ...allSignalKeys,
+  ...signalConfigKeys,
 };
