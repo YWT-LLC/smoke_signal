@@ -13,24 +13,31 @@ class DesignSettingsScreen extends StatelessWidget {
   const DesignSettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return SmokeSignalScaffold(
-      drawerHeader: const LoginHeader(),
-      body: EzDesignSettings(
-        appName: appName,
-        darkBackgroundCredits: credits[darkForestPath],
-        lightBackgroundCredits: credits[lightForestPath],
-        afterDesign: <Widget>[
-          EzImageSetting(
-            configKey: signalImageKey,
-            label: 'Signal',
-            credits: credits[smokeSignalPath],
-            allowClear: false,
-            updateThemeOption: false,
-            showFitOption: false,
-          ),
-        ],
-      ),
-    );
-  }
+  Widget build(BuildContext context) => SmokeSignalScaffold(
+        drawerHeader: const LoginHeader(),
+        body: EzDesignSettings(
+          appName: appName,
+          darkBackgroundCredits: credits[darkForestPath],
+          lightBackgroundCredits: credits[lightForestPath],
+          afterDesign: <Widget>[
+            EzConfig.isDark
+                ? EzImageSetting(
+                    configKey: darkSignalImageKey,
+                    label: 'Signal',
+                    credits: credits[smokeSignalPath],
+                    allowClear: false,
+                    updateThemeOption: false,
+                    showFitOption: false,
+                  )
+                : EzImageSetting(
+                    configKey: lightSignalImageKey,
+                    label: 'Signal',
+                    credits: credits[smokeSignalPath],
+                    allowClear: false,
+                    updateThemeOption: false,
+                    showFitOption: false,
+                  ), // TODO: figure out how to get both mode to work from the outside
+          ],
+        ),
+      );
 }
