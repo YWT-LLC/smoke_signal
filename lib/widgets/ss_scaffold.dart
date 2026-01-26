@@ -37,12 +37,10 @@ class SmokeSignalScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Gather the theme data //
+    // Gather the contextual theme data //
 
     final double toolbarHeight =
         ezToolbarHeight(context: context, title: appName);
-
-    final bool isLefty = EzConfig.get(isLeftyKey) ?? false;
 
     // Define custom widgets //
 
@@ -64,7 +62,7 @@ class SmokeSignalScaffold extends StatelessWidget {
               toolbarHeight: toolbarHeight,
 
               // Leading (aka left)
-              leading: isLefty ? null : const EzBackAction(),
+              leading: EzConfig.isLefty ? null : const EzBackAction(),
               leadingWidth: toolbarHeight,
 
               // Title
@@ -73,22 +71,22 @@ class SmokeSignalScaffold extends StatelessWidget {
               titleSpacing: 0,
 
               // Actions (aka trailing aka right)
-              actions: isLefty ? const <Widget>[EzBackAction()] : null,
+              actions: EzConfig.isLefty ? const <Widget>[EzBackAction()] : null,
             ),
           ),
 
           // Drawer replaces leading (aka left)
-          drawer: isLefty ? drawer : null,
+          drawer: EzConfig.isLefty ? drawer : null,
 
           // End drawer replaces actions (aka trailing aka right)
-          endDrawer: isLefty ? null : drawer,
+          endDrawer: EzConfig.isLefty ? null : drawer,
 
           // Body
           body: body,
 
           // FAB
           floatingActionButton: fab,
-          floatingActionButtonLocation: isLefty
+          floatingActionButtonLocation: EzConfig.isLefty
               ? FloatingActionButtonLocation.startFloat
               : FloatingActionButtonLocation.endFloat,
 

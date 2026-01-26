@@ -31,21 +31,6 @@ class SignalCard extends StatefulWidget {
 }
 
 class _SignalCardState extends State<SignalCard> {
-  // Gather theme data //
-
-  static const EzSpacer spacer = EzSpacer();
-
-  final double signalHeight = EzConfig.get(signalHeightKey);
-  final double signalCountHeight = EzConfig.get(signalCountHeightKey);
-
-  late final ColorScheme colorScheme = Theme.of(context).colorScheme;
-  late final Color joinedColor = colorScheme.secondary;
-  late final Color defaultColor = colorScheme.primary;
-
-  late final TextTheme textTheme = Theme.of(context).textTheme;
-
-  late final EFUILang el10n = EFUILang.of(context)!;
-
   // Define build data //
 
   late final AppUser appUser = Provider.of<AppUserProvider>(context).value!;
@@ -62,14 +47,6 @@ class _SignalCardState extends State<SignalCard> {
   late final String iconPathKey = '${signalID}_icon_path';
 
   late bool showIcon = EzConfig.get(showIconKey) ?? false;
-
-  late final TextStyle? joinedTextStyle = textTheme.titleLarge?.copyWith(
-    color: colorScheme.onSecondary,
-  );
-
-  late final TextStyle? watchingTextStyle = textTheme.titleLarge?.copyWith(
-    color: colorScheme.onPrimary,
-  );
 
   bool active = false;
 
@@ -90,7 +67,7 @@ class _SignalCardState extends State<SignalCard> {
       context: context,
       builder: (BuildContext dialogContext) {
         return EzAlertDialog(
-          title: Text(el10n.gOptions, textAlign: TextAlign.center),
+          title: Text(EzConfig.l10n.gOptions, textAlign: TextAlign.center),
           contents: <Widget>[
             // Manage members
             ElevatedButton(
@@ -100,7 +77,7 @@ class _SignalCardState extends State<SignalCard> {
               },
               child: const Text('Members'),
             ),
-            spacer,
+            EzConfig.spacer,
 
             // Set icon
             EzImageSetting(
@@ -108,14 +85,14 @@ class _SignalCardState extends State<SignalCard> {
               label: 'Set icon',
               updateThemeOption: false,
             ),
-            spacer,
+            EzConfig.spacer,
 
             // Show/hide icon
             ElevatedButton(
               onPressed: toggleIcon,
               child: const Text('Toggle icon'),
             ),
-            spacer,
+            EzConfig.spacer,
 
             // Owner: Reset count, update message, transfer signal, or delete signal
             // Member: Leave signal
@@ -131,7 +108,7 @@ class _SignalCardState extends State<SignalCard> {
                         },
                         child: const Text('Reset signal'),
                       ),
-                      spacer,
+                      EzConfig.spacer,
 
                       // Update message
                       ElevatedButton(
@@ -141,7 +118,7 @@ class _SignalCardState extends State<SignalCard> {
                         },
                         child: const Text('Update message'),
                       ),
-                      spacer,
+                      EzConfig.spacer,
 
                       // Transfer
                       ElevatedButton(
@@ -151,7 +128,7 @@ class _SignalCardState extends State<SignalCard> {
                         },
                         child: const Text('Transfer signal'),
                       ),
-                      spacer,
+                      EzConfig.spacer,
 
                       // Delete
                       ElevatedButton(
@@ -181,6 +158,29 @@ class _SignalCardState extends State<SignalCard> {
 
   @override
   Widget build(BuildContext context) {
+    // Gather the contextual theme data //
+
+    // TODO: add stuff to provider(s)
+    final double signalHeight = EzConfig.get(
+        EzConfig.isDark ? darkSignalHeightKey : lightSignalHeightKey);
+    final double signalCountHeight = EzConfig.get(
+        EzConfig.isDark ? darkSignalCountHeightKey : lightSignalCountHeightKey);
+
+    late final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    late final Color joinedColor = colorScheme.secondary;
+    late final Color defaultColor = colorScheme.primary;
+
+    late final TextTheme textTheme = Theme.of(context).textTheme;
+    final TextStyle? joinedTextStyle =
+        textTheme.titleLarge?.copyWith(color: colorScheme.onSecondary);
+    final TextStyle? watchingTextStyle =
+        textTheme.titleLarge?.copyWith(color: colorScheme.onPrimary);
+
+    // Return the build //
+
+    final ImageProvider<Object> signalImage = ezImageProvider(
+        EzConfig.isDark ? darkSignalImageKey : lightSignalImageKey);
+
     if (members.contains(appUser)) {
       return Column(
         children: <Widget>[
@@ -255,7 +255,7 @@ class _SignalCardState extends State<SignalCard> {
                     ? <Widget>[
                         // Active: show the current count surrounded by smoke signals
                         EzImage(
-                          image: ezImageProvider(signalImageKey),
+                          image: signalImage,
                           semanticLabel: 'Semantics label',
                         ),
                         Text(
@@ -263,7 +263,7 @@ class _SignalCardState extends State<SignalCard> {
                           style: joinedTextStyle,
                         ),
                         EzImage(
-                          image: ezImageProvider(signalImageKey),
+                          image: signalImage,
                           semanticLabel: 'Semantics label',
                         ),
                       ]
@@ -277,7 +277,7 @@ class _SignalCardState extends State<SignalCard> {
               ),
             ),
           ),
-          spacer,
+          EzConfig.spacer,
         ],
       );
 
