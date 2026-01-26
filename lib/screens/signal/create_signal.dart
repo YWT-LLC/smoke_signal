@@ -20,11 +20,7 @@ class CreateSignalScreen extends StatefulWidget {
 }
 
 class _CreateSignalScreenState extends State<CreateSignalScreen> {
-  // Gather theme data //
-
-  late final TextStyle? titleStyle = Theme.of(context).textTheme.titleLarge;
-
-  // Define build data //
+  // Define the build data //
 
   late final AppUser appUser = Provider.of<AppUserProvider>(context).value!;
 
@@ -37,7 +33,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
   late TextEditingController messageController = TextEditingController();
 
   /// Creates a [List] of [PlatformListTile]s for displaying [UserProfile]s alongside
-  List<ListTile> buildSwitches(List<User> users) {
+  List<ListTile> buildSwitches(List<User> users, TextStyle? titleStyle) {
     final List<User> copy = List<User>.from(users);
     copy.removeWhere((User user) => user == appUser);
 
@@ -121,6 +117,8 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final TextStyle? titleStyle = Theme.of(context).textTheme.titleLarge;
+
     return SmokeSignalScaffold(
       title: 'New signal',
       drawerHeader: const LoggedInHeader(),

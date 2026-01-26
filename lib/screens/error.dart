@@ -19,29 +19,20 @@ class ErrorScreen extends StatefulWidget {
 }
 
 class _ErrorScreenState extends State<ErrorScreen> {
-  // Gather the theme data //
-
-  static const EzSeparator separator = EzSeparator();
-
-  late final EFUILang l10n = EFUILang.of(context)!;
-
-  late final TextTheme textTheme = Theme.of(context).textTheme;
-  late final TextStyle? bodyStyle = textTheme.bodyLarge;
-  late final TextStyle? pitchStyle =
-      bodyStyle?.copyWith(fontSize: textTheme.titleLarge?.fontSize);
-
   // Set the page title //
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    ezWindowNamer(context, '404 ${l10n.gError}');
+    ezWindowNamer(context, '404 ${EzConfig.l10n.gError}');
   }
 
   // Return the build //
 
   @override
   Widget build(BuildContext context) {
+    final TextTheme textTheme = Theme.of(context).textTheme;
+
     return SmokeSignalScaffold(
       drawerHeader: DrawerHeader(
         margin: EdgeInsets.all(EzConfig.marginVal),
@@ -66,23 +57,23 @@ class _ErrorScreenState extends State<ErrorScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                l10n.g404Wonder,
-                style: pitchStyle,
+                EzConfig.l10n.g404Wonder,
+                style: ezSubTitleStyle(textTheme),
                 textAlign: TextAlign.center,
               ),
               const EzSpacer(),
               Text(
-                l10n.g404,
-                style: bodyStyle,
+                EzConfig.l10n.g404,
+                style: textTheme.bodyLarge,
                 textAlign: TextAlign.center,
               ),
-              separator,
+              EzConfig.separator,
               Text(
-                l10n.g404Note,
+                EzConfig.l10n.g404Note,
                 style: textTheme.labelLarge,
                 textAlign: TextAlign.center,
               ),
-              separator,
+              EzConfig.separator,
             ],
           ),
         ),
