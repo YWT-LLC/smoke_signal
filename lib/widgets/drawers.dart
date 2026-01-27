@@ -45,7 +45,7 @@ class SmokeSignalDrawer extends StatelessWidget {
           ),
           onPressed: () {
             Navigator.of(context).pop();
-            context.goNamed(settingsPath);
+            context.goNamed(settingsHomePath);
           },
           icon: const Icon(Icons.settings),
           label: 'Settings',

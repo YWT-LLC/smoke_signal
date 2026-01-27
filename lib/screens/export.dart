@@ -51,8 +51,8 @@ const String signalMembersPath = 'signal-members';
 
 // Settings //
 
-/// settings
-const String settingsPath = 'settings';
+/// settings-home
+const String settingsHomePath = 'settings-home';
 
 /// color-settings
 const String colorSettingsPath = 'color-settings';
