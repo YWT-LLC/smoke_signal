@@ -30,55 +30,51 @@ class _ErrorScreenState extends State<ErrorScreen> {
   // Return the build //
 
   @override
-  Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-
-    return SmokeSignalScaffold(
-      drawerHeader: DrawerHeader(
-        margin: EdgeInsets.all(EzConfig.marginVal),
-        padding: EdgeInsets.zero,
-        child: Center(
-          child: EzScrollView(
-            scrollDirection: Axis.horizontal,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'Nothing to see here',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-            ],
+  Widget build(BuildContext context) => SmokeSignalScaffold(
+        drawerHeader: DrawerHeader(
+          margin: EdgeInsets.all(EzConfig.marginVal),
+          padding: EdgeInsets.zero,
+          child: Center(
+            child: EzScrollView(
+              scrollDirection: Axis.horizontal,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Nothing to see here',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-      body: EzScreen(
-        Center(
-          child: EzScrollView(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                EzConfig.l10n.g404Wonder,
-                style: ezSubTitleStyle(textTheme),
-                textAlign: TextAlign.center,
-              ),
-              const EzSpacer(),
-              Text(
-                EzConfig.l10n.g404,
-                style: textTheme.bodyLarge,
-                textAlign: TextAlign.center,
-              ),
-              EzConfig.separator,
-              Text(
-                EzConfig.l10n.g404Note,
-                style: textTheme.labelLarge,
-                textAlign: TextAlign.center,
-              ),
-              EzConfig.separator,
-            ],
+        body: EzScreen(
+          Center(
+            child: EzScrollView(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  EzConfig.l10n.g404Wonder,
+                  style: ezSubTitleStyle(),
+                  textAlign: TextAlign.center,
+                ),
+                const EzSpacer(),
+                Text(
+                  EzConfig.l10n.g404,
+                  style: EzConfig.styles.bodyLarge,
+                  textAlign: TextAlign.center,
+                ),
+                EzConfig.separator,
+                Text(
+                  EzConfig.l10n.g404Note,
+                  style: EzConfig.styles.labelLarge,
+                  textAlign: TextAlign.center,
+                ),
+                EzConfig.separator,
+              ],
+            ),
           ),
+          useImageDecoration: false,
         ),
-        useImageDecoration: false,
-      ),
-    );
-  }
+      );
 }

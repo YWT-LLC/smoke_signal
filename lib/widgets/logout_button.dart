@@ -12,17 +12,13 @@ class LogoutButton extends StatelessWidget {
   const LogoutButton({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-
-    return EzIconLink(
-      style: textTheme.bodyLarge!.copyWith(
-        fontSize: textTheme.titleLarge!.fontSize,
-      ),
-      onTap: () => logout(context),
-      hint: 'Logout',
-      icon: const Icon(Icons.logout),
-      label: 'Logout',
-    );
-  }
+  Widget build(BuildContext context) => EzIconLink(
+        style: EzConfig.styles.bodyLarge!.copyWith(
+          fontSize: EzConfig.styles.titleLarge!.fontSize,
+        ),
+        onTap: () => logout(context),
+        hint: 'Logout',
+        icon: const Icon(Icons.logout),
+        label: 'Logout',
+      );
 }

@@ -166,15 +166,13 @@ class _SignalCardState extends State<SignalCard> {
     final double signalCountHeight = EzConfig.get(
         EzConfig.isDark ? darkSignalCountHeightKey : lightSignalCountHeightKey);
 
-    late final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    late final Color joinedColor = colorScheme.secondary;
-    late final Color defaultColor = colorScheme.primary;
+    late final Color joinedColor = EzConfig.colors.secondary;
+    late final Color defaultColor = EzConfig.colors.primary;
 
-    late final TextTheme textTheme = Theme.of(context).textTheme;
-    final TextStyle? joinedTextStyle =
-        textTheme.titleLarge?.copyWith(color: colorScheme.onSecondary);
+    final TextStyle? joinedTextStyle = EzConfig.styles.titleLarge
+        ?.copyWith(color: EzConfig.colors.onSecondary);
     final TextStyle? watchingTextStyle =
-        textTheme.titleLarge?.copyWith(color: colorScheme.onPrimary);
+        EzConfig.styles.titleLarge?.copyWith(color: EzConfig.colors.onPrimary);
 
     // Return the build //
 

@@ -26,55 +26,47 @@ class SmokeSignalDrawer extends StatelessWidget {
 
   // Return the build //
 
-  static const EzSpacer _spacer = EzSpacer();
-
   @override
-  Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+  Widget build(BuildContext context) => NavigationDrawer(
+        tilePadding: EdgeInsets.zero,
+        children: <Widget>[
+          header,
+          EzConfig.spacer,
 
-    return NavigationDrawer(
-      tilePadding: EdgeInsets.zero,
-      children: <Widget>[
-        header,
-        _spacer,
-
-        // GoTo settings
-        EzTextIconButton(
-          style: TextButton.styleFrom(
-            backgroundColor: colorScheme.surfaceDim,
+          // GoTo settings
+          EzTextIconButton(
+            style: TextButton.styleFrom(
+                backgroundColor: EzConfig.colors.surfaceDim),
+            onPressed: () {
+              Navigator.of(context).pop();
+              context.goNamed(settingsHomePath);
+            },
+            icon: const Icon(Icons.settings),
+            label: 'Settings',
           ),
-          onPressed: () {
-            Navigator.of(context).pop();
-            context.goNamed(settingsHomePath);
-          },
-          icon: const Icon(Icons.settings),
-          label: 'Settings',
-        ),
-        _spacer,
+          EzConfig.spacer,
 
-        // Show input rules
-        EzTextIconButton(
-          style: TextButton.styleFrom(
-            backgroundColor: colorScheme.surfaceDim,
-          ),
-          onPressed: () => showDialog(
-            context: context,
-            builder: (_) => const EzAlertDialog(
-              title: Text('Input rules', textAlign: TextAlign.center),
-              content: Text(inputRules, textAlign: TextAlign.center),
+          // Show input rules
+          EzTextIconButton(
+            style: TextButton.styleFrom(
+                backgroundColor: EzConfig.colors.surfaceDim),
+            onPressed: () => showDialog(
+              context: context,
+              builder: (_) => const EzAlertDialog(
+                title: Text('Input rules', textAlign: TextAlign.center),
+                content: Text(inputRules, textAlign: TextAlign.center),
+              ),
             ),
+            icon: const Icon(Icons.rule),
+            label: 'Input rules',
           ),
-          icon: const Icon(Icons.rule),
-          label: 'Input rules',
-        ),
 
-        if (extraButtons != null) ...<Widget>[
-          _spacer,
-          ...extraButtons!,
+          if (extraButtons != null) ...<Widget>[
+            EzConfig.spacer,
+            ...extraButtons!,
+          ],
         ],
-      ],
-    );
-  }
+      );
 }
 
 /// [appIcon] and welcome [Text] in a horizontal [EzScrollView]
@@ -124,7 +116,6 @@ class LoggedInHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double iconSize = ezImageSize(context) * 0.667;
-
     final AppUser? appUser = Provider.of<AppUserProvider>(context).value;
 
     return DrawerHeader(
