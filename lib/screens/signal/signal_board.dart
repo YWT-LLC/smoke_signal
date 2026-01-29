@@ -34,13 +34,8 @@ class _SignalBoardState extends State<SignalBoard> {
   @override
   void initState() {
     super.initState();
+    ezWindowNamer('Signal board');
     signalStream = streamSignals();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    ezWindowNamer(context, 'Signal board');
   }
 
   // Return the build //
@@ -48,10 +43,7 @@ class _SignalBoardState extends State<SignalBoard> {
   @override
   Widget build(BuildContext context) {
     return SmokeSignalScaffold(
-      title: 'Signals',
-      drawerHeader: const LoggedInHeader(),
-      extraButtons: const <Widget>[LogoutButton()],
-      body: EzScreen(EzScrollView(children: <Widget>[
+      EzScreen(EzScrollView(children: <Widget>[
         // Signals the user is a member of
         StreamBuilder<List<Signal>>(
           stream: signalStream,
@@ -109,11 +101,17 @@ class _SignalBoardState extends State<SignalBoard> {
         //   },
         // ),
       ])),
-      fab: FloatingActionButton(
-        onPressed: () => context.goNamed(createSignalPath),
-        tooltip: 'Create a new signal',
-        child: const Icon(Icons.add),
-      ),
+      title: 'Signals',
+      drawerHeader: const LoggedInHeader(),
+      extraButtons: const <Widget>[LogoutButton()],
+      fabs: <Widget>[
+        EzConfig.spacer,
+        FloatingActionButton(
+          onPressed: () => context.goNamed(createSignalPath),
+          tooltip: 'Create a new signal',
+          child: const Icon(Icons.add),
+        ),
+      ],
     );
   }
 }

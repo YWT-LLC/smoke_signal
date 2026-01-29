@@ -15,13 +15,13 @@ class SettingsHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const SmokeSignalScaffold(
-        drawerHeader: LoginHeader(),
-        body: EzSettingsHome(
+        EzSettingsHome(
           appName: appName,
           colorSettingsPath: colorSettingsPath,
           designSettingsPath: designSettingsPath,
           layoutSettingsPath: layoutSettingsPath,
           textSettingsPath: textSettingsPath,
         ),
+        drawerHeader: LoginHeader(),
       );
 }

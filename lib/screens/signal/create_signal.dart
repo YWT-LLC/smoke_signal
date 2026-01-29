@@ -82,6 +82,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
   @override
   void initState() {
     super.initState();
+    ezWindowNamer('Create signal');
     getUsers();
   }
 
@@ -105,25 +106,12 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
     }
   }
 
-  // Set the page title //
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    ezWindowNamer(context, 'Create signal');
-  }
-
   // Return the build //
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle? titleStyle = Theme.of(context).textTheme.titleLarge;
-
     return SmokeSignalScaffold(
-      title: 'New signal',
-      drawerHeader: const LoggedInHeader(),
-      extraButtons: const <Widget>[LogoutButton()],
-      body: EzScreen(EzScrollView(children: <Widget>[
+      EzScreen(EzScrollView(children: <Widget>[
         EzHeader(),
 
         // Title field
@@ -157,7 +145,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
         // Toggle for current participation
         Row(
           children: <Widget>[
-            Text('Currently active?', style: titleStyle),
+            Text('Currently active?', style: EzConfig.styles.titleLarge),
             Checkbox(
               value: isActive,
               onChanged: (bool? value) {
@@ -236,6 +224,9 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
         ),
         EzConfig.spacer,
       ])),
+      title: 'New signal',
+      drawerHeader: const LoggedInHeader(),
+      extraButtons: const <Widget>[LogoutButton()],
     );
   }
 

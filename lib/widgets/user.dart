@@ -23,7 +23,7 @@ class NoUserCoin extends StatelessWidget {
         ),
         child: Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary,
+            color: EzConfig.colors.primary,
             shape: BoxShape.circle,
           ),
           child: EzIcon(Icons.clear),
@@ -122,12 +122,12 @@ class AddProfilesWindow extends StatelessWidget {
         width: widthOf(context),
         height: customHeight ?? heightOf(context) / 3.0,
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primary,
+          color: EzConfig.colors.primary,
           borderRadius: ezRoundEdge,
         ),
         child: Column(
           children: <Widget>[
-            Text(title, style: Theme.of(context).textTheme.titleLarge),
+            Text(title, style: EzConfig.styles.titleLarge),
             EzScrollView(children: items),
           ],
         ),

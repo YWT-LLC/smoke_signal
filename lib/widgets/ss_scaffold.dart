@@ -7,6 +7,7 @@ import '../utils/export.dart';
 import './export.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class SmokeSignalScaffold extends StatelessWidget {
@@ -22,17 +23,18 @@ class SmokeSignalScaffold extends StatelessWidget {
   /// [SmokeSignalDrawer.extraButtons] passthrough
   final List<Widget>? extraButtons;
 
-  /// [FloatingActionButton]
-  final Widget? fab;
+  /// [FloatingActionButton]s to add on top of the [EzUpdaterFAB]
+  /// BYO spacing widgets
+  final List<Widget>? fabs;
 
   /// Standardized [Scaffold] for all of Smoke Signals's screens
-  const SmokeSignalScaffold({
+  const SmokeSignalScaffold(
+    this.body, {
     super.key,
     this.title = appName,
-    required this.body,
     required this.drawerHeader,
     this.extraButtons,
-    this.fab,
+    this.fabs,
   });
 
   @override
@@ -52,46 +54,54 @@ class SmokeSignalScaffold extends StatelessWidget {
     // Return the build //
 
     return EzAdaptiveParent(
-      small: SelectionArea(
-        child: Scaffold(
-          // AppBar
-          appBar: PreferredSize(
-            preferredSize: Size(double.infinity, toolbarHeight),
-            child: AppBar(
-              excludeHeaderSemantics: true,
-              toolbarHeight: toolbarHeight,
+      small: Consumer<EzConfigProvider>(
+        builder: (_, EzConfigProvider provider, __) => SelectionArea(
+          child: Scaffold(
+            key: ValueKey<int>(provider.seed),
 
-              // Leading (aka left)
-              leading: EzConfig.isLefty ? null : const EzBackAction(),
-              leadingWidth: toolbarHeight,
+            // AppBar
+            appBar: PreferredSize(
+              preferredSize: Size(double.infinity, toolbarHeight),
+              child: AppBar(
+                excludeHeaderSemantics: true,
+                toolbarHeight: toolbarHeight,
 
-              // Title
-              title: Text(title),
-              centerTitle: true,
-              titleSpacing: 0,
+                // Leading (aka left)
+                leading: EzConfig.isLefty ? null : const EzBackAction(),
+                leadingWidth: toolbarHeight,
 
-              // Actions (aka trailing aka right)
-              actions: EzConfig.isLefty ? const <Widget>[EzBackAction()] : null,
+                // Title
+                title: Text(title),
+                centerTitle: true,
+                titleSpacing: 0,
+
+                // Actions (aka trailing aka right)
+                actions:
+                    EzConfig.isLefty ? const <Widget>[EzBackAction()] : null,
+              ),
             ),
+
+            // Drawer replaces leading (aka left)
+            drawer: EzConfig.isLefty ? drawer : null,
+
+            // End drawer replaces actions (aka trailing aka right)
+            endDrawer: EzConfig.isLefty ? null : drawer,
+
+            // Body
+            body: body,
+
+            // FAB
+            floatingActionButton: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[updater, if (fabs != null) ...fabs!],
+            ),
+            floatingActionButtonLocation: EzConfig.isLefty
+                ? FloatingActionButtonLocation.startFloat
+                : FloatingActionButtonLocation.endFloat,
+
+            // Prevent the keyboard from pushing the body up
+            resizeToAvoidBottomInset: false,
           ),
-
-          // Drawer replaces leading (aka left)
-          drawer: EzConfig.isLefty ? drawer : null,
-
-          // End drawer replaces actions (aka trailing aka right)
-          endDrawer: EzConfig.isLefty ? null : drawer,
-
-          // Body
-          body: body,
-
-          // FAB
-          floatingActionButton: fab,
-          floatingActionButtonLocation: EzConfig.isLefty
-              ? FloatingActionButtonLocation.startFloat
-              : FloatingActionButtonLocation.endFloat,
-
-          // Prevent the keyboard from pushing the body up
-          resizeToAvoidBottomInset: false,
         ),
       ),
     );

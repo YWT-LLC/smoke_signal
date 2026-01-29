@@ -14,8 +14,7 @@ class DesignSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SmokeSignalScaffold(
-        drawerHeader: const LoginHeader(),
-        body: EzDesignSettings(
+        EzDesignSettings(
           appName: appName,
           darkBackgroundCredits: credits[darkForestPath],
           lightBackgroundCredits: credits[lightForestPath],
@@ -39,5 +38,6 @@ class DesignSettingsScreen extends StatelessWidget {
                   ), // TODO: figure out how to get both mode to work from the outside
           ],
         ),
+        drawerHeader: const LoginHeader(),
       );
 }
