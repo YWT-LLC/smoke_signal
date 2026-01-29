@@ -137,15 +137,8 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
   @override
   void initState() {
     super.initState();
+    ezWindowNamer('Signal members');
     userStream = streamUsers();
-  }
-
-  // Set the page title //
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    ezWindowNamer(context, 'Signal members');
   }
 
   // Return the build //
@@ -153,10 +146,7 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
   @override
   Widget build(BuildContext context) {
     return SmokeSignalScaffold(
-      title: '${signal.title} members',
-      drawerHeader: const LoggedInHeader(),
-      extraButtons: const <Widget>[LogoutButton()],
-      body: EzScreen(StreamBuilder<List<User>>(
+      EzScreen(StreamBuilder<List<User>>(
         stream: userStream,
         builder: (
           _,
@@ -177,6 +167,9 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
           }
         },
       )),
+      title: '${signal.title} members',
+      drawerHeader: const LoggedInHeader(),
+      extraButtons: const <Widget>[LogoutButton()],
     );
   }
 }
