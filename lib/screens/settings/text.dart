@@ -16,7 +16,7 @@ class TextSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SmokeSignalScaffold(
+        EzTextSettings(target: target, appName: appName),
         drawerHeader: const LoginHeader(),
-        body: EzTextSettings(target: target, appName: appName),
       );
 }

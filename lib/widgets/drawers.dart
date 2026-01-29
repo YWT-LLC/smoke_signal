@@ -100,7 +100,7 @@ class LoginHeader extends StatelessWidget {
             Text(
               "Sign in,\nfire's warm",
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleLarge,
+              style: EzConfig.styles.titleLarge,
             ),
           ],
         ),
@@ -131,7 +131,7 @@ class LoggedInHeader extends StatelessWidget {
             Flexible(
               child: Text(
                 appUser?.displayName ?? defaultDisplayName,
-                style: Theme.of(context).textTheme.titleLarge,
+                style: EzConfig.styles.titleLarge,
               ),
             ),
             EzConfig.margin,
@@ -140,9 +140,7 @@ class LoggedInHeader extends StatelessWidget {
             Container(
               constraints: BoxConstraints(maxHeight: iconSize),
               decoration: BoxDecoration(
-                border: Border.all(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+                border: Border.all(color: EzConfig.colors.primary),
                 borderRadius: BorderRadius.circular(iconSize),
               ),
               child: ClipRRect(

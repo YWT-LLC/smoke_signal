@@ -160,7 +160,7 @@ class _SignalCardState extends State<SignalCard> {
   Widget build(BuildContext context) {
     // Gather the contextual theme data //
 
-    // TODO: add stuff to provider(s)
+    // CAW! Add this stuff to a local provider
     final double signalHeight = EzConfig.get(
         EzConfig.isDark ? darkSignalHeightKey : lightSignalHeightKey);
     final double signalCountHeight = EzConfig.get(

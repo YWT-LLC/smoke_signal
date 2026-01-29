@@ -14,7 +14,7 @@ class LayoutSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const SmokeSignalScaffold(
+        EzLayoutSettings(appName: appName),
         drawerHeader: LoginHeader(),
-        body: EzLayoutSettings(appName: appName),
       );
 }

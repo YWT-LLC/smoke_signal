@@ -17,26 +17,24 @@ class ResetPasswordScreen extends StatefulWidget {
 }
 
 class _ResetScreenState extends State<ResetPasswordScreen> {
-  // Set the page title //
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    ezWindowNamer(context, 'Reset password');
-  }
-
   // Define build data //
 
   final TextEditingController emailController = TextEditingController();
+
+  // Set the page title //
+
+  @override
+  void initState() {
+    super.initState();
+    ezWindowNamer('Reset password');
+  }
 
   // Return the build //
 
   @override
   Widget build(BuildContext context) {
     return SmokeSignalScaffold(
-      title: 'No problem!',
-      drawerHeader: const LoginHeader(),
-      body: EzScreen(
+      EzScreen(
         EzScrollView(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -95,6 +93,8 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
         ),
         alignment: Alignment.center,
       ),
+      title: 'No problem!',
+      drawerHeader: const LoginHeader(),
     );
   }
 

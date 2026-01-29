@@ -21,8 +21,7 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   // Define the build data //
 
-  late final double bodyTextSize =
-      Theme.of(context).textTheme.bodyLarge?.fontSize ?? 16;
+  late final double bodyTextSize = EzConfig.styles.bodyLarge?.fontSize ?? 16;
 
   bool showPwd = false;
 
@@ -32,18 +31,16 @@ class _AuthScreenState extends State<AuthScreen> {
   // Set the page title //
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    ezWindowNamer(context, 'Auth');
+  void initState() {
+    super.initState();
+    ezWindowNamer('Auth');
   }
-
   // Return the build //
 
   @override
   Widget build(BuildContext context) {
     return SmokeSignalScaffold(
-      drawerHeader: const LoginHeader(),
-      body: EzScreen(
+      EzScreen(
         EzScrollView(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -154,7 +151,7 @@ class _AuthScreenState extends State<AuthScreen> {
             // Forgot password
             EzLink(
               'Forgot your password?',
-              style: Theme.of(context).textTheme.bodyLarge!,
+              style: EzConfig.styles.bodyLarge!,
               onTap: () => context.goNamed(resetPasswordPath),
               hint: 'Go to the password reset page',
             ),
@@ -163,6 +160,7 @@ class _AuthScreenState extends State<AuthScreen> {
         ),
         alignment: Alignment.center,
       ),
+      drawerHeader: const LoginHeader(),
     );
   }
 
