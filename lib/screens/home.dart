@@ -19,9 +19,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    ezWindowNamer(context, appName);
+  void initState() {
+    super.initState();
+    ezWindowNamer(appName);
   }
 
   @override

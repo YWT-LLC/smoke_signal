@@ -48,9 +48,9 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
   // Set the page title //
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    ezWindowNamer(context, 'Profile settings');
+  void initState() {
+    super.initState();
+    ezWindowNamer('Profile settings');
   }
 
   // Return the build //
@@ -58,9 +58,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return SmokeSignalScaffold(
-      title: 'Edit Profile',
-      drawerHeader: const LoginHeader(),
-      body: EzScreen(EzScrollView(
+      EzScreen(EzScrollView(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           EzHeader(),
@@ -69,7 +67,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
           EzTextBackground(
             Text(
               name,
-              style: Theme.of(context).textTheme.titleLarge,
+              style: EzConfig.styles.titleLarge,
               textAlign: TextAlign.center,
             ),
           ),
@@ -107,6 +105,8 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
           EzConfig.spacer,
         ],
       )),
+      title: 'Edit Profile',
+      drawerHeader: const LoginHeader(),
     );
   }
 

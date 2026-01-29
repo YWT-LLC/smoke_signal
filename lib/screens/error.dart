@@ -22,33 +22,16 @@ class _ErrorScreenState extends State<ErrorScreen> {
   // Set the page title //
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    ezWindowNamer(context, '404 ${EzConfig.l10n.gError}');
+  void initState() {
+    super.initState();
+    ezWindowNamer(ez404());
   }
 
   // Return the build //
 
   @override
   Widget build(BuildContext context) => SmokeSignalScaffold(
-        drawerHeader: DrawerHeader(
-          margin: EdgeInsets.all(EzConfig.marginVal),
-          padding: EdgeInsets.zero,
-          child: Center(
-            child: EzScrollView(
-              scrollDirection: Axis.horizontal,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Nothing to see here',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ],
-            ),
-          ),
-        ),
-        body: EzScreen(
+        EzScreen(
           Center(
             child: EzScrollView(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -75,6 +58,23 @@ class _ErrorScreenState extends State<ErrorScreen> {
             ),
           ),
           useImageDecoration: false,
+        ),
+        drawerHeader: DrawerHeader(
+          margin: EdgeInsets.all(EzConfig.marginVal),
+          padding: EdgeInsets.zero,
+          child: Center(
+            child: EzScrollView(
+              scrollDirection: Axis.horizontal,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Nothing to see here',
+                  textAlign: TextAlign.center,
+                  style: EzConfig.styles.titleLarge,
+                ),
+              ],
+            ),
+          ),
         ),
       );
 }

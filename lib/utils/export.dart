@@ -5,5 +5,6 @@
 
 export 'consts.dart';
 export 'providers.dart';
+export 'smoke_signal_cache.dart';
 
 export '../l10n/lang.dart';

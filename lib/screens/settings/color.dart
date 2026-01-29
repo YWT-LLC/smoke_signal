@@ -16,7 +16,7 @@ class ColorSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SmokeSignalScaffold(
+        EzColorSettings(target: target, appName: appName),
         drawerHeader: const LoginHeader(),
-        body: EzColorSettings(target: target, appName: appName),
       );
 }
