@@ -39,7 +39,7 @@ class SmokeSignalDrawer extends StatelessWidget {
                 backgroundColor: EzConfig.colors.surfaceDim),
             onPressed: () {
               Navigator.of(context).pop();
-              context.goNamed(settingsHomePath);
+              context.goNamed(settingsHubPath);
             },
             icon: const Icon(Icons.settings),
             label: 'Settings',

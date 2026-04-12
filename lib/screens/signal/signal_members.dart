@@ -15,7 +15,7 @@ import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 class SignalMembersScreen extends StatefulWidget {
   final Signal signal;
 
-  const SignalMembersScreen({super.key, required this.signal});
+  SignalMembersScreen(this.signal) : super(key: ValueKey<int>(EzConfig.seed));
 
   @override
   State<SignalMembersScreen> createState() => _SignalMembersScreenState();

@@ -63,16 +63,17 @@ class _SignalCardState extends State<SignalCard> {
 
   /// Show all [SignalCard] edits the user can make
   Future<dynamic> showEdits() {
-    return showDialog(
+    return ezModal(
       context: context,
-      builder: (BuildContext dialogContext) {
-        return EzAlertDialog(
-          title: Text(EzConfig.l10n.gOptions, textAlign: TextAlign.center),
-          contents: <Widget>[
+      builder: (_) => StatefulBuilder(
+        builder: (BuildContext modalContext, StateSetter setModal) =>
+            EzScrollView(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
             // Manage members
             ElevatedButton(
               onPressed: () {
-                Navigator.of(dialogContext).pop();
+                Navigator.of(modalContext).pop();
                 context.goNamed(signalMembersPath, extra: signal);
               },
               child: const Text('Members'),
@@ -81,9 +82,10 @@ class _SignalCardState extends State<SignalCard> {
 
             // Set icon
             EzImageSetting(
+              () => setModal(() {}),
               configKey: iconPathKey,
               label: 'Set icon',
-              updateThemeOption: false,
+              allowThemeUpdate: false,
             ),
             EzConfig.spacer,
 
@@ -151,8 +153,8 @@ class _SignalCardState extends State<SignalCard> {
                     ],
             ),
           ],
-        );
-      },
+        ),
+      ),
     );
   }
 

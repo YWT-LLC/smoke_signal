@@ -13,7 +13,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class CreateSignalScreen extends StatefulWidget {
-  const CreateSignalScreen({super.key});
+  CreateSignalScreen() : super(key: ValueKey<int>(EzConfig.seed));
 
   @override
   State<CreateSignalScreen> createState() => _CreateSignalScreenState();

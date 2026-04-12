@@ -12,7 +12,7 @@ import 'package:go_router/go_router.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class AuthScreen extends StatefulWidget {
-  const AuthScreen({super.key});
+  AuthScreen() : super(key: ValueKey<int>(EzConfig.seed));
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();

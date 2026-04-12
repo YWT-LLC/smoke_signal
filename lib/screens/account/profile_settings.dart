@@ -13,7 +13,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class ProfileSettingsScreen extends StatefulWidget {
-  const ProfileSettingsScreen({super.key});
+  ProfileSettingsScreen() : super(key: ValueKey<int>(EzConfig.seed));
 
   @override
   State<ProfileSettingsScreen> createState() => _ProfileSettingsState();
@@ -82,7 +82,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
             icon: const Icon(Icons.edit),
             label: 'New name',
           ),
-          const EzDivider(),
+          EzConfig.divider,
 
           // Profile image
           CircleAvatar(

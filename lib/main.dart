@@ -16,13 +16,10 @@ import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 
 void main() async {
-  // Setup the app //
+  // Configure the app //
 
   WidgetsFlutterBinding.ensureInitialized();
-
   await SystemChrome.setPreferredOrientations(DeviceOrientation.values);
-
-  // Initialize EzConfig //
 
   EzConfig.init(
     assetPaths: assetPaths,
@@ -39,9 +36,12 @@ void main() async {
   // Run the app //
 
   final (Locale storedLocale, EFUILang storedEFUILang) = await ezStoredL10n();
-  final Lang storedLang = await Lang.delegate.load(storedLocale);
 
-  runApp(SmokeSignal(storedLocale, storedEFUILang, storedLang));
+  runApp(SmokeSignal(
+    storedLocale,
+    storedEFUILang,
+    await Lang.delegate.load(storedLocale),
+  ));
 }
 
 class SmokeSignal extends StatelessWidget {
@@ -56,14 +56,14 @@ class SmokeSignal extends StatelessWidget {
     super.key,
   });
 
-  // Define setup functions //
+  // Cache images //
 
-  Future<void> precacheImages(BuildContext context) async {
+  void precacheImages(BuildContext context) {
     precacheImage(appIcon, context);
     precacheImage(signalGif, context);
   }
 
-  // Return the build //
+  // Return the app //
 
   @override
   Widget build(BuildContext context) {
@@ -89,14 +89,14 @@ class SmokeSignal extends StatelessWidget {
             path: homePath,
             name: homePath,
             pageBuilder: (BuildContext context, GoRouterState state) =>
-                ezPageBuilder(context, state, const HomeScreen()),
+                ezPageBuilder(context, state, HomeScreen()),
             routes: <RouteBase>[
               // Reset password
               GoRoute(
                 path: resetPasswordPath,
                 name: resetPasswordPath,
                 pageBuilder: (BuildContext context, GoRouterState state) =>
-                    ezPageBuilder(context, state, const ResetPasswordScreen()),
+                    ezPageBuilder(context, state, ResetPasswordScreen()),
               ),
 
               // Profile settings
@@ -104,8 +104,7 @@ class SmokeSignal extends StatelessWidget {
                 path: profileSettingsPath,
                 name: profileSettingsPath,
                 pageBuilder: (BuildContext context, GoRouterState state) =>
-                    ezPageBuilder(
-                        context, state, const ProfileSettingsScreen()),
+                    ezPageBuilder(context, state, ProfileSettingsScreen()),
               ),
 
               // Create signal
@@ -113,7 +112,7 @@ class SmokeSignal extends StatelessWidget {
                 path: createSignalPath,
                 name: createSignalPath,
                 pageBuilder: (BuildContext context, GoRouterState state) =>
-                    ezPageBuilder(context, state, const CreateSignalScreen()),
+                    ezPageBuilder(context, state, CreateSignalScreen()),
               ),
 
               // Signal members
@@ -122,99 +121,15 @@ class SmokeSignal extends StatelessWidget {
                 name: signalMembersPath,
                 pageBuilder: (BuildContext context, GoRouterState state) =>
                     ezPageBuilder(context, state,
-                        SignalMembersScreen(signal: state.extra as Signal)),
+                        SignalMembersScreen(state.extra as Signal)),
               ),
-              // Settings home
+
+              // Settings
               GoRoute(
-                path: settingsHomePath,
-                name: settingsHomePath,
+                path: settingsHubPath,
+                name: settingsHubPath,
                 pageBuilder: (BuildContext context, GoRouterState state) =>
-                    ezPageBuilder(context, state, const SettingsHomeScreen()),
-                routes: <RouteBase>[
-                  // Color settings
-                  GoRoute(
-                    path: colorSettingsPath,
-                    name: colorSettingsPath,
-                    pageBuilder: (BuildContext context, GoRouterState state) =>
-                        ezPageBuilder(
-                            context, state, const ColorSettingsScreen()),
-                    routes: <RouteBase>[
-                      GoRoute(
-                        path: EzCSType.quick.path,
-                        name: EzCSType.quick.name,
-                        pageBuilder:
-                            (BuildContext context, GoRouterState state) =>
-                                ezPageBuilder(
-                          context,
-                          state,
-                          const ColorSettingsScreen(target: EzCSType.quick),
-                        ),
-                      ),
-                      GoRoute(
-                        path: EzCSType.advanced.path,
-                        name: EzCSType.advanced.name,
-                        pageBuilder:
-                            (BuildContext context, GoRouterState state) =>
-                                ezPageBuilder(
-                          context,
-                          state,
-                          const ColorSettingsScreen(target: EzCSType.advanced),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  // Design settings
-                  GoRoute(
-                    path: designSettingsPath,
-                    name: designSettingsPath,
-                    pageBuilder: (BuildContext context, GoRouterState state) =>
-                        ezPageBuilder(
-                            context, state, const DesignSettingsScreen()),
-                  ),
-
-                  // Layout settings
-                  GoRoute(
-                    path: layoutSettingsPath,
-                    name: layoutSettingsPath,
-                    pageBuilder: (BuildContext context, GoRouterState state) =>
-                        ezPageBuilder(
-                            context, state, const LayoutSettingsScreen()),
-                  ),
-
-                  // Text settings
-                  GoRoute(
-                    path: textSettingsPath,
-                    name: textSettingsPath,
-                    pageBuilder: (BuildContext context, GoRouterState state) =>
-                        ezPageBuilder(
-                            context, state, const TextSettingsScreen()),
-                    routes: <RouteBase>[
-                      GoRoute(
-                        path: EzTSType.quick.path,
-                        name: EzTSType.quick.name,
-                        pageBuilder:
-                            (BuildContext context, GoRouterState state) =>
-                                ezPageBuilder(
-                          context,
-                          state,
-                          const TextSettingsScreen(target: EzTSType.quick),
-                        ),
-                      ),
-                      GoRoute(
-                        path: EzTSType.advanced.path,
-                        name: EzTSType.advanced.name,
-                        pageBuilder:
-                            (BuildContext context, GoRouterState state) =>
-                                ezPageBuilder(
-                          context,
-                          state,
-                          const TextSettingsScreen(target: EzTSType.advanced),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                    ezPageBuilder(context, state, SettingsHubScreen()),
               ),
             ],
           ),

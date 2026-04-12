@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({super.key});
+  ResetPasswordScreen() : super(key: ValueKey<int>(EzConfig.seed));
 
   @override
   State<ResetPasswordScreen> createState() => _ResetScreenState();
@@ -52,7 +52,7 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
                 ),
               ),
             ),
-            const EzSeparator(),
+            EzConfig.separator,
 
             // Submit button
             EzElevatedIconButton(

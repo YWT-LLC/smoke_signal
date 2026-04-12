@@ -12,7 +12,7 @@ import 'package:go_router/go_router.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class SignalBoard extends StatefulWidget {
-  const SignalBoard({super.key});
+  SignalBoard() : super(key: ValueKey<int>(EzConfig.seed));
 
   @override
   State<SignalBoard> createState() => _SignalBoardState();

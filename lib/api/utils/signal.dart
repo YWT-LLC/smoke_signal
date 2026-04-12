@@ -16,9 +16,7 @@ dynamic streamSignals() {
 /// Add the new [signal] to the DB
 ///
 /// In dev - 'Name is already taken'
-Future<String?> addToDB(Signal signal) async {
-  return validateSignal(signal);
-}
+Future<String?> addToDB(Signal signal) => validateSignal(signal);
 
 /// Toggle the [AppUser]s participation for [signal]
 ///

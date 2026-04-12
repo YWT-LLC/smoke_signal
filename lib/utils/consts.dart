@@ -11,6 +11,9 @@ import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 /// Smoke Signal
 const String appName = 'Smoke Signal';
 
+/// net.empathetech.smoke_signal
+const String androidPackage = 'net.empathetech.smoke_signal';
+
 // Local assets //
 
 /// assets/images/app-icon.png

@@ -11,11 +11,11 @@ import 'package:provider/provider.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class SmokeSignalScaffold extends StatelessWidget {
-  /// [AppBar.title] passthrough (via [Text] widget)
-  final String title;
-
   /// Recommended to use [EzScreen] at the top level
   final Widget body;
+
+  /// [AppBar.title] passthrough (via [Text] widget)
+  final String title;
 
   /// Recommended to use [DrawerHeader]
   final Widget drawerHeader;
@@ -55,11 +55,9 @@ class SmokeSignalScaffold extends StatelessWidget {
 
     return EzAdaptiveParent(
       small: Consumer<EzConfigProvider>(
-        builder: (_, EzConfigProvider provider, __) => SelectionArea(
+        builder: (_, EzConfigProvider config, __) => SelectionArea(
           child: Scaffold(
-            key: ValueKey<int>(provider.seed),
-
-            // AppBar
+            key: ValueKey<int>(config.seed),
             appBar: PreferredSize(
               preferredSize: Size(double.infinity, toolbarHeight),
               child: AppBar(
@@ -71,7 +69,7 @@ class SmokeSignalScaffold extends StatelessWidget {
                 leadingWidth: toolbarHeight,
 
                 // Title
-                title: Text(title),
+                title: Text(title, textAlign: TextAlign.center),
                 centerTitle: true,
                 titleSpacing: 0,
 
@@ -87,19 +85,22 @@ class SmokeSignalScaffold extends StatelessWidget {
             // End drawer replaces actions (aka trailing aka right)
             endDrawer: EzConfig.isLefty ? null : drawer,
 
-            // Body
             body: body,
-
-            // FAB
             floatingActionButton: Column(
               mainAxisSize: MainAxisSize.min,
-              children: <Widget>[updater, if (fabs != null) ...fabs!],
+              children: <Widget>[
+                updater,
+                if (fabs != null) ...fabs!,
+                if (config.layout.showBackFAB &&
+                    ezRootNav.currentState!.canPop()) ...<Widget>[
+                  config.layout.spacer,
+                  const EzBackFAB(),
+                ],
+              ],
             ),
             floatingActionButtonLocation: EzConfig.isLefty
                 ? FloatingActionButtonLocation.startFloat
                 : FloatingActionButtonLocation.endFloat,
-
-            // Prevent the keyboard from pushing the body up
             resizeToAvoidBottomInset: false,
           ),
         ),
