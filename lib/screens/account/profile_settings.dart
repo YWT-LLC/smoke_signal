@@ -13,7 +13,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class ProfileSettingsScreen extends StatefulWidget {
-  ProfileSettingsScreen() : super(key: ValueKey<int>(EzConfig.seed));
+  const ProfileSettingsScreen({super.key});
 
   @override
   State<ProfileSettingsScreen> createState() => _ProfileSettingsState();
@@ -27,11 +27,9 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
   late String name = user.displayName;
   late String url = user.avatarURL ?? defaultAvatarURL;
 
-  late final TextEditingController nameController =
-      TextEditingController(text: name);
+  late final TextEditingController nameController = TextEditingController(text: name);
 
-  late final TextEditingController urlController =
-      TextEditingController(text: url);
+  late final TextEditingController urlController = TextEditingController(text: url);
 
   // Define custom functions //
 
@@ -57,56 +55,64 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SmokeSignalScaffold(
-      EzScreen(EzScrollView(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          EzHeader(),
+    return Consumer<EzCP>(
+      builder: (_, EzCP config, __) => SmokeSignalScaffold(
+        config,
+        body: EzScreen(
+          config,
+          child: EzScrollView(
+            config,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              EzHeader(config),
 
-          // Display name
-          EzTextBackground(
-            Text(
-              name,
-              style: EzConfig.styles.titleLarge,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          EzConfig.margin,
+              // Display name
+              EzText(
+                config,
+                text: name,
+                style: config.titleStyle,
+                textAlign: TextAlign.center,
+              ),
+              config.margin,
 
-          // Edit name
-          EzElevatedIconButton(
-            onPressed: () async {
-              final dynamic shouldRefresh = await updateName('Caw');
-              if (shouldRefresh == null) await refreshName();
-            },
-            icon: const Icon(Icons.edit),
-            label: 'New name',
-          ),
-          EzConfig.divider,
+              // Edit name
+              EzElevatedIconButton(
+                config,
+                onPressed: () async {
+                  final dynamic shouldRefresh = await updateName('Caw');
+                  if (shouldRefresh == null) await refreshName();
+                },
+                icon: const Icon(Icons.edit),
+                label: 'New name',
+              ),
+              config.divider,
 
-          // Profile image
-          CircleAvatar(
-            foregroundImage: CachedNetworkImageProvider(url),
-            minRadius: 100,
-            maxRadius: 100,
-          ),
-          EzConfig.margin,
+              // Profile image
+              CircleAvatar(
+                foregroundImage: CachedNetworkImageProvider(url),
+                minRadius: 100,
+                maxRadius: 100,
+              ),
+              config.margin,
 
-          // Edit picture
-          EzElevatedIconButton(
-            onPressed: () async {
-              final dynamic shouldRefresh = await updateAvatar(
-                  'https://media.istockphoto.com/id/537389352/photo/tropical-rainforest.jpg?s=612x612&w=0&k=20&c=Gbweh81zqVDWihcJ5KA_41C0bufuIkgxZkDLc9h4HpI=');
-              if (shouldRefresh == null) await refreshPic();
-            },
-            icon: const Icon(Icons.camera),
-            label: 'New pic',
+              // Edit picture
+              EzElevatedIconButton(
+                config,
+                onPressed: () async {
+                  final dynamic shouldRefresh = await updateAvatar(
+                      'https://media.istockphoto.com/id/537389352/photo/tropical-rainforest.jpg?s=612x612&w=0&k=20&c=Gbweh81zqVDWihcJ5KA_41C0bufuIkgxZkDLc9h4HpI=');
+                  if (shouldRefresh == null) await refreshPic();
+                },
+                icon: const Icon(Icons.camera),
+                label: 'New pic',
+              ),
+              config.spacer,
+            ],
           ),
-          EzConfig.spacer,
-        ],
-      )),
-      title: 'Edit Profile',
-      drawerHeader: const LoginHeader(),
+        ),
+        title: 'Edit Profile',
+        drawerHeader: LoginHeader(config),
+      ),
     );
   }
 

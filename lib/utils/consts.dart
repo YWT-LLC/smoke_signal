@@ -28,7 +28,7 @@ const String lightForestPath = 'assets/images/light-forest.png';
 /// assets/images/smoke-signal.gif
 const String smokeSignalPath = 'assets/images/smoke-signal.gif';
 
-/// Entries for [EzConfig.init]
+/// Entries for [EzCM.init]
 const Set<String> assetPaths = <String>{
   appIconPath,
   darkForestPath,
@@ -48,30 +48,27 @@ const Map<String, String> credits = <String, String>{
 
 // Signal settings //
 
-/// darkSignalImage
 const String darkSignalImageKey = 'darkSignalImage';
-
-/// lightSignalImage
-const String lightSignalImageKey = 'lightSignalImage';
-
-/// darkSignalHeight
+const String darkSignalImageFitKey = 'darkSignalImageFit';
 const String darkSignalHeightKey = 'darkSignalHeight';
-
-/// lightSignalHeight
-const String lightSignalHeightKey = 'lightSignalHeight';
-
-/// darkSignalCountHeight
 const String darkSignalCountHeightKey = 'darkSignalCountHeight';
 
-/// lightSignalCountHeight
+const String lightSignalImageKey = 'lightSignalImage';
+const String lightSignalImageFitKey = 'lightSignalImageFit';
+const String lightSignalHeightKey = 'lightSignalHeight';
 const String lightSignalCountHeightKey = 'lightSignalCountHeight';
 
 /// dark/light x [signal image, height, count height]
 const Map<String, Type> signalConfigKeys = <String, Type>{
+  // Dark
   darkSignalImageKey: String,
+  darkSignalImageFitKey: String,
   darkSignalHeightKey: double,
   darkSignalCountHeightKey: double,
+
+  // Light
   lightSignalImageKey: String,
+  lightSignalImageFitKey: String,
   lightSignalHeightKey: double,
   lightSignalCountHeightKey: double,
 };
@@ -85,16 +82,16 @@ final Map<String, Object> mobileSmokeSignalConfig = <String, Object>{
   darkSignalHeightKey: 200.0,
   darkSignalCountHeightKey: 100.0,
   darkBackgroundImageKey: darkForestPath,
-  '$darkBackgroundImageKey$boxFitSuffix': BoxFit.fill.name,
+  darkBackgroundFitKey: BoxFit.fill.name,
   darkSignalImageKey: smokeSignalPath,
-  '$darkSignalImageKey$boxFitSuffix': BoxFit.fill.name,
+  darkSignalImageFitKey: BoxFit.fill.name,
 
   lightSignalHeightKey: 200.0,
   lightSignalCountHeightKey: 100.0,
   lightBackgroundImageKey: lightForestPath,
-  '$lightBackgroundImageKey$boxFitSuffix': BoxFit.fill.name,
+  lightBackgroundFitKey: BoxFit.fill.name,
   lightSignalImageKey: smokeSignalPath,
-  '$lightSignalImageKey$boxFitSuffix': BoxFit.fill.name,
+  lightSignalImageFitKey: BoxFit.fill.name,
 
   // Text settings
   darkTextBackgroundOpacityKey: 0.35,
@@ -108,16 +105,16 @@ final Map<String, Object> desktopSmokeSignalConfig = <String, Object>{
   darkSignalHeightKey: 250.0,
   darkSignalCountHeightKey: 125.0,
   darkBackgroundImageKey: darkForestPath,
-  '$darkBackgroundImageKey$boxFitSuffix': BoxFit.fill.name,
+  darkBackgroundFitKey: BoxFit.fill.name,
   darkSignalImageKey: smokeSignalPath,
-  '$darkSignalImageKey$boxFitSuffix': BoxFit.fill.name,
+  darkSignalImageFitKey: BoxFit.fill.name,
 
   lightSignalHeightKey: 250.0,
   lightSignalCountHeightKey: 125.0,
   lightBackgroundImageKey: lightForestPath,
-  '$lightBackgroundImageKey$boxFitSuffix': BoxFit.fill.name,
+  lightBackgroundFitKey: BoxFit.fill.name,
   lightSignalImageKey: smokeSignalPath,
-  '$lightSignalImageKey$boxFitSuffix': BoxFit.fill.name,
+  lightSignalImageFitKey: BoxFit.fill.name,
 
   // Text settings
   darkTextBackgroundOpacityKey: 0.35,

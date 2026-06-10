@@ -10,107 +10,104 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class NoUserCoin extends StatelessWidget {
-  /// [Widget] to display when there are no users found
-  const NoUserCoin({super.key});
+  final EzCP config;
+
+  const NoUserCoin(this.config, {super.key});
 
   @override
   Widget build(BuildContext context) => GestureDetector(
         onLongPress: () => showDialog(
           context: context,
-          builder: (_) => const EzAlertDialog(
-            title: Text('Nobody!', textAlign: TextAlign.center),
+          builder: (_) => EzAlertDialog(
+            config,
+            title: const Text('Nobody!', textAlign: TextAlign.center),
           ),
         ),
         child: Container(
           decoration: BoxDecoration(
-            color: EzConfig.colors.primary,
+            color: config.colors.primary,
             shape: BoxShape.circle,
           ),
-          child: EzIcon(Icons.clear),
+          child: EzIcon(config, Icons.clear),
         ),
       );
 }
 
 class UserCoinScroll extends StatelessWidget {
+  final EzCP config;
   final List<User> users;
 
-  /// A horizontal [EzScrollView] of the [users]' profile pictures
-  const UserCoinScroll({super.key, required this.users});
+  const UserCoinScroll(this.config, {super.key, required this.users});
 
   @override
   Widget build(BuildContext context) => (users.isEmpty)
-      ? const NoUserCoin()
+      ? NoUserCoin(config)
       : EzScrollView(
+          config,
           scrollDirection: Axis.horizontal,
           children: users
-              .map(
-                (User user) => GestureDetector(
-                  onLongPress: () => showDialog(
-                    context: context,
-                    builder: (_) => EzAlertDialog(
-                      content: Text(
-                        user.displayName,
-                        textAlign: TextAlign.center,
+              .map((User user) => GestureDetector(
+                    onLongPress: () => showDialog(
+                      context: context,
+                      builder: (_) => EzAlertDialog(
+                        config,
+                        content: Text(user.displayName, textAlign: TextAlign.center),
                       ),
                     ),
-                  ),
-                  child: CircleAvatar(
-                    foregroundImage: user.avatarURL != null
-                        ? CachedNetworkImageProvider(user.avatarURL!)
-                        : null,
-                    minRadius: EzConfig.iconSize,
-                    maxRadius: EzConfig.iconSize,
-                  ),
-                ),
-              )
+                    child: CircleAvatar(
+                      foregroundImage: user.avatarURL != null
+                          ? CachedNetworkImageProvider(user.avatarURL!)
+                          : null,
+                      minRadius: config.iconSize,
+                      maxRadius: config.iconSize,
+                    ),
+                  ))
               .toList(),
         );
 }
 
 class UserProfileScroll extends StatelessWidget {
+  final EzCP config;
   final List<User> users;
 
-  /// A vertical [EzScrollView] of the [users]' profile pictures and display names
-  const UserProfileScroll({super.key, required this.users});
+  const UserProfileScroll(this.config, {super.key, required this.users});
 
   @override
   Widget build(BuildContext context) => (users.isEmpty)
-      ? const NoUserCoin()
+      ? NoUserCoin(config)
       : EzScrollView(
+          config,
           children: users
-              .map(
-                (User user) => Row(
-                  children: <Widget>[
-                    // Profile image/avatar
-                    CircleAvatar(
-                      foregroundImage: user.avatarURL != null
-                          ? CachedNetworkImageProvider(user.avatarURL!)
-                          : null,
-                      minRadius: EzConfig.iconSize,
-                      maxRadius: EzConfig.iconSize,
-                    ),
+              .map((User user) => Row(
+                    children: <Widget>[
+                      // Profile image/avatar
+                      CircleAvatar(
+                        foregroundImage: user.avatarURL != null
+                            ? CachedNetworkImageProvider(user.avatarURL!)
+                            : null,
+                        minRadius: config.iconSize,
+                        maxRadius: config.iconSize,
+                      ),
 
-                    // Display name
-                    Text(
-                      user.displayName,
-                      textAlign: TextAlign.start,
-                    ),
-                  ],
-                ),
-              )
+                      // Display name
+                      Text(
+                        user.displayName,
+                        textAlign: TextAlign.start,
+                      ),
+                    ],
+                  ))
               .toList(),
         );
 }
 
 class AddProfilesWindow extends StatelessWidget {
+  final EzCP config;
   final String title;
   final List<ListTile> items;
   final double? customHeight;
 
-  /// Wraps [items]s in an [EzScrollView] with a [title]
-  /// Optionally provide a height limit
-  /// Defaults to [heightOf] / 3.0
-  const AddProfilesWindow({
+  const AddProfilesWindow(
+    this.config, {
     super.key,
     required this.title,
     required this.items,
@@ -122,13 +119,13 @@ class AddProfilesWindow extends StatelessWidget {
         width: widthOf(context),
         height: customHeight ?? heightOf(context) / 3.0,
         decoration: BoxDecoration(
-          color: EzConfig.colors.primary,
-          borderRadius: ezRoundEdge,
-        ),
+          color: config.colors.primary,
+          borderRadius: config.textRadius,
+        ), // TODO: shape? there's others too
         child: Column(
           children: <Widget>[
-            Text(title, style: EzConfig.styles.titleLarge),
-            EzScrollView(children: items),
+            Text(title, style: config.titleStyle),
+            EzScrollView(config, children: items),
           ],
         ),
       );

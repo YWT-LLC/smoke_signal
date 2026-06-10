@@ -15,14 +15,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class SmokeSignalDrawer extends StatelessWidget {
-  /// Recommended to use [DrawerHeader]
+  final EzCP config;
   final Widget header;
-
-  /// Optional [extraButtons]
   final List<Widget>? extraButtons;
 
-  /// Universal [NavigationDrawer] for Smoke Signal
-  const SmokeSignalDrawer({super.key, required this.header, this.extraButtons});
+  const SmokeSignalDrawer(this.config, {super.key, required this.header, this.extraButtons});
 
   // Return the build //
 
@@ -31,12 +28,12 @@ class SmokeSignalDrawer extends StatelessWidget {
         tilePadding: EdgeInsets.zero,
         children: <Widget>[
           header,
-          EzConfig.spacer,
+          config.spacer,
 
           // GoTo settings
           EzTextIconButton(
-            style: TextButton.styleFrom(
-                backgroundColor: EzConfig.colors.surfaceDim),
+            config,
+            style: TextButton.styleFrom(backgroundColor: config.colors.surfaceDim),
             onPressed: () {
               Navigator.of(context).pop();
               context.goNamed(settingsHubPath);
@@ -44,17 +41,18 @@ class SmokeSignalDrawer extends StatelessWidget {
             icon: const Icon(Icons.settings),
             label: 'Settings',
           ),
-          EzConfig.spacer,
+          config.spacer,
 
           // Show input rules
           EzTextIconButton(
-            style: TextButton.styleFrom(
-                backgroundColor: EzConfig.colors.surfaceDim),
+            config,
+            style: TextButton.styleFrom(backgroundColor: config.colors.surfaceDim),
             onPressed: () => showDialog(
               context: context,
-              builder: (_) => const EzAlertDialog(
-                title: Text('Input rules', textAlign: TextAlign.center),
-                content: Text(inputRules, textAlign: TextAlign.center),
+              builder: (_) => EzAlertDialog(
+                config,
+                title: const Text('Input rules', textAlign: TextAlign.center),
+                content: const Text(inputRules, textAlign: TextAlign.center),
               ),
             ),
             icon: const Icon(Icons.rule),
@@ -62,27 +60,28 @@ class SmokeSignalDrawer extends StatelessWidget {
           ),
 
           if (extraButtons != null) ...<Widget>[
-            EzConfig.spacer,
+            config.spacer,
             ...extraButtons!,
           ],
         ],
       );
 }
 
-/// [appIcon] and welcome [Text] in a horizontal [EzScrollView]
 class LoginHeader extends StatelessWidget {
-  /// [DrawerHeader] for screens where their is no user logged in
-  const LoginHeader({super.key});
+  final EzCP config;
+
+  const LoginHeader(this.config, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    final double iconSize = ezImageSize(context) * 0.667;
+    final double iconSize = ezImageSize(config, context: context) * 0.667;
 
     return DrawerHeader(
-      margin: EdgeInsets.all(EzConfig.marginVal),
+      margin: EdgeInsets.all(config.marginVal),
       padding: EdgeInsets.zero,
       child: Center(
         child: EzScrollView(
+          config,
           scrollDirection: Axis.horizontal,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -96,11 +95,11 @@ class LoginHeader extends StatelessWidget {
                 ),
               ),
             ),
-            const EzSpacer(vertical: false),
+            config.rowSpacer,
             Text(
               "Sign in,\nfire's warm",
               textAlign: TextAlign.center,
-              style: EzConfig.styles.titleLarge,
+              style: config.titleStyle,
             ),
           ],
         ),
@@ -110,19 +109,21 @@ class LoginHeader extends StatelessWidget {
 }
 
 class LoggedInHeader extends StatelessWidget {
-  /// [DrawerHeader] for screens where the user is logged in
-  const LoggedInHeader({super.key});
+  final EzCP config;
+
+  const LoggedInHeader(this.config, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    final double iconSize = ezImageSize(context) * 0.667;
+    final double iconSize = ezImageSize(config, context: context) * 0.667;
     final AppUser? appUser = Provider.of<AppUserProvider>(context).value;
 
     return DrawerHeader(
-      margin: EdgeInsets.all(EzConfig.marginVal),
+      margin: EdgeInsets.all(config.marginVal),
       padding: EdgeInsets.zero,
       child: Center(
         child: EzScrollView(
+          config,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             // Profile name and picture
@@ -131,21 +132,22 @@ class LoggedInHeader extends StatelessWidget {
             Flexible(
               child: Text(
                 appUser?.displayName ?? defaultDisplayName,
-                style: EzConfig.styles.titleLarge,
+                style: config.titleStyle,
               ),
             ),
-            EzConfig.margin,
+            config.margin,
 
             // Picture
             Container(
               constraints: BoxConstraints(maxHeight: iconSize),
               decoration: BoxDecoration(
-                border: Border.all(color: EzConfig.colors.primary),
+                border: Border.all(color: config.colors.primary),
                 borderRadius: BorderRadius.circular(iconSize),
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(iconSize),
                 child: EzImageLink(
+                  config,
                   onTap: () {
                     Navigator.of(context).pop();
                     context.goNamed(profileSettingsPath);

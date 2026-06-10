@@ -15,7 +15,7 @@ import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 class SignalMembersScreen extends StatefulWidget {
   final Signal signal;
 
-  SignalMembersScreen(this.signal) : super(key: ValueKey<int>(EzConfig.seed));
+  const SignalMembersScreen(this.signal, {super.key});
 
   @override
   State<SignalMembersScreen> createState() => _SignalMembersScreenState();
@@ -34,7 +34,7 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
   // Define custom widgets //
 
   // Creates the widgets for the toggle list from the gathered profiles
-  List<ListTile> buildSwitchTiles(List<User> users) {
+  List<ListTile> buildSwitchTiles(EzCP config, List<User> users) {
     final List<User> copy = List<User>.from(users);
     copy.removeWhere((User user) => user == appUser);
 
@@ -46,13 +46,12 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
           children: <Widget>[
             // Profile image/avatar
             CircleAvatar(
-              foregroundImage: user.avatarURL != null
-                  ? CachedNetworkImageProvider(user.avatarURL!)
-                  : null,
-              minRadius: EzConfig.iconSize,
-              maxRadius: EzConfig.iconSize,
+              foregroundImage:
+                  user.avatarURL != null ? CachedNetworkImageProvider(user.avatarURL!) : null,
+              minRadius: config.iconSize,
+              maxRadius: config.iconSize,
             ),
-            EzMargin(),
+            config.margin,
 
             // Display name
             Text(user.displayName, textAlign: TextAlign.start),
@@ -74,7 +73,7 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
     }).toList();
   }
 
-  Widget sortUsers(List<User> users) {
+  Widget sortUsers(EzCP config, List<User> users) {
     final List<User> memberProfiles = <User>[];
     final List<User> activeProfiles = <User>[];
     // final List<User> pendingProfiles = <User>[];
@@ -97,13 +96,13 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
     final List<Widget> viewChildren = <Widget>[
       // Available members - show all pictures
       const Text('Available'),
-      UserCoinScroll(users: memberProfiles),
-      EzConfig.spacer,
+      UserCoinScroll(config, users: memberProfiles),
+      config.spacer,
 
       // Active members - show all pictures
       const Text('Active'),
-      UserCoinScroll(users: activeProfiles),
-      EzConfig.spacer,
+      UserCoinScroll(config, users: activeProfiles),
+      config.spacer,
     ];
 
     if (unAddedProfiles.isNotEmpty) {
@@ -111,13 +110,15 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
       viewChildren.addAll(
         <Widget>[
           AddProfilesWindow(
+            config,
             title: 'Add?',
-            items: buildSwitchTiles(unAddedProfiles),
+            items: buildSwitchTiles(config, unAddedProfiles),
           ),
-          EzConfig.spacer,
+          config.spacer,
 
           // Submit button
           EzElevatedIconButton(
+            config,
             onPressed: () {
               Navigator.of(context).pop();
               requestMembers(signal, requestedUsers);
@@ -129,7 +130,7 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
       );
     }
 
-    return EzScrollView(children: viewChildren);
+    return EzScrollView(config, children: viewChildren);
   }
 
   // Init //
@@ -145,31 +146,31 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SmokeSignalScaffold(
-      EzScreen(StreamBuilder<List<User>>(
-        stream: userStream,
-        builder: (
-          _,
-          AsyncSnapshot<List<User>> snapshot,
-        ) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return const EzImage(
-                image: signalGif,
-                semanticLabel: 'Loading',
-              );
-            case ConnectionState.done:
-            default:
-              if (snapshot.hasError) {
-                return Center(child: Text(snapshot.error.toString()));
+    return Consumer<EzCP>(
+      builder: (_, EzCP config, __) => SmokeSignalScaffold(
+        config,
+        body: EzScreen(
+          config,
+          child: StreamBuilder<List<User>>(
+            stream: userStream,
+            builder: (_, AsyncSnapshot<List<User>> snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return const EzImage(image: signalGif, semanticLabel: 'Loading');
+
+                case ConnectionState.done:
+                default:
+                  return (snapshot.hasError)
+                      ? Center(child: Text(snapshot.error.toString()))
+                      : sortUsers(config, snapshot.data!);
               }
-              return sortUsers(snapshot.data!);
-          }
-        },
-      )),
-      title: '${signal.title} members',
-      drawerHeader: const LoggedInHeader(),
-      extraButtons: const <Widget>[LogoutButton()],
+            },
+          ),
+        ),
+        title: '${signal.title} members',
+        drawerHeader: LoggedInHeader(config),
+        extraButtons: <Widget>[LogoutButton(config)],
+      ),
     );
   }
 }

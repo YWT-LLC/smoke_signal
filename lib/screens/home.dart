@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen() : super(key: ValueKey<int>(EzConfig.seed));
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -25,8 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      Provider.of<AppUserProvider>(context).value == null
-          ? AuthScreen()
-          : SignalBoard();
+  Widget build(BuildContext context) => Provider.of<AppUserProvider>(context).value == null
+      ? const AuthScreen()
+      : const SignalBoard();
 }

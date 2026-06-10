@@ -11,133 +11,124 @@ import 'package:provider/provider.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class SettingsHubScreen extends StatelessWidget {
-  /// [EzSettingsHub.target] passthrough
   final int? target;
 
-  /// [EzColorSettings.advanced] and/or [EzTextSettings.advanced] passthrough
-  final bool? advanced;
-
-  SettingsHubScreen({this.target, this.advanced})
-      : super(key: ValueKey<int>(EzConfig.seed));
+  const SettingsHubScreen({this.target, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<EzConfigProvider>(
-      builder: (_, EzConfigProvider config, __) => SmokeSignalScaffold(
-        EzScreen(EzSettingsHub(
-          pages: <EzSettingsSection>[
-            // Global
-            EzSettingsSection(
-              position: 0,
-              title: EzConfig.l10n.gGlobal,
-              icon: Icon(
-                config.onMobile
-                    ? config.platform == TargetPlatform.iOS
-                        ? Icons.phone_iphone
-                        : Icons.phone_android
-                    : Icons.computer,
-                semanticLabel: EzConfig.l10n.gGlobal,
-              ),
-              build: const EzGlobalSettings(
-                appName: appName,
-                androidPackage: androidPackage,
-              ),
-            ),
+    return Consumer<EzCP>(
+      builder: (_, EzCP config, __) => SmokeSignalScaffold(
+        config,
+        drawerHeader: LoginHeader(config),
+        body: EzScreen(
+          config,
+          child: EzSettingsHub(
+            config,
+            pages: <EzSettingsSection>[
+              // Global //
 
-            // Color
-            EzSettingsSection(
-              position: 1,
-              title: EzConfig.l10n.gColor,
-              icon: Icon(
-                Icons.palette,
-                semanticLabel: EzConfig.l10n.gColor,
+              EzSettingsSection(
+                position: 0,
+                title: config.ezL10n.gGlobal,
+                icon: EzIcon(
+                  config,
+                  EzCM.onMobile
+                      ? EzCM.platform == TargetPlatform.iOS
+                          ? Icons.phone_iphone
+                          : Icons.phone_android
+                      : Icons.computer,
+                  semanticLabel: config.ezL10n.gGlobal,
+                ),
+                subSettings: <EzSubSetting>[],
+                fromStorage: () => EzSubSetting.blank,
+                build: (_) => EzGlobalSettings(config),
               ),
-              build: EzColorSettings(
-                advanced: advanced,
-                onUpdate: doNothing,
-                appName: appName,
-                androidPackage: androidPackage,
-              ),
-            ),
 
-            // Design
-            EzSettingsSection(
-              position: 2,
-              title: EzConfig.l10n.gDesign,
-              icon: Icon(
-                Icons.design_services,
-                semanticLabel: EzConfig.l10n.gDesign,
-              ),
-              build: EzDesignSettings(
-                onUpdate: doNothing,
-                appName: appName,
-                androidPackage: androidPackage,
-                darkBackgroundCredits: credits[darkForestPath],
-                lightBackgroundCredits: credits[lightForestPath],
-                afterDesign: <Widget>[
-                  EzImageSetting(
-                    doNothing,
-                    configKey: EzConfig.isDark
-                        ? darkSignalImageKey
-                        : lightSignalImageKey,
-                    label: 'Signal',
-                    credits: credits[smokeSignalPath],
-                    allowClear: false,
-                    allowThemeUpdate: false,
-                    showFitOption: false,
-                  )
+              // Color //
+
+              EzSettingsSection(
+                position: 1,
+                title: config.ezL10n.gColor,
+                icon: EzIcon(
+                  config,
+                  Icons.palette,
+                  semanticLabel: config.ezL10n.gColor,
+                ),
+                subSettings: <EzSubSetting>[
+                  EzSubSetting.qckColor,
+                  EzSubSetting.advColor,
                 ],
+                fromStorage: () => EzCM.get(advancedColorsKey) == true
+                    ? EzSubSetting.advColor
+                    : EzSubSetting.qckColor,
+                build: (EzSubSetting subSec) => EzColorSettings(config, target: subSec),
               ),
-            ),
 
-            // Layout
-            EzSettingsSection(
-              position: 3,
-              title: EzConfig.l10n.gLayout,
-              icon: Icon(
-                Icons.grid_3x3,
-                semanticLabel: EzConfig.l10n.gLayout,
-              ),
-              build: const EzLayoutSettings(
-                onUpdate: doNothing,
-                appName: appName,
-                androidPackage: androidPackage,
-              ),
-            ),
+              // Design //
 
-            // Text
-            EzSettingsSection(
-              position: 4,
-              title: EzConfig.l10n.gText,
-              icon: Icon(
-                Icons.text_format,
-                semanticLabel: EzConfig.l10n.gText,
+              EzSettingsSection(
+                position: 2,
+                title: config.ezL10n.gDesign,
+                icon: EzIcon(
+                  config,
+                  Icons.design_services,
+                  semanticLabel: config.ezL10n.gDesign,
+                ),
+                subSettings: <EzSubSetting>[
+                  EzSubSetting.butDesign,
+                  EzSubSetting.pagDesign,
+                ],
+                fromStorage: () =>
+                    EzCM.get(pageTabKey) == true ? EzSubSetting.pagDesign : EzSubSetting.butDesign,
+                build: (EzSubSetting subSec) => EzDesignSettings(
+                  config,
+                  target: subSec,
+                  appendButton: <Widget>[
+                    EzImageSetting(
+                      config,
+                      pathKey: config.isDark ? darkSignalImageKey : lightSignalImageKey,
+                      fitKey: config.isDark ? darkSignalImageFitKey : lightSignalImageFitKey,
+                      label: 'Signal',
+                      allowClear: false,
+                      showFitOption: false,
+                    ), // TODO: is update the theme always there? remove plz
+                  ],
+                ),
               ),
-              build: EzTextSettings(
-                advanced: advanced,
-                onUpdate: doNothing,
-                appName: appName,
-                androidPackage: androidPackage,
+
+              // Text //
+
+              EzSettingsSection(
+                position: 3,
+                title: config.ezL10n.gText,
+                icon: EzIcon(
+                  config,
+                  Icons.text_format,
+                  semanticLabel: config.ezL10n.gText,
+                ),
+                subSettings: <EzSubSetting>[
+                  EzSubSetting.qckText,
+                  EzSubSetting.advText,
+                ],
+                fromStorage: () =>
+                    EzCM.get(advancedTextKey) == true ? EzSubSetting.advText : EzSubSetting.qckText,
+                build: (EzSubSetting subSec) => EzTextSettings(config, target: subSec),
               ),
-            ),
-          ],
-          target: target,
-        )),
-        drawerHeader: const LoginHeader(),
+            ],
+            target: target,
+          ),
+        ),
         fabs: <Widget>[
           // Rebuild (conditional)
           if (config.needsRebuild) ...<Widget>[
-            config.layout.spacer,
-            const EzRebuildFAB(doNothing),
+            config.spacer,
+            EzRebuildFAB(config),
           ],
 
           // Save/upload config
-          config.layout.spacer,
-          EzConfigFAB(
-            context,
-            appName: appName,
-            androidPackage: androidPackage,
-          ),
+          config.spacer,
+          EzConfigFAB(config),
         ],
       ),
     );

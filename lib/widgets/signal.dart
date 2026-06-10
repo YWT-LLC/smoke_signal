@@ -13,14 +13,13 @@ import 'package:go_router/go_router.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class SignalCard extends StatefulWidget {
-  /// [Signal] to visualize
+  final EzCP config;
   final Signal signal;
-
-  /// If this signal is in a [SignalBoard], what should happen on reload?
   final void Function() reloadBoard;
 
   /// A [Signal] made real
-  const SignalCard({
+  const SignalCard(
+    this.config, {
     super.key,
     required this.signal,
     required this.reloadBoard,
@@ -45,8 +44,9 @@ class _SignalCardState extends State<SignalCard> {
 
   late final String showIconKey = '${signalID}_show_icon';
   late final String iconPathKey = '${signalID}_icon_path';
+  late final String iconPathFitKey = '${signalID}_icon_path';
 
-  late bool showIcon = EzConfig.get(showIconKey) ?? false;
+  late bool showIcon = EzCM.get(showIconKey) ?? false;
 
   bool active = false;
 
@@ -54,9 +54,7 @@ class _SignalCardState extends State<SignalCard> {
 
   /// Toggle whether the [SignalCard]s icon ([Image]) is being shown
   void toggleIcon() async {
-    showIcon
-        ? await EzConfig.remove(showIconKey)
-        : await EzConfig.setBool(showIconKey, true);
+    showIcon ? await EzCM.remove(showIconKey) : await EzCM.setBool(showIconKey, true);
 
     setState(() => showIcon = !showIcon);
   }
@@ -64,10 +62,11 @@ class _SignalCardState extends State<SignalCard> {
   /// Show all [SignalCard] edits the user can make
   Future<dynamic> showEdits() {
     return ezModal(
+      widget.config,
       context: context,
       builder: (_) => StatefulBuilder(
-        builder: (BuildContext modalContext, StateSetter setModal) =>
-            EzScrollView(
+        builder: (BuildContext modalContext, StateSetter setModal) => EzScrollView(
+          widget.config,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             // Manage members
@@ -78,23 +77,23 @@ class _SignalCardState extends State<SignalCard> {
               },
               child: const Text('Members'),
             ),
-            EzConfig.spacer,
+            widget.config.spacer,
 
             // Set icon
             EzImageSetting(
-              () => setModal(() {}),
-              configKey: iconPathKey,
+              widget.config,
+              pathKey: iconPathKey,
+              fitKey: iconPathFitKey,
               label: 'Set icon',
-              allowThemeUpdate: false,
             ),
-            EzConfig.spacer,
+            widget.config.spacer,
 
             // Show/hide icon
             ElevatedButton(
               onPressed: toggleIcon,
               child: const Text('Toggle icon'),
             ),
-            EzConfig.spacer,
+            widget.config.spacer,
 
             // Owner: Reset count, update message, transfer signal, or delete signal
             // Member: Leave signal
@@ -110,7 +109,7 @@ class _SignalCardState extends State<SignalCard> {
                         },
                         child: const Text('Reset signal'),
                       ),
-                      EzConfig.spacer,
+                      widget.config.spacer,
 
                       // Update message
                       ElevatedButton(
@@ -120,7 +119,7 @@ class _SignalCardState extends State<SignalCard> {
                         },
                         child: const Text('Update message'),
                       ),
-                      EzConfig.spacer,
+                      widget.config.spacer,
 
                       // Transfer
                       ElevatedButton(
@@ -130,7 +129,7 @@ class _SignalCardState extends State<SignalCard> {
                         },
                         child: const Text('Transfer signal'),
                       ),
-                      EzConfig.spacer,
+                      widget.config.spacer,
 
                       // Delete
                       ElevatedButton(
@@ -163,23 +162,23 @@ class _SignalCardState extends State<SignalCard> {
     // Gather the contextual theme data //
 
     // CAW! Add this stuff to a local provider
-    final double signalHeight = EzConfig.get(
-        EzConfig.isDark ? darkSignalHeightKey : lightSignalHeightKey);
-    final double signalCountHeight = EzConfig.get(
-        EzConfig.isDark ? darkSignalCountHeightKey : lightSignalCountHeightKey);
+    final double signalHeight =
+        EzCM.get(widget.config.isDark ? darkSignalHeightKey : lightSignalHeightKey);
+    final double signalCountHeight =
+        EzCM.get(widget.config.isDark ? darkSignalCountHeightKey : lightSignalCountHeightKey);
 
-    late final Color joinedColor = EzConfig.colors.secondary;
-    late final Color defaultColor = EzConfig.colors.primary;
+    late final Color joinedColor = widget.config.colors.secondary;
+    late final Color defaultColor = widget.config.colors.primary;
 
-    final TextStyle? joinedTextStyle = EzConfig.styles.titleLarge
-        ?.copyWith(color: EzConfig.colors.onSecondary);
+    final TextStyle? joinedTextStyle =
+        widget.config.titleStyle?.copyWith(color: widget.config.colors.onSecondary);
     final TextStyle? watchingTextStyle =
-        EzConfig.styles.titleLarge?.copyWith(color: EzConfig.colors.onPrimary);
+        widget.config.titleStyle?.copyWith(color: widget.config.colors.onPrimary);
 
     // Return the build //
 
-    final ImageProvider<Object> signalImage = ezImageProvider(
-        EzConfig.isDark ? darkSignalImageKey : lightSignalImageKey);
+    final ImageProvider<Object> signalImage =
+        ezImageProvider(widget.config.isDark ? darkSignalImageKey : lightSignalImageKey);
 
     if (members.contains(appUser)) {
       return Column(
@@ -213,9 +212,7 @@ class _SignalCardState extends State<SignalCard> {
                               child: Center(
                                 child: Text(
                                   title,
-                                  style: active
-                                      ? joinedTextStyle
-                                      : watchingTextStyle,
+                                  style: active ? joinedTextStyle : watchingTextStyle,
                                 ),
                               ),
                             ),
@@ -277,7 +274,7 @@ class _SignalCardState extends State<SignalCard> {
               ),
             ),
           ),
-          EzConfig.spacer,
+          widget.config.spacer,
         ],
       );
 
@@ -300,18 +297,20 @@ class _SignalCardState extends State<SignalCard> {
               ),
             ),
           ),
-          EzSpacer(space: EzConfig.marginVal),
+          widget.config.margin,
 
           // Buttons
-          const Row(
+          Row(
             children: <Widget>[
               EzIconButton(
+                widget.config,
                 onPressed: doNothing,
-                icon: Icon(Icons.clear),
+                icon: EzIcon(widget.config, Icons.clear),
               ),
               EzIconButton(
+                widget.config,
                 onPressed: doNothing,
-                icon: Icon(Icons.check),
+                icon: EzIcon(widget.config, Icons.check),
               ),
             ],
           ),

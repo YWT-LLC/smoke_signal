@@ -9,13 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class LogoutButton extends StatelessWidget {
-  const LogoutButton({super.key});
+  final EzCP config;
+
+  const LogoutButton(this.config, {super.key});
 
   @override
   Widget build(BuildContext context) => EzIconLink(
-        style: EzConfig.styles.bodyLarge!.copyWith(
-          fontSize: EzConfig.styles.titleLarge!.fontSize,
-        ),
+        config,
+        style: ezSubTitleStyle(config.styles),
         onTap: () => logout(context),
         hint: 'Logout',
         icon: const Icon(Icons.logout),

@@ -11,100 +11,70 @@ import 'package:provider/provider.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class SmokeSignalScaffold extends StatelessWidget {
-  /// Recommended to use [EzScreen] at the top level
+  final EzCP config;
   final Widget body;
-
-  /// [AppBar.title] passthrough (via [Text] widget)
   final String title;
-
-  /// Recommended to use [DrawerHeader]
   final Widget drawerHeader;
-
-  /// [SmokeSignalDrawer.extraButtons] passthrough
   final List<Widget>? extraButtons;
-
-  /// [FloatingActionButton]s to add on top of the [EzUpdaterFAB]
-  /// BYO spacing widgets
   final List<Widget>? fabs;
+  final bool isHome;
 
-  /// Standardized [Scaffold] for all of Smoke Signals's screens
   const SmokeSignalScaffold(
-    this.body, {
+    this.config, {
     super.key,
+    required this.body,
     this.title = appName,
     required this.drawerHeader,
     this.extraButtons,
     this.fabs,
+    this.isHome = false,
   });
+
+  // Return the build //
 
   @override
   Widget build(BuildContext context) {
-    // Gather the contextual theme data //
-
-    final double toolbarHeight =
-        ezToolbarHeight(context: context, title: appName);
-
-    // Define custom widgets //
-
-    final Widget drawer = SmokeSignalDrawer(
-      header: drawerHeader,
-      extraButtons: extraButtons,
-    );
-
-    // Return the build //
-
     return EzAdaptiveParent(
-      small: Consumer<EzConfigProvider>(
-        builder: (_, EzConfigProvider config, __) => SelectionArea(
-          child: Scaffold(
-            key: ValueKey<int>(config.seed),
-            appBar: PreferredSize(
-              preferredSize: Size(double.infinity, toolbarHeight),
-              child: AppBar(
-                excludeHeaderSemantics: true,
-                toolbarHeight: toolbarHeight,
+      small: Consumer<EzCP>(builder: (_, EzCP config, __) {
+        final double toolbarHeight = ezToolbarHeight(config, context: context, title: appName);
 
-                // Leading (aka left)
-                leading: EzConfig.isLefty ? null : const EzBackAction(),
-                leadingWidth: toolbarHeight,
+        final Widget drawer = SmokeSignalDrawer(
+          config,
+          header: drawerHeader,
+          extraButtons: extraButtons,
+        );
 
-                // Title
-                title: Text(title, textAlign: TextAlign.center),
-                centerTitle: true,
-                titleSpacing: 0,
+        return EzScaffold(
+          config,
+          appBar: PreferredSize(
+            preferredSize: Size(double.infinity, toolbarHeight),
+            child: AppBar(
+              excludeHeaderSemantics: true,
+              toolbarHeight: toolbarHeight,
 
-                // Actions (aka trailing aka right)
-                actions:
-                    EzConfig.isLefty ? const <Widget>[EzBackAction()] : null,
-              ),
+              // Leading (aka left)
+              leading: config.isLefty ? null : EzBackAction(config),
+              leadingWidth: toolbarHeight,
+
+              // Title
+              title: Text(title, textAlign: TextAlign.center),
+              centerTitle: true,
+              titleSpacing: 0,
+
+              // Actions (aka trailing aka right)
+              actions: config.isLefty ? <Widget>[EzBackAction(config)] : null,
             ),
-
-            // Drawer replaces leading (aka left)
-            drawer: EzConfig.isLefty ? drawer : null,
-
-            // End drawer replaces actions (aka trailing aka right)
-            endDrawer: EzConfig.isLefty ? null : drawer,
-
-            body: body,
-            floatingActionButton: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                updater,
-                if (fabs != null) ...fabs!,
-                if (config.layout.showBackFAB &&
-                    ezRootNav.currentState!.canPop()) ...<Widget>[
-                  config.layout.spacer,
-                  const EzBackFAB(),
-                ],
-              ],
-            ),
-            floatingActionButtonLocation: EzConfig.isLefty
-                ? FloatingActionButtonLocation.startFloat
-                : FloatingActionButtonLocation.endFloat,
-            resizeToAvoidBottomInset: false,
           ),
-        ),
-      ),
+          drawer: config.isLefty ? drawer : null,
+          endDrawer: config.isLefty ? null : drawer,
+          body: body,
+          fabs: <Widget>[
+            updater(config),
+            if (fabs != null) ...fabs!,
+            ...config.backFABs(isHome),
+          ],
+        );
+      }),
     );
   }
 }

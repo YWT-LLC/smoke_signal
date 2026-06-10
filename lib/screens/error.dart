@@ -6,13 +6,11 @@
 import '../widgets/export.dart';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
 
 class ErrorScreen extends StatefulWidget {
-  final GoException? error;
-
-  ErrorScreen(this.error) : super(key: ValueKey<int>(EzConfig.seed));
+  const ErrorScreen({super.key});
 
   @override
   State<ErrorScreen> createState() => _ErrorScreenState();
@@ -31,42 +29,49 @@ class _ErrorScreenState extends State<ErrorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SmokeSignalScaffold(
-      EzScreen(Center(
-        child: EzScrollView(children: <Widget>[
-          Text(
-            EzConfig.l10n.g404Wonder,
-            style: EzConfig.styles.headlineLarge,
-            textAlign: TextAlign.center,
-          ),
-          EzConfig.separator,
-          Text(
-            EzConfig.l10n.g404,
-            style: ezSubTitleStyle(),
-            textAlign: TextAlign.center,
-          ),
-          EzConfig.separator,
-          Text(
-            EzConfig.l10n.g404Note,
-            style: EzConfig.styles.labelLarge,
-            textAlign: TextAlign.center,
-          ),
-        ]),
-      )),
-      drawerHeader: DrawerHeader(
-        margin: EdgeInsets.all(EzConfig.marginVal),
-        padding: EdgeInsets.zero,
-        child: Center(
-          child: EzScrollView(
-            scrollDirection: Axis.horizontal,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
+    return Consumer<EzCP>(
+      builder: (_, EzCP config, __) => SmokeSignalScaffold(
+        config,
+        body: EzScreen(
+          config,
+          child: Center(
+            child: EzScrollView(config, children: <Widget>[
               Text(
-                'Nothing to see here',
+                config.ezL10n.g404Wonder,
+                style: config.headlineStyle,
                 textAlign: TextAlign.center,
-                style: EzConfig.styles.titleLarge,
               ),
-            ],
+              config.separator,
+              Text(
+                config.ezL10n.g404,
+                style: ezSubTitleStyle(config.styles),
+                textAlign: TextAlign.center,
+              ),
+              config.separator,
+              Text(
+                config.ezL10n.g404Note,
+                style: config.labelStyle,
+                textAlign: TextAlign.center,
+              ),
+            ]),
+          ),
+        ),
+        drawerHeader: DrawerHeader(
+          margin: EdgeInsets.all(config.marginVal),
+          padding: EdgeInsets.zero,
+          child: Center(
+            child: EzScrollView(
+              config,
+              scrollDirection: Axis.horizontal,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Nothing to see here',
+                  textAlign: TextAlign.center,
+                  style: config.titleStyle,
+                ),
+              ],
+            ),
           ),
         ),
       ),

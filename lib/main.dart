@@ -21,9 +21,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations(DeviceOrientation.values);
 
-  EzConfig.init(
+  EzCM.init(
+    appName: appName,
+    androidPackage: androidPackage,
     assetPaths: assetPaths,
-    defaults: isMobile() ? mobileSmokeSignalConfig : desktopSmokeSignalConfig,
+    orientations: DeviceOrientation.values,
     localeFallback: americanEnglish,
     l10nFallback: await EFUILang.delegate.load(americanEnglish),
     preferences: await SharedPreferencesWithCache.create(
@@ -31,6 +33,7 @@ void main() async {
         allowList: allSmokeSignalKeys.keys.toSet(),
       ),
     ),
+    defaults: isMobile() ? mobileSmokeSignalConfig : desktopSmokeSignalConfig,
   );
 
   // Run the app //
@@ -79,57 +82,55 @@ class SmokeSignal extends StatelessWidget {
       locale: storedLocale,
       el10n: storedEFUILang,
       appCache: SmokeSignalCache(storedLocale, storedLang),
-      appName: appName,
       routerConfig: GoRouter(
         initialLocation: homePath,
-        errorBuilder: (_, GoRouterState state) => ErrorScreen(state.error),
+        errorBuilder: (_, GoRouterState state) => const ErrorScreen(),
         routes: <RouteBase>[
           // Home
           GoRoute(
             path: homePath,
             name: homePath,
-            pageBuilder: (BuildContext context, GoRouterState state) =>
-                ezPageBuilder(context, state, HomeScreen()),
+            pageBuilder: (BuildContext pbc, GoRouterState pbs) =>
+                ezPageBuilder(configWatcher(pbc), pbc, pbs, const HomeScreen()),
             routes: <RouteBase>[
               // Reset password
               GoRoute(
                 path: resetPasswordPath,
                 name: resetPasswordPath,
-                pageBuilder: (BuildContext context, GoRouterState state) =>
-                    ezPageBuilder(context, state, ResetPasswordScreen()),
+                pageBuilder: (BuildContext pbc, GoRouterState pbs) =>
+                    ezPageBuilder(configWatcher(pbc), pbc, pbs, const ResetPasswordScreen()),
               ),
 
               // Profile settings
               GoRoute(
                 path: profileSettingsPath,
                 name: profileSettingsPath,
-                pageBuilder: (BuildContext context, GoRouterState state) =>
-                    ezPageBuilder(context, state, ProfileSettingsScreen()),
+                pageBuilder: (BuildContext pbc, GoRouterState pbs) =>
+                    ezPageBuilder(configWatcher(pbc), pbc, pbs, const ProfileSettingsScreen()),
               ),
 
               // Create signal
               GoRoute(
                 path: createSignalPath,
                 name: createSignalPath,
-                pageBuilder: (BuildContext context, GoRouterState state) =>
-                    ezPageBuilder(context, state, CreateSignalScreen()),
+                pageBuilder: (BuildContext pbc, GoRouterState pbs) =>
+                    ezPageBuilder(configWatcher(pbc), pbc, pbs, const CreateSignalScreen()),
               ),
 
               // Signal members
               GoRoute(
                 path: signalMembersPath,
                 name: signalMembersPath,
-                pageBuilder: (BuildContext context, GoRouterState state) =>
-                    ezPageBuilder(context, state,
-                        SignalMembersScreen(state.extra as Signal)),
+                pageBuilder: (BuildContext pbc, GoRouterState pbs) => ezPageBuilder(
+                    configWatcher(pbc), pbc, pbs, SignalMembersScreen(pbs.extra as Signal)),
               ),
 
               // Settings
               GoRoute(
                 path: settingsHubPath,
                 name: settingsHubPath,
-                pageBuilder: (BuildContext context, GoRouterState state) =>
-                    ezPageBuilder(context, state, SettingsHubScreen()),
+                pageBuilder: (BuildContext pbc, GoRouterState pbs) =>
+                    ezPageBuilder(configWatcher(pbc), pbc, pbs, const SettingsHubScreen()),
               ),
             ],
           ),
