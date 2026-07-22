@@ -38,7 +38,7 @@ const Set<String> assetPaths = <String>{
 
 /// Image path -> image creator
 const Map<String, String> credits = <String, String>{
-  appIconPath: 'Michael Waldron',
+  appIconPath: 'The Founder',
   darkForestPath: 'https://edermunizz.itch.io/',
   lightForestPath: 'https://ansimuz.itch.io/',
   smokeSignalPath: 'https://pimen.itch.io/',
