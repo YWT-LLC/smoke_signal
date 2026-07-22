@@ -76,7 +76,7 @@ const Map<String, Type> signalConfigKeys = <String, Type>{
 // EzConfig default //
 
 final Map<String, Object> mobileSmokeSignalConfig = <String, Object>{
-  ...empathMobileConfig,
+  ...ywtMobileConfig,
 
   // Design settings
   darkSignalHeightKey: 200.0,
@@ -99,7 +99,7 @@ final Map<String, Object> mobileSmokeSignalConfig = <String, Object>{
 };
 
 final Map<String, Object> desktopSmokeSignalConfig = <String, Object>{
-  ...empathDesktopConfig,
+  ...ywtDesktopConfig,
 
   // Design settings
   darkSignalHeightKey: 250.0,
