@@ -1,5 +1,5 @@
 /* smoke_signal
- * Copyright (c) 2026 Empathetech LLC. All rights reserved.
+ * Copyright (c) 2026 YWT (Empathetech LLC). All rights reserved.
  * See LICENSE for distribution and usage details.
  */
 
@@ -19,37 +19,27 @@ final RegExp inputRegex = RegExp(r"^[\w\d\s,:.?!_^'-]{3,20}$");
 
 /// Validate emails via [EmailValidator]
 String? validateEmail(String? toCheck) {
-  return (toCheck != null && !EmailValidator.validate(toCheck))
-      ? 'Invalid email'
-      : null;
+  return (toCheck != null && !EmailValidator.validate(toCheck)) ? 'Invalid email' : null;
 }
 
 /// Validate display names via [inputRegex]
 String? validateDisplayName(String? toCheck) {
-  return (toCheck != null && !inputRegex.hasMatch(toCheck))
-      ? 'Invalid display name'
-      : null;
+  return (toCheck != null && !inputRegex.hasMatch(toCheck)) ? 'Invalid display name' : null;
 }
 
 /// Validate URLs via [Uri.tryParse]
 String? validateUrl(String? toCheck) {
-  return (toCheck != null && !Uri.tryParse(toCheck)!.hasAbsolutePath)
-      ? 'Invalid URL'
-      : null;
+  return (toCheck != null && !Uri.tryParse(toCheck)!.hasAbsolutePath) ? 'Invalid URL' : null;
 }
 
 /// Validate signal titles via [inputRegex]
 String? validateSignalTitle(String? toCheck) {
-  return (toCheck != null && !inputRegex.hasMatch(toCheck))
-      ? 'Invalid title'
-      : null;
+  return (toCheck != null && !inputRegex.hasMatch(toCheck)) ? 'Invalid title' : null;
 }
 
 /// Validate signal notification messages via [inputRegex]
 String? validateSignalMessage(String? toCheck) {
-  return (toCheck != null && !inputRegex.hasMatch(toCheck))
-      ? 'Invalid message'
-      : null;
+  return (toCheck != null && !inputRegex.hasMatch(toCheck)) ? 'Invalid message' : null;
 }
 
 /// Validate that the [signal] can be created

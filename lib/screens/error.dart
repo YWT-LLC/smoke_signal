@@ -1,5 +1,5 @@
 /* smoke_signal
- * Copyright (c) 2026 Empathetech LLC. All rights reserved.
+ * Copyright (c) 2026 YWT (Empathetech LLC). All rights reserved.
  * See LICENSE for distribution and usage details.
  */
 
@@ -7,7 +7,7 @@ import '../widgets/export.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import 'package:open_ui/open_ui.dart';
 
 class ErrorScreen extends StatefulWidget {
   const ErrorScreen({super.key});
@@ -35,25 +35,24 @@ class _ErrorScreenState extends State<ErrorScreen> {
         body: EzScreen(
           config,
           child: Center(
-            child: EzScrollView(config, children: <Widget>[
-              Text(
-                config.ezL10n.g404Wonder,
-                style: config.headlineStyle,
-                textAlign: TextAlign.center,
-              ),
-              config.separator,
-              Text(
-                config.ezL10n.g404,
-                style: ezSubTitleStyle(config.styles),
-                textAlign: TextAlign.center,
-              ),
-              config.separator,
-              Text(
-                config.ezL10n.g404Note,
-                style: config.labelStyle,
-                textAlign: TextAlign.center,
-              ),
-            ]),
+            child: EzScrollView(
+              config,
+              children: <Widget>[
+                Text(
+                  config.ezL10n.g404Wonder,
+                  style: config.headlineStyle,
+                  textAlign: TextAlign.center,
+                ),
+                config.separator,
+                Text(
+                  config.ezL10n.g404,
+                  style: ezSubTitleStyle(config.styles),
+                  textAlign: TextAlign.center,
+                ),
+                config.separator,
+                Text(config.ezL10n.g404Note, style: config.labelStyle, textAlign: TextAlign.center),
+              ],
+            ),
           ),
         ),
         drawerHeader: DrawerHeader(
@@ -65,11 +64,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
               scrollDirection: Axis.horizontal,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  'Nothing to see here',
-                  textAlign: TextAlign.center,
-                  style: config.titleStyle,
-                ),
+                Text('Nothing to see here', textAlign: TextAlign.center, style: config.titleStyle),
               ],
             ),
           ),

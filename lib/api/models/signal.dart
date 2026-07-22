@@ -1,5 +1,5 @@
 /* smoke_signal
- * Copyright (c) 2026 Empathetech LLC. All rights reserved.
+ * Copyright (c) 2026 YWT (Empathetech LLC). All rights reserved.
  * See LICENSE for distribution and usage details.
  */
 
@@ -32,27 +32,28 @@ class Signal {
   });
 
   factory Signal.fromJson(Map<String, dynamic> json) => Signal(
-        id: json[idKey] as String?,
-        title: json[titleKey] as String,
-        description: json[descriptionKey] as String,
-        message: json[messageKey] as String,
-        owner: User.fromJson(json[ownerKey]),
-        members: (json[membersKey] as List<dynamic>)
-            .map((dynamic m) => User.fromJson(m as Map<String, dynamic>))
-            .toList(),
-      );
+    id: json[idKey] as String?,
+    title: json[titleKey] as String,
+    description: json[descriptionKey] as String,
+    message: json[messageKey] as String,
+    owner: User.fromJson(json[ownerKey]),
+    members: (json[membersKey] as List<dynamic>)
+        .map((dynamic m) => User.fromJson(m as Map<String, dynamic>))
+        .toList(),
+  );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        idKey: id,
-        titleKey: title,
-        descriptionKey: description,
-        messageKey: message,
-        ownerKey: owner,
-        membersKey: members,
-      };
+    idKey: id,
+    titleKey: title,
+    descriptionKey: description,
+    messageKey: message,
+    ownerKey: owner,
+    membersKey: members,
+  };
 
   @override
-  String toString() => '''{
+  String toString() =>
+      '''{
   id: $id,
   title: $title,
   description: $description,

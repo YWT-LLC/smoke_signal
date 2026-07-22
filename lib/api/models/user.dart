@@ -1,5 +1,5 @@
 /* smoke_signal
- * Copyright (c) 2026 Empathetech LLC. All rights reserved.
+ * Copyright (c) 2026 YWT (Empathetech LLC). All rights reserved.
  * See LICENSE for distribution and usage details.
  */
 
@@ -17,29 +17,25 @@ class User {
   final String? avatarURL;
 
   /// A Smoke Signaler
-  User({
-    required this.uid,
-    required this.email,
-    required this.displayName,
-    this.avatarURL,
-  });
+  User({required this.uid, required this.email, required this.displayName, this.avatarURL});
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        uid: json[uidKey] as String,
-        email: json[emailKey] as String,
-        displayName: json[displayNameKey] as String,
-        avatarURL: json[avatarUrlKey] as String?,
-      );
+    uid: json[uidKey] as String,
+    email: json[emailKey] as String,
+    displayName: json[displayNameKey] as String,
+    avatarURL: json[avatarUrlKey] as String?,
+  );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        uidKey: uid,
-        emailKey: email,
-        displayNameKey: displayName,
-        avatarUrlKey: avatarURL,
-      };
+    uidKey: uid,
+    emailKey: email,
+    displayNameKey: displayName,
+    avatarUrlKey: avatarURL,
+  };
 
   @override
-  String toString() => '''{
+  String toString() =>
+      '''{
   uid: $uid,
   email: $email,
   displayName: $displayName,
@@ -73,24 +69,25 @@ class AppUser extends User {
   });
 
   factory AppUser.fromJson(Map<String, dynamic> json) => AppUser(
-        uid: json[uidKey] as String,
-        authToken: json[authTokenKey] as String?,
-        email: json[emailKey] as String,
-        displayName: json[displayNameKey] as String,
-        avatarURL: json[avatarUrlKey] as String?,
-      );
+    uid: json[uidKey] as String,
+    authToken: json[authTokenKey] as String?,
+    email: json[emailKey] as String,
+    displayName: json[displayNameKey] as String,
+    avatarURL: json[avatarUrlKey] as String?,
+  );
 
   @override
   Map<String, dynamic> toJson() => <String, dynamic>{
-        uidKey: uid,
-        authTokenKey: authToken,
-        emailKey: email,
-        displayNameKey: displayName,
-        avatarUrlKey: avatarURL,
-      };
+    uidKey: uid,
+    authTokenKey: authToken,
+    emailKey: email,
+    displayNameKey: displayName,
+    avatarUrlKey: avatarURL,
+  };
 
   @override
-  String toString() => '''{
+  String toString() =>
+      '''{
   uid: $uid,
   authToken: $authToken
   email: $email,

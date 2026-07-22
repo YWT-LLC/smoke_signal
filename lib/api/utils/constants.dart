@@ -1,5 +1,5 @@
 /* smoke_signal
- * Copyright (c) 2026 Empathetech LLC. All rights reserved.
+ * Copyright (c) 2026 YWT (Empathetech LLC). All rights reserved.
  * See LICENSE for distribution and usage details.
  */
 
@@ -14,9 +14,9 @@ const String uidKey = 'uid';
 /// Anon
 const String defaultDisplayName = 'Anon';
 
-/// 'https://raw.githubusercontent.com/Empathetech-LLC/smoke_signal/main/assets/app-icon.png'
+/// 'https://raw.githubusercontent.com/YWT-LLC/smoke_signal/main/assets/app-icon.png'
 const String defaultAvatarURL =
-    'https://raw.githubusercontent.com/Empathetech-LLC/smoke_signal/main/assets/app-icon.png';
+    'https://raw.githubusercontent.com/YWT-LLC/smoke_signal/main/assets/app-icon.png';
 
 // Paths //
 

@@ -1,18 +1,18 @@
 /* smoke_signal
- * Copyright (c) 2026 Empathetech LLC. All rights reserved.
+ * Copyright (c) 2026 YWT (Empathetech LLC). All rights reserved.
  * See LICENSE for distribution and usage details.
  */
 
 import 'package:flutter/material.dart';
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import 'package:open_ui/open_ui.dart';
 
 // App config //
 
 /// Smoke Signal
 const String appName = 'Smoke Signal';
 
-/// net.empathetech.smoke_signal
-const String androidPackage = 'net.empathetech.smoke_signal';
+/// llc.ywt.smoke_signal
+const String androidPackage = 'llc.ywt.smoke_signal';
 
 // Local assets //
 

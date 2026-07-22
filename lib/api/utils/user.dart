@@ -1,5 +1,5 @@
 /* smoke_signal
- * Copyright (c) 2026 Empathetech LLC. All rights reserved.
+ * Copyright (c) 2026 YWT (Empathetech LLC). All rights reserved.
  * See LICENSE for distribution and usage details.
  */
 
@@ -8,19 +8,15 @@ import '../export.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import 'package:open_ui/open_ui.dart';
 
 // Me //
 
 /// Attempt user creation
-Future<dynamic> signUp({
-  required String email,
-  required String password,
-}) async {
+Future<dynamic> signUp({required String email, required String password}) async {
   try {
     final Response response = await post(
-      Uri.parse(
-          'https://your-activitypub-server.com/api/signUp'), // In progress
+      Uri.parse('https://your-activitypub-server.com/api/signUp'), // In progress
       body: jsonEncode(<String, String>{'email': email, 'password': password}),
       headers: <String, String>{'Content-Type': 'application/json'},
     );
@@ -37,10 +33,7 @@ Future<dynamic> signUp({
 }
 
 /// Attempt user authentication
-Future<dynamic> login({
-  required String email,
-  required String password,
-}) async {
+Future<dynamic> login({required String email, required String password}) async {
   try {
     final Response response = await post(
       Uri.parse('https://your-activitypub-server.com/api/login'), // In progress

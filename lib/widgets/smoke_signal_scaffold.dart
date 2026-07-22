@@ -1,5 +1,5 @@
 /* smoke_signal
- * Copyright (c) 2026 Empathetech LLC. All rights reserved.
+ * Copyright (c) 2026 YWT (Empathetech LLC). All rights reserved.
  * See LICENSE for distribution and usage details.
  */
 
@@ -8,7 +8,7 @@ import './export.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import 'package:open_ui/open_ui.dart';
 
 class SmokeSignalScaffold extends StatelessWidget {
   final EzCP config;
@@ -35,46 +35,44 @@ class SmokeSignalScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return EzAdaptiveParent(
-      small: Consumer<EzCP>(builder: (_, EzCP config, __) {
-        final double toolbarHeight = ezToolbarHeight(config, context: context, title: appName);
+      small: Consumer<EzCP>(
+        builder: (_, EzCP config, __) {
+          final double toolbarHeight = ezToolbarHeight(config, context: context, title: appName);
 
-        final Widget drawer = SmokeSignalDrawer(
-          config,
-          header: drawerHeader,
-          extraButtons: extraButtons,
-        );
+          final Widget drawer = SmokeSignalDrawer(
+            config,
+            header: drawerHeader,
+            extraButtons: extraButtons,
+          );
 
-        return EzScaffold(
-          config,
-          appBar: PreferredSize(
-            preferredSize: Size(double.infinity, toolbarHeight),
-            child: AppBar(
-              excludeHeaderSemantics: true,
-              toolbarHeight: toolbarHeight,
+          return EzScaffold(
+            config,
+            appBar: PreferredSize(
+              preferredSize: Size(double.infinity, toolbarHeight),
+              child: AppBar(
+                excludeHeaderSemantics: true,
+                toolbarHeight: toolbarHeight,
 
-              // Leading (aka left)
-              leading: config.isLefty ? null : EzBackAction(config),
-              leadingWidth: toolbarHeight,
+                // Leading (aka left)
+                leading: config.isLefty ? null : EzBackAction(config),
+                leadingWidth: toolbarHeight,
 
-              // Title
-              title: Text(title, textAlign: TextAlign.center),
-              centerTitle: true,
-              titleSpacing: 0,
+                // Title
+                title: Text(title, textAlign: TextAlign.center),
+                centerTitle: true,
+                titleSpacing: 0,
 
-              // Actions (aka trailing aka right)
-              actions: config.isLefty ? <Widget>[EzBackAction(config)] : null,
+                // Actions (aka trailing aka right)
+                actions: config.isLefty ? <Widget>[EzBackAction(config)] : null,
+              ),
             ),
-          ),
-          drawer: config.isLefty ? drawer : null,
-          endDrawer: config.isLefty ? null : drawer,
-          body: body,
-          fabs: <Widget>[
-            updater(config),
-            if (fabs != null) ...fabs!,
-            ...config.backFABs(isHome),
-          ],
-        );
-      }),
+            drawer: config.isLefty ? drawer : null,
+            endDrawer: config.isLefty ? null : drawer,
+            body: body,
+            fabs: <Widget>[updater(config), if (fabs != null) ...fabs!, ...config.backFABs(isHome)],
+          );
+        },
+      ),
     );
   }
 }

@@ -1,5 +1,5 @@
 /* smoke_signal
- * Copyright (c) 2026 Empathetech LLC. All rights reserved.
+ * Copyright (c) 2026 YWT (Empathetech LLC). All rights reserved.
  * See LICENSE for distribution and usage details.
  */
 
@@ -10,7 +10,7 @@ import '../../widgets/export.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import 'package:open_ui/open_ui.dart';
 
 class SignalMembersScreen extends StatefulWidget {
   final Signal signal;
@@ -46,8 +46,9 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
           children: <Widget>[
             // Profile image/avatar
             CircleAvatar(
-              foregroundImage:
-                  user.avatarURL != null ? CachedNetworkImageProvider(user.avatarURL!) : null,
+              foregroundImage: user.avatarURL != null
+                  ? CachedNetworkImageProvider(user.avatarURL!)
+                  : null,
               minRadius: config.iconSize,
               maxRadius: config.iconSize,
             ),
@@ -107,27 +108,21 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
 
     if (unAddedProfiles.isNotEmpty) {
       // Addable users - expandable, toggle-able, profiles
-      viewChildren.addAll(
-        <Widget>[
-          AddProfilesWindow(
-            config,
-            title: 'Add?',
-            items: buildSwitchTiles(config, unAddedProfiles),
-          ),
-          config.spacer,
+      viewChildren.addAll(<Widget>[
+        AddProfilesWindow(config, title: 'Add?', items: buildSwitchTiles(config, unAddedProfiles)),
+        config.spacer,
 
-          // Submit button
-          EzElevatedIconButton(
-            config,
-            onPressed: () {
-              Navigator.of(context).pop();
-              requestMembers(signal, requestedUsers);
-            },
-            icon: const Icon(Icons.cloud_upload),
-            label: 'Send requests',
-          ),
-        ],
-      );
+        // Submit button
+        EzElevatedIconButton(
+          config,
+          onPressed: () {
+            Navigator.of(context).pop();
+            requestMembers(signal, requestedUsers);
+          },
+          icon: const Icon(Icons.cloud_upload),
+          label: 'Send requests',
+        ),
+      ]);
     }
 
     return EzScrollView(config, children: viewChildren);

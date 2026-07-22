@@ -1,5 +1,5 @@
 /* smoke_signal
- * Copyright (c) 2026 Empathetech LLC. All rights reserved.
+ * Copyright (c) 2026 YWT (Empathetech LLC). All rights reserved.
  * See LICENSE for distribution and usage details.
  */
 
@@ -10,7 +10,7 @@ import '../../widgets/export.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import 'package:open_ui/open_ui.dart';
 
 class CreateSignalScreen extends StatefulWidget {
   const CreateSignalScreen({super.key});
@@ -44,19 +44,16 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
           children: <Widget>[
             // Profile image/avatar
             CircleAvatar(
-              foregroundImage:
-                  user.avatarURL != null ? CachedNetworkImageProvider(user.avatarURL!) : null,
+              foregroundImage: user.avatarURL != null
+                  ? CachedNetworkImageProvider(user.avatarURL!)
+                  : null,
               minRadius: config.iconSize,
               maxRadius: config.iconSize,
             ),
             config.margin,
 
             // Display name
-            Text(
-              user.displayName,
-              style: titleStyle,
-              textAlign: TextAlign.start,
-            ),
+            Text(user.displayName, style: titleStyle, textAlign: TextAlign.start),
           ],
         ),
 
@@ -169,10 +166,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                 builder: (_, AsyncSnapshot<User> snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
-                      return const EzImage(
-                        image: signalGif,
-                        semanticLabel: 'Loading',
-                      );
+                      return const EzImage(image: signalGif, semanticLabel: 'Loading');
                     case ConnectionState.done:
                     default:
                       if (snapshot.hasError) {
@@ -210,13 +204,15 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                   }
 
                   // Attempt adding signal
-                  final String? added = await addToDB(Signal(
-                    title: title,
-                    description: '',
-                    message: message,
-                    owner: appUser,
-                    members: <User>[appUser],
-                  ));
+                  final String? added = await addToDB(
+                    Signal(
+                      title: title,
+                      description: '',
+                      message: message,
+                      owner: appUser,
+                      members: <User>[appUser],
+                    ),
+                  );
 
                   if (added == null) {
                     if (context.mounted) Navigator.of(context).pop(true);

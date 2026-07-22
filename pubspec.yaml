@@ -1,5 +1,5 @@
 name: smoke_signal
-description: "An Empathetech live activities social network designed to keep us off our screens."
+description: "A social network design to keep us off our screens."
 version: 2.0.0+2
 publish_to: 'none'
 
@@ -24,9 +24,9 @@ dependencies:
   flutter_localized_locales: ^2.0.5
   provider: ^6.1.5+1
 
-  # Empathetech
-  empathetech_flutter_ui:
-    path: ../empathetech_flutter_ui
+  # YWT
+  open_ui:
+    path: ../open_ui
 
 dev_dependencies:
   dependency_validator: ^5.0.5

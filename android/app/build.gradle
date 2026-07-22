@@ -30,7 +30,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace "net.empathetech.smoke_signal"
+    namespace "llc.ywt.smoke_signal"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion "27.0.12077973"
 
@@ -51,7 +51,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "net.empathetech.smoke_signal"
+        applicationId "llc.ywt.smoke_signal"
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()

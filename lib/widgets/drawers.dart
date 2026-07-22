@@ -1,5 +1,5 @@
 /* smoke_signal
- * Copyright (c) 2026 Empathetech LLC. All rights reserved.
+ * Copyright (c) 2026 YWT (Empathetech LLC). All rights reserved.
  * See LICENSE for distribution and usage details.
  */
 
@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import 'package:open_ui/open_ui.dart';
 
 class SmokeSignalDrawer extends StatelessWidget {
   final EzCP config;
@@ -25,46 +25,43 @@ class SmokeSignalDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => NavigationDrawer(
-        tilePadding: EdgeInsets.zero,
-        children: <Widget>[
-          header,
-          config.spacer,
+    tilePadding: EdgeInsets.zero,
+    children: <Widget>[
+      header,
+      config.spacer,
 
-          // GoTo settings
-          EzTextIconButton(
+      // GoTo settings
+      EzTextIconButton(
+        config,
+        style: TextButton.styleFrom(backgroundColor: config.colors.surfaceDim),
+        onPressed: () {
+          Navigator.of(context).pop();
+          context.goNamed(settingsHubPath);
+        },
+        icon: const Icon(Icons.settings),
+        label: 'Settings',
+      ),
+      config.spacer,
+
+      // Show input rules
+      EzTextIconButton(
+        config,
+        style: TextButton.styleFrom(backgroundColor: config.colors.surfaceDim),
+        onPressed: () => showDialog(
+          context: context,
+          builder: (_) => EzAlertDialog(
             config,
-            style: TextButton.styleFrom(backgroundColor: config.colors.surfaceDim),
-            onPressed: () {
-              Navigator.of(context).pop();
-              context.goNamed(settingsHubPath);
-            },
-            icon: const Icon(Icons.settings),
-            label: 'Settings',
+            title: const Text('Input rules', textAlign: TextAlign.center),
+            content: const Text(inputRules, textAlign: TextAlign.center),
           ),
-          config.spacer,
+        ),
+        icon: const Icon(Icons.rule),
+        label: 'Input rules',
+      ),
 
-          // Show input rules
-          EzTextIconButton(
-            config,
-            style: TextButton.styleFrom(backgroundColor: config.colors.surfaceDim),
-            onPressed: () => showDialog(
-              context: context,
-              builder: (_) => EzAlertDialog(
-                config,
-                title: const Text('Input rules', textAlign: TextAlign.center),
-                content: const Text(inputRules, textAlign: TextAlign.center),
-              ),
-            ),
-            icon: const Icon(Icons.rule),
-            label: 'Input rules',
-          ),
-
-          if (extraButtons != null) ...<Widget>[
-            config.spacer,
-            ...extraButtons!,
-          ],
-        ],
-      );
+      if (extraButtons != null) ...<Widget>[config.spacer, ...extraButtons!],
+    ],
+  );
 }
 
 class LoginHeader extends StatelessWidget {
@@ -89,18 +86,11 @@ class LoginHeader extends StatelessWidget {
               constraints: BoxConstraints(maxHeight: iconSize),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(iconSize),
-                child: const EzImage(
-                  image: appIcon,
-                  semanticLabel: 'App icon',
-                ),
+                child: const EzImage(image: appIcon, semanticLabel: 'App icon'),
               ),
             ),
             config.rowSpacer,
-            Text(
-              "Sign in,\nfire's warm",
-              textAlign: TextAlign.center,
-              style: config.titleStyle,
-            ),
+            Text("Sign in,\nfire's warm", textAlign: TextAlign.center, style: config.titleStyle),
           ],
         ),
       ),
@@ -130,10 +120,7 @@ class LoggedInHeader extends StatelessWidget {
 
             // Name
             Flexible(
-              child: Text(
-                appUser?.displayName ?? defaultDisplayName,
-                style: config.titleStyle,
-              ),
+              child: Text(appUser?.displayName ?? defaultDisplayName, style: config.titleStyle),
             ),
             config.margin,
 
@@ -155,9 +142,7 @@ class LoggedInHeader extends StatelessWidget {
                   label: 'Profile image.',
                   hint: 'Activate to edit.',
                   tooltip: 'Edit profile',
-                  image: CachedNetworkImageProvider(
-                    appUser?.avatarURL ?? defaultAvatarURL,
-                  ),
+                  image: CachedNetworkImageProvider(appUser?.avatarURL ?? defaultAvatarURL),
                 ),
               ),
             ),

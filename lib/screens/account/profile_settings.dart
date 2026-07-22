@@ -1,5 +1,5 @@
 /* smoke_signal
- * Copyright (c) 2026 Empathetech LLC. All rights reserved.
+ * Copyright (c) 2026 YWT (Empathetech LLC). All rights reserved.
  * See LICENSE for distribution and usage details.
  */
 
@@ -10,7 +10,7 @@ import '../../widgets/export.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import 'package:open_ui/open_ui.dart';
 
 class ProfileSettingsScreen extends StatefulWidget {
   const ProfileSettingsScreen({super.key});
@@ -67,12 +67,7 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
               EzHeader(config),
 
               // Display name
-              EzText(
-                config,
-                text: name,
-                style: config.titleStyle,
-                textAlign: TextAlign.center,
-              ),
+              EzText(config, text: name, style: config.titleStyle, textAlign: TextAlign.center),
               config.margin,
 
               // Edit name
@@ -100,7 +95,8 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
                 config,
                 onPressed: () async {
                   final dynamic shouldRefresh = await updateAvatar(
-                      'https://media.istockphoto.com/id/537389352/photo/tropical-rainforest.jpg?s=612x612&w=0&k=20&c=Gbweh81zqVDWihcJ5KA_41C0bufuIkgxZkDLc9h4HpI=');
+                    'https://media.istockphoto.com/id/537389352/photo/tropical-rainforest.jpg?s=612x612&w=0&k=20&c=Gbweh81zqVDWihcJ5KA_41C0bufuIkgxZkDLc9h4HpI=',
+                  );
                   if (shouldRefresh == null) await refreshPic();
                 },
                 icon: const Icon(Icons.camera),

@@ -1,5 +1,5 @@
 /* smoke_signal
- * Copyright (c) 2026 Empathetech LLC. All rights reserved.
+ * Copyright (c) 2026 YWT (Empathetech LLC). All rights reserved.
  * See LICENSE for distribution and usage details.
  */
 
@@ -10,7 +10,7 @@ import '../screens/export.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-import 'package:empathetech_flutter_ui/empathetech_flutter_ui.dart';
+import 'package:open_ui/open_ui.dart';
 
 class SignalCard extends StatefulWidget {
   final EzCP config;
@@ -18,12 +18,7 @@ class SignalCard extends StatefulWidget {
   final void Function() reloadBoard;
 
   /// A [Signal] made real
-  const SignalCard(
-    this.config, {
-    super.key,
-    required this.signal,
-    required this.reloadBoard,
-  });
+  const SignalCard(this.config, {super.key, required this.signal, required this.reloadBoard});
 
   @override
   State<SignalCard> createState() => _SignalCardState();
@@ -89,10 +84,7 @@ class _SignalCardState extends State<SignalCard> {
             widget.config.spacer,
 
             // Show/hide icon
-            ElevatedButton(
-              onPressed: toggleIcon,
-              child: const Text('Toggle icon'),
-            ),
+            ElevatedButton(onPressed: toggleIcon, child: const Text('Toggle icon')),
             widget.config.spacer,
 
             // Owner: Reset count, update message, transfer signal, or delete signal
@@ -162,23 +154,28 @@ class _SignalCardState extends State<SignalCard> {
     // Gather the contextual theme data //
 
     // CAW! Add this stuff to a local provider
-    final double signalHeight =
-        EzCM.get(widget.config.isDark ? darkSignalHeightKey : lightSignalHeightKey);
-    final double signalCountHeight =
-        EzCM.get(widget.config.isDark ? darkSignalCountHeightKey : lightSignalCountHeightKey);
+    final double signalHeight = EzCM.get(
+      widget.config.isDark ? darkSignalHeightKey : lightSignalHeightKey,
+    );
+    final double signalCountHeight = EzCM.get(
+      widget.config.isDark ? darkSignalCountHeightKey : lightSignalCountHeightKey,
+    );
 
     late final Color joinedColor = widget.config.colors.secondary;
     late final Color defaultColor = widget.config.colors.primary;
 
-    final TextStyle? joinedTextStyle =
-        widget.config.titleStyle?.copyWith(color: widget.config.colors.onSecondary);
-    final TextStyle? watchingTextStyle =
-        widget.config.titleStyle?.copyWith(color: widget.config.colors.onPrimary);
+    final TextStyle? joinedTextStyle = widget.config.titleStyle?.copyWith(
+      color: widget.config.colors.onSecondary,
+    );
+    final TextStyle? watchingTextStyle = widget.config.titleStyle?.copyWith(
+      color: widget.config.colors.onPrimary,
+    );
 
     // Return the build //
 
-    final ImageProvider<Object> signalImage =
-        ezImageProvider(widget.config.isDark ? darkSignalImageKey : lightSignalImageKey);
+    final ImageProvider<Object> signalImage = ezImageProvider(
+      widget.config.isDark ? darkSignalImageKey : lightSignalImageKey,
+    );
 
     if (members.contains(appUser)) {
       return Column(
@@ -231,10 +228,7 @@ class _SignalCardState extends State<SignalCard> {
                     child: Card(
                       color: active ? joinedColor : defaultColor,
                       child: Center(
-                        child: Text(
-                          title,
-                          style: active ? joinedTextStyle : watchingTextStyle,
-                        ),
+                        child: Text(title, style: active ? joinedTextStyle : watchingTextStyle),
                       ),
                     ),
                   ),
@@ -251,25 +245,13 @@ class _SignalCardState extends State<SignalCard> {
                 children: active
                     ? <Widget>[
                         // Active: show the current count surrounded by smoke signals
-                        EzImage(
-                          image: signalImage,
-                          semanticLabel: 'Semantics label',
-                        ),
-                        Text(
-                          '1',
-                          style: joinedTextStyle,
-                        ),
-                        EzImage(
-                          image: signalImage,
-                          semanticLabel: 'Semantics label',
-                        ),
+                        EzImage(image: signalImage, semanticLabel: 'Semantics label'),
+                        Text('1', style: joinedTextStyle),
+                        EzImage(image: signalImage, semanticLabel: 'Semantics label'),
                       ]
                     : <Widget>[
                         // Inactive: only show the current count
-                        Text(
-                          '0',
-                          style: watchingTextStyle,
-                        ),
+                        Text('0', style: watchingTextStyle),
                       ],
               ),
             ),
@@ -289,12 +271,7 @@ class _SignalCardState extends State<SignalCard> {
             height: signalHeight,
             child: Card(
               color: defaultColor,
-              child: Center(
-                child: Text(
-                  'Join:\n$title?',
-                  style: watchingTextStyle,
-                ),
-              ),
+              child: Center(child: Text('Join:\n$title?', style: watchingTextStyle)),
             ),
           ),
           widget.config.margin,

@@ -1,4 +1,4 @@
-package net.empathetech.smoke_signal
+package llc.ywt.smoke_signal
 
 import io.flutter.embedding.android.FlutterActivity
 
