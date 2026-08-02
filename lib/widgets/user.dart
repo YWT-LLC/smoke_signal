@@ -16,16 +16,16 @@ class NoUserCoin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-    onLongPress: () => showDialog(
-      context: context,
-      builder: (_) =>
-          EzAlertDialog(config, title: const Text('Nobody!', textAlign: TextAlign.center)),
-    ),
-    child: Container(
-      decoration: BoxDecoration(color: config.colors.primary, shape: BoxShape.circle),
-      child: EzIcon(config, Icons.clear),
-    ),
-  );
+        onLongPress: () => showDialog(
+          context: context,
+          builder: (_) =>
+              EzAlertDialog(config, title: const Text('Nobody!', textAlign: TextAlign.center)),
+        ),
+        child: Container(
+          decoration: BoxDecoration(color: config.colors.primary, shape: BoxShape.circle),
+          child: EzIcon(config, Icons.clear),
+        ),
+      );
 }
 
 class UserCoinScroll extends StatelessWidget {
@@ -51,9 +51,8 @@ class UserCoinScroll extends StatelessWidget {
                     ),
                   ),
                   child: CircleAvatar(
-                    foregroundImage: user.avatarURL != null
-                        ? CachedNetworkImageProvider(user.avatarURL!)
-                        : null,
+                    foregroundImage:
+                        user.avatarURL != null ? CachedNetworkImageProvider(user.avatarURL!) : null,
                     minRadius: config.iconSize,
                     maxRadius: config.iconSize,
                   ),
@@ -112,17 +111,15 @@ class AddProfilesWindow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-    width: widthOf(context),
-    height: customHeight ?? heightOf(context) / 3.0,
-    decoration: BoxDecoration(
-      color: config.colors.primary,
-      borderRadius: config.textRadius,
-    ), // TODO: shape? there's others too
-    child: Column(
-      children: <Widget>[
-        Text(title, style: config.titleStyle),
-        EzScrollView(config, children: items),
-      ],
-    ),
-  );
+        width: widthOf(context),
+        height: customHeight ?? heightOf(context) / 3.0,
+        decoration: BoxDecoration(
+          color: config.colors.primary,
+          borderRadius: config.textRadius,
+        ),
+        child: EzCol(children: <Widget>[
+          Text(title, style: config.titleStyle),
+          EzScrollView(config, children: items),
+        ]),
+      );
 }

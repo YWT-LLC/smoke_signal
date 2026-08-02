@@ -89,8 +89,7 @@ class _SignalCardState extends State<SignalCard> {
 
             // Owner: Reset count, update message, transfer signal, or delete signal
             // Member: Leave signal
-            Column(
-              mainAxisSize: MainAxisSize.min,
+            EzCol(
               children: appUser.uid == owner.uid
                   ? <Widget>[
                       // Reset
@@ -178,121 +177,116 @@ class _SignalCardState extends State<SignalCard> {
     );
 
     if (members.contains(appUser)) {
-      return Column(
-        children: <Widget>[
-          // SignalCard button
-          showIcon
-              // With icon image
-              ? GestureDetector(
-                  onTap: () => toggleParticipation(signal),
-                  onLongPress: showEdits,
-                  child: SizedBox(
-                    width: widthOf(context),
-                    height: signalHeight,
-                    child: Row(
-                      children: <Widget>[
-                        // Icon image
-                        SizedBox(
-                          width: signalHeight,
-                          height: signalHeight,
-                          child: EzImage(
-                            image: ezImageProvider(iconPathKey),
-                            semanticLabel: 'Semantics label',
-                          ),
+      return EzCol(children: <Widget>[
+        // SignalCard button
+        showIcon
+            // With icon image
+            ? GestureDetector(
+                onTap: () => toggleParticipation(signal),
+                onLongPress: showEdits,
+                child: SizedBox(
+                  width: widthOf(context),
+                  height: signalHeight,
+                  child: Row(
+                    children: <Widget>[
+                      // Icon image
+                      SizedBox(
+                        width: signalHeight,
+                        height: signalHeight,
+                        child: EzImage(
+                          image: ezImageProvider(iconPathKey),
+                          semanticLabel: 'Semantics label',
                         ),
+                      ),
 
-                        // Title card
-                        Expanded(
-                          child: SizedBox.expand(
-                            child: Card(
-                              color: active ? joinedColor : defaultColor,
-                              child: Center(
-                                child: Text(
-                                  title,
-                                  style: active ? joinedTextStyle : watchingTextStyle,
-                                ),
+                      // Title card
+                      Expanded(
+                        child: SizedBox.expand(
+                          child: Card(
+                            color: active ? joinedColor : defaultColor,
+                            child: Center(
+                              child: Text(
+                                title,
+                                style: active ? joinedTextStyle : watchingTextStyle,
                               ),
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                )
-              : GestureDetector(
-                  onTap: () => toggleParticipation(signal),
-                  onLongPress: showEdits,
-                  child: SizedBox(
-                    width: widthOf(context),
-                    height: signalHeight,
-                    child: Card(
-                      color: active ? joinedColor : defaultColor,
-                      child: Center(
-                        child: Text(title, style: active ? joinedTextStyle : watchingTextStyle),
                       ),
+                    ],
+                  ),
+                ),
+              )
+            : GestureDetector(
+                onTap: () => toggleParticipation(signal),
+                onLongPress: showEdits,
+                child: SizedBox(
+                  width: widthOf(context),
+                  height: signalHeight,
+                  child: Card(
+                    color: active ? joinedColor : defaultColor,
+                    child: Center(
+                      child: Text(title, style: active ? joinedTextStyle : watchingTextStyle),
                     ),
                   ),
                 ),
-
-          // SignalCard count
-          SizedBox(
-            width: widthOf(context) * (2 / 3),
-            height: signalCountHeight,
-            child: Card(
-              color: active ? joinedColor : defaultColor,
-              child: Row(
-                // Check AppUser's current participation
-                children: active
-                    ? <Widget>[
-                        // Active: show the current count surrounded by smoke signals
-                        EzImage(image: signalImage, semanticLabel: 'Semantics label'),
-                        Text('1', style: joinedTextStyle),
-                        EzImage(image: signalImage, semanticLabel: 'Semantics label'),
-                      ]
-                    : <Widget>[
-                        // Inactive: only show the current count
-                        Text('0', style: watchingTextStyle),
-                      ],
               ),
+
+        // SignalCard count
+        SizedBox(
+          width: widthOf(context) * (2 / 3),
+          height: signalCountHeight,
+          child: Card(
+            color: active ? joinedColor : defaultColor,
+            child: Row(
+              // Check AppUser's current participation
+              children: active
+                  ? <Widget>[
+                      // Active: show the current count surrounded by smoke signals
+                      EzImage(image: signalImage, semanticLabel: 'Semantics label'),
+                      Text('1', style: joinedTextStyle),
+                      EzImage(image: signalImage, semanticLabel: 'Semantics label'),
+                    ]
+                  : <Widget>[
+                      // Inactive: only show the current count
+                      Text('0', style: watchingTextStyle),
+                    ],
             ),
           ),
-          widget.config.spacer,
-        ],
-      );
+        ),
+        widget.config.spacer,
+      ]);
 
       // Current user is a prospective/requested member
     } else if (memberRequests.contains(appUser)) {
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          // Label
-          SizedBox(
-            width: widthOf(context),
-            height: signalHeight,
-            child: Card(
-              color: defaultColor,
-              child: Center(child: Text('Join:\n$title?', style: watchingTextStyle)),
-            ),
+      return EzCol(children: <Widget>[
+        // Label
+        SizedBox(
+          width: widthOf(context),
+          height: signalHeight,
+          child: Card(
+            color: defaultColor,
+            child: Center(child: Text('Join:\n$title?', style: watchingTextStyle)),
           ),
-          widget.config.margin,
+        ),
+        widget.config.margin,
 
-          // Buttons
-          Row(
-            children: <Widget>[
-              EzIconButton(
-                widget.config,
-                onPressed: doNothing,
-                icon: EzIcon(widget.config, Icons.clear),
-              ),
-              EzIconButton(
-                widget.config,
-                onPressed: doNothing,
-                icon: EzIcon(widget.config, Icons.check),
-              ),
-            ],
-          ),
-        ],
-      );
+        // Buttons
+        Row(
+          children: <Widget>[
+            EzIconButton(
+              widget.config,
+              onPressed: doNothing,
+              icon: EzIcon(widget.config, Icons.clear),
+            ),
+            EzIconButton(
+              widget.config,
+              onPressed: doNothing,
+              icon: EzIcon(widget.config, Icons.check),
+            ),
+          ],
+        ),
+      ]);
     } else {
       // Default, only reachable if signal stream is unfiltered...
       // ...and the current user is not a member
