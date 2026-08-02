@@ -34,8 +34,8 @@ class SettingsHubScreen extends StatelessWidget {
                   config,
                   EzCM.onMobile
                       ? EzCM.platform == TargetPlatform.iOS
-                            ? Icons.phone_iphone
-                            : Icons.phone_android
+                          ? Icons.phone_iphone
+                          : Icons.phone_android
                       : Icons.computer,
                   semanticLabel: config.ezL10n.gGlobal,
                 ),
@@ -75,7 +75,7 @@ class SettingsHubScreen extends StatelessWidget {
                       label: 'Signal',
                       allowClear: false,
                       showFitOption: false,
-                    ), // TODO: is update the theme always there? remove plz
+                    ), // todo: is update the theme always there? remove plz
                   ],
                 ),
               ),
