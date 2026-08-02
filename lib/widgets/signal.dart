@@ -187,34 +187,32 @@ class _SignalCardState extends State<SignalCard> {
                 child: SizedBox(
                   width: widthOf(context),
                   height: signalHeight,
-                  child: Row(
-                    children: <Widget>[
-                      // Icon image
-                      SizedBox(
-                        width: signalHeight,
-                        height: signalHeight,
-                        child: EzImage(
-                          image: ezImageProvider(iconPathKey),
-                          semanticLabel: 'Semantics label',
-                        ),
+                  child: EzRow(widget.config, children: <Widget>[
+                    // Icon image
+                    SizedBox(
+                      width: signalHeight,
+                      height: signalHeight,
+                      child: EzImage(
+                        image: ezImageProvider(iconPathKey),
+                        semanticLabel: 'Semantics label',
                       ),
+                    ),
 
-                      // Title card
-                      Expanded(
-                        child: SizedBox.expand(
-                          child: Card(
-                            color: active ? joinedColor : defaultColor,
-                            child: Center(
-                              child: Text(
-                                title,
-                                style: active ? joinedTextStyle : watchingTextStyle,
-                              ),
+                    // Title card
+                    Expanded(
+                      child: SizedBox.expand(
+                        child: Card(
+                          color: active ? joinedColor : defaultColor,
+                          child: Center(
+                            child: Text(
+                              title,
+                              style: active ? joinedTextStyle : watchingTextStyle,
                             ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ]),
                 ),
               )
             : GestureDetector(
@@ -238,7 +236,8 @@ class _SignalCardState extends State<SignalCard> {
           height: signalCountHeight,
           child: Card(
             color: active ? joinedColor : defaultColor,
-            child: Row(
+            child: EzRow(
+              widget.config,
               // Check AppUser's current participation
               children: active
                   ? <Widget>[
@@ -272,20 +271,18 @@ class _SignalCardState extends State<SignalCard> {
         widget.config.margin,
 
         // Buttons
-        Row(
-          children: <Widget>[
-            EzIconButton(
-              widget.config,
-              onPressed: doNothing,
-              icon: EzIcon(widget.config, Icons.clear),
-            ),
-            EzIconButton(
-              widget.config,
-              onPressed: doNothing,
-              icon: EzIcon(widget.config, Icons.check),
-            ),
-          ],
-        ),
+        EzRow(widget.config, children: <Widget>[
+          EzIconButton(
+            widget.config,
+            onPressed: doNothing,
+            icon: EzIcon(widget.config, Icons.clear),
+          ),
+          EzIconButton(
+            widget.config,
+            onPressed: doNothing,
+            icon: EzIcon(widget.config, Icons.check),
+          ),
+        ]),
       ]);
     } else {
       // Default, only reachable if signal stream is unfiltered...

@@ -74,9 +74,7 @@ class UserProfileScroll extends StatelessWidget {
       : EzScrollView(
           config,
           children: users
-              .map(
-                (User user) => Row(
-                  children: <Widget>[
+              .map((User user) => EzRow(config, children: <Widget>[
                     // Profile image/avatar
                     CircleAvatar(
                       foregroundImage: user.avatarURL != null
@@ -88,9 +86,7 @@ class UserProfileScroll extends StatelessWidget {
 
                     // Display name
                     Text(user.displayName, textAlign: TextAlign.start),
-                  ],
-                ),
-              )
+                  ]))
               .toList(),
         );
 }

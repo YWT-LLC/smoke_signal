@@ -41,14 +41,14 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
     return copy.map((User user) {
       return ListTile(
         // User info
-        title: Row(
+        title: EzRow(
+          config,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             // Profile image/avatar
             CircleAvatar(
-              foregroundImage: user.avatarURL != null
-                  ? CachedNetworkImageProvider(user.avatarURL!)
-                  : null,
+              foregroundImage:
+                  user.avatarURL != null ? CachedNetworkImageProvider(user.avatarURL!) : null,
               minRadius: config.iconSize,
               maxRadius: config.iconSize,
             ),

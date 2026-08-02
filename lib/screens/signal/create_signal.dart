@@ -39,14 +39,14 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
     return copy.map((User user) {
       return ListTile(
         // User info
-        title: Row(
+        title: EzRow(
+          config,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             // Profile image/avatar
             CircleAvatar(
-              foregroundImage: user.avatarURL != null
-                  ? CachedNetworkImageProvider(user.avatarURL!)
-                  : null,
+              foregroundImage:
+                  user.avatarURL != null ? CachedNetworkImageProvider(user.avatarURL!) : null,
               minRadius: config.iconSize,
               maxRadius: config.iconSize,
             ),
@@ -146,18 +146,16 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
               config.spacer,
 
               // Toggle for current participation
-              Row(
-                children: <Widget>[
-                  Text('Currently active?', style: config.titleStyle),
-                  Checkbox(
-                    value: isActive,
-                    onChanged: (bool? value) {
-                      closeKeyboard(context);
-                      setState(() => isActive = value!);
-                    },
-                  ),
-                ],
-              ),
+              EzRow(config, children: <Widget>[
+                Text('Currently active?', style: config.titleStyle),
+                Checkbox(
+                  value: isActive,
+                  onChanged: (bool? value) {
+                    closeKeyboard(context);
+                    setState(() => isActive = value!);
+                  },
+                ),
+              ]),
               config.spacer,
 
               // List of toggle-able members to send join requests on creation
