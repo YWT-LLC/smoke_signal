@@ -40,8 +40,7 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Consumer<EzCP>(
       builder: (_, EzCP config, __) {
-        final double bodyTextSize =
-            config.bodyStyle?.fontSize ??
+        final double bodyTextSize = config.bodyStyle?.fontSize ??
             EzCM.getDefault(config.isDark ? darkBodyFontSizeKey : lightBodyFontSizeKey);
 
         return SmokeSignalScaffold(
@@ -54,49 +53,46 @@ class _AuthScreenState extends State<AuthScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 AutofillGroup(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      // Email field
-                      ConstrainedBox(
-                        constraints: ezTextFieldConstraints(context),
-                        child: TextFormField(
-                          controller: emailController,
-                          maxLines: 1,
-                          autofillHints: const <String>[AutofillHints.email],
-                          validator: validateEmail,
-                          autovalidateMode: AutovalidateMode.onUnfocus,
-                          decoration: const InputDecoration(hintText: 'Enter email'),
-                        ),
+                  child: EzCol(children: <Widget>[
+                    // Email field
+                    ConstrainedBox(
+                      constraints: ezTextFieldConstraints(context),
+                      child: TextFormField(
+                        controller: emailController,
+                        maxLines: 1,
+                        autofillHints: const <String>[AutofillHints.email],
+                        validator: validateEmail,
+                        autovalidateMode: AutovalidateMode.onUnfocus,
+                        decoration: const InputDecoration(hintText: 'Enter email'),
                       ),
-                      config.spacer,
+                    ),
+                    config.spacer,
 
-                      // Password field
-                      ConstrainedBox(
-                        constraints: ezTextFieldConstraints(context),
-                        child: TextFormField(
-                          controller: passwdController,
-                          maxLines: 1,
-                          autofillHints: const <String>[AutofillHints.password],
-                          obscureText: !showPwd,
-                          decoration: InputDecoration(
-                            hintText: 'Enter password',
-                            suffixIcon: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: config.marginVal),
-                              child: InkWell(
-                                onTap: () => setState(() => showPwd = !showPwd),
-                                child: Icon(showPwd ? Icons.visibility : Icons.visibility_off),
-                              ),
+                    // Password field
+                    ConstrainedBox(
+                      constraints: ezTextFieldConstraints(context),
+                      child: TextFormField(
+                        controller: passwdController,
+                        maxLines: 1,
+                        autofillHints: const <String>[AutofillHints.password],
+                        obscureText: !showPwd,
+                        decoration: InputDecoration(
+                          hintText: 'Enter password',
+                          suffixIcon: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: config.marginVal),
+                            child: InkWell(
+                              onTap: () => setState(() => showPwd = !showPwd),
+                              child: Icon(showPwd ? Icons.visibility : Icons.visibility_off),
                             ),
-                            suffixIconConstraints: BoxConstraints(
-                              minWidth: bodyTextSize,
-                              minHeight: bodyTextSize,
-                            ),
+                          ),
+                          suffixIconConstraints: BoxConstraints(
+                            minWidth: bodyTextSize,
+                            minHeight: bodyTextSize,
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ]),
                 ),
                 config.separator,
 

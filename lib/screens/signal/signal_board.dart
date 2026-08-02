@@ -66,15 +66,11 @@ class _SignalBoardState extends State<SignalBoard> {
                         return const SizedBox.shrink();
                       }
 
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: snapshot.data!
-                            .map(
-                              (Signal signal) =>
-                                  SignalCard(config, signal: signal, reloadBoard: reload),
-                            )
-                            .toList(),
-                      );
+                      return EzCol(
+                          children: snapshot.data!
+                              .map((Signal signal) =>
+                                  SignalCard(config, signal: signal, reloadBoard: reload))
+                              .toList());
                   }
                 },
               ),
@@ -93,15 +89,11 @@ class _SignalBoardState extends State<SignalBoard> {
               //           ezLogAlert(context, message: snapshot.error.toString());
               //           return const SizedBox.shrink();
               //         }
-
-              //         return Column(
-              //           mainAxisSize: MainAxisSize.min,
-              //           children: snapshot.data!.docs
+              //         return EzCol(children: snapshot.data!.docs
               //               .map((DocumentSnapshot<Map<String, dynamic>>
               //                       signalDoc) =>
               //                   Signal.buildSignal(signalDoc, reload))
-              //               .toList(),
-              //         );
+              //               .toList());
               //     }
               //   },
               // ),
