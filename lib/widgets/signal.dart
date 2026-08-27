@@ -275,11 +275,13 @@ class _SignalCardState extends State<SignalCard> {
           EzIconButton(
             widget.config,
             onPressed: doNothing,
+            tooltip: 'IDK',
             icon: EzIcon(widget.config, Icons.clear),
           ),
           EzIconButton(
             widget.config,
             onPressed: doNothing,
+            tooltip: 'IDK',
             icon: EzIcon(widget.config, Icons.check),
           ),
         ]),
