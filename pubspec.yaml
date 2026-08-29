@@ -15,12 +15,12 @@ dependencies:
   # Flutter (Google)
   go_router: ^18.0.0
   http: ^1.6.0
-  intl: ^0.20.2
+  intl: ^0.20.3
   shared_preferences: ^2.5.5
 
   # Community
   email_validator: ^3.0.0
-  cached_network_image: ^3.4.1
+  cached_network_image: ^4.0.0
   flutter_localized_locales: ^2.0.5
   provider: ^6.1.5+1
 
@@ -29,7 +29,7 @@ dependencies:
     path: ../open_ui
 
 dev_dependencies:
-  dependency_validator: ^5.0.5
+  dependency_validator: ^5.0.6
   flutter_launcher_icons: ^0.14.4
   flutter_lints: ^6.0.0
   flutter_native_splash: ^2.4.8
