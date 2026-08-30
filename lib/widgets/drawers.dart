@@ -25,43 +25,43 @@ class SmokeSignalDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => NavigationDrawer(
-    tilePadding: EdgeInsets.zero,
-    children: <Widget>[
-      header,
-      config.spacer,
+        tilePadding: EdgeInsets.zero,
+        children: <Widget>[
+          header,
+          config.spacer,
 
-      // GoTo settings
-      EzTextIconButton(
-        config,
-        style: TextButton.styleFrom(backgroundColor: config.colors.surfaceDim),
-        onPressed: () {
-          Navigator.of(context).pop();
-          context.goNamed(settingsHubPath);
-        },
-        icon: const Icon(Icons.settings),
-        label: 'Settings',
-      ),
-      config.spacer,
-
-      // Show input rules
-      EzTextIconButton(
-        config,
-        style: TextButton.styleFrom(backgroundColor: config.colors.surfaceDim),
-        onPressed: () => showDialog(
-          context: context,
-          builder: (_) => EzAlertDialog(
+          // GoTo settings
+          EzTextIconButton(
             config,
-            title: const Text('Input rules', textAlign: TextAlign.center),
-            content: const Text(inputRules, textAlign: TextAlign.center),
+            style: TextButton.styleFrom(backgroundColor: config.colors.surfaceDim),
+            onPressed: () {
+              Navigator.of(context).pop();
+              context.goNamed(settingsHubPath);
+            },
+            icon: const Icon(Icons.settings),
+            label: 'Settings',
           ),
-        ),
-        icon: const Icon(Icons.rule),
-        label: 'Input rules',
-      ),
+          config.spacer,
 
-      if (extraButtons != null) ...<Widget>[config.spacer, ...extraButtons!],
-    ],
-  );
+          // Show input rules
+          EzTextIconButton(
+            config,
+            style: TextButton.styleFrom(backgroundColor: config.colors.surfaceDim),
+            onPressed: () => showDialog(
+              context: context,
+              builder: (_) => EzAlertDialog(
+                config,
+                title: const Text('Input rules', textAlign: TextAlign.center),
+                content: const Text(inputRules, textAlign: TextAlign.center),
+              ),
+            ),
+            icon: const Icon(Icons.rule),
+            label: 'Input rules',
+          ),
+
+          if (extraButtons != null) ...<Widget>[config.spacer, ...extraButtons!],
+        ],
+      );
 }
 
 class LoginHeader extends StatelessWidget {

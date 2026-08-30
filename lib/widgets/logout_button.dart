@@ -15,11 +15,11 @@ class LogoutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => EzIconLink(
-    config,
-    style: ezSubTitleStyle(config.styles),
-    onTap: () => logout(context),
-    hint: 'Logout',
-    icon: const Icon(Icons.logout),
-    label: 'Logout',
-  );
+        config,
+        style: ezSubTitleStyle(config.styles),
+        onTap: () => logout(context),
+        hint: 'Logout',
+        icon: const Icon(Icons.logout),
+        label: 'Logout',
+      );
 }

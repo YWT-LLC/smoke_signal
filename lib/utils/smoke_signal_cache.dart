@@ -12,7 +12,9 @@ class SmokeSignalCache extends EzAppCache {
   Locale _locale;
   Lang _l10n;
 
-  SmokeSignalCache(Locale locale, Lang l10n) : _locale = locale, _l10n = l10n;
+  SmokeSignalCache(Locale locale, Lang l10n)
+      : _locale = locale,
+        _l10n = l10n;
 
   Lang get l10n => _l10n;
 
