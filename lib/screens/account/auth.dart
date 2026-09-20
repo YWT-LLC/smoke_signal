@@ -7,10 +7,11 @@ import '../export.dart';
 import '../../api/export.dart';
 import '../../widgets/export.dart';
 
+import 'dart:async';
+import 'package:open_ui/open_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-import 'package:open_ui/open_ui.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -111,7 +112,8 @@ class _AuthScreenState extends State<AuthScreen> {
                         final String email = emailController.text.trim();
 
                         if (validateEmail(email) != null) {
-                          await ezLogAlert(config, context: context, message: 'Invalid email!');
+                          unawaited(
+                              ezLogAlert(config, context: context, message: 'Invalid email!'));
                           return;
                         }
 
@@ -132,7 +134,8 @@ class _AuthScreenState extends State<AuthScreen> {
                         final String email = emailController.text.trim();
 
                         if (validateEmail(email) != null) {
-                          await ezLogAlert(config, context: context, message: 'Invalid email!');
+                          unawaited(
+                              ezLogAlert(config, context: context, message: 'Invalid email!'));
                           return;
                         }
 

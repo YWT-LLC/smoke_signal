@@ -7,10 +7,11 @@ import '../../api/export.dart';
 import '../../utils/export.dart';
 import '../../widgets/export.dart';
 
+import 'dart:async';
+import 'package:open_ui/open_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:open_ui/open_ui.dart';
 
 class CreateSignalScreen extends StatefulWidget {
   const CreateSignalScreen({super.key});
@@ -93,11 +94,11 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
           break;
 
         case const (String):
-          if (mounted) await ezLogAlert(config, context: context, message: results as String);
+          if (mounted) unawaited(ezLogAlert(config, context: context, message: results as String));
           break;
 
         default:
-          if (mounted) await ezLogAlert(config, context: context, message: 'Unknown error');
+          if (mounted) unawaited(ezLogAlert(config, context: context, message: 'Unknown error'));
           break;
       }
     }
@@ -191,13 +192,13 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                   // Don't do anything if the inputs are invalid
                   final String title = titleController.text.trim();
                   if (validateSignalTitle(title) != null) {
-                    await ezLogAlert(config, context: context, message: 'Invalid title!');
+                    unawaited(ezLogAlert(config, context: context, message: 'Invalid title!'));
                     return;
                   }
 
                   final String message = messageController.text.trim();
                   if (validateSignalMessage(message) != null) {
-                    await ezLogAlert(config, context: context, message: 'Invalid message!');
+                    unawaited(ezLogAlert(config, context: context, message: 'Invalid message!'));
                     return;
                   }
 
@@ -217,7 +218,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                   } else {
                     if (context.mounted) {
                       Navigator.of(context).pop(true);
-                      await ezLogAlert(config, context: context, message: 'Invalid title!');
+                      unawaited(ezLogAlert(config, context: context, message: 'Invalid title!'));
                     }
                   }
                 },
