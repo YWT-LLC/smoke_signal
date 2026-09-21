@@ -6,7 +6,6 @@
 import '../../api/export.dart';
 import '../../widgets/export.dart';
 
-import 'dart:async';
 import 'package:open_ui/open_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -71,7 +70,7 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
 
                   // Don't do anything if the email is invalid
                   if (validateEmail(email) != null) {
-                    unawaited(ezLogAlert(config, context: context, message: 'Invalid email!'));
+                    ezLogAlert(config, context: context, message: 'Invalid email!');
                     return;
                   }
 
@@ -80,19 +79,19 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
                     // await appUser.sendPasswordResetEmail();
 
                     if (context.mounted) {
-                      unawaited(ezLogAlert(
+                      ezLogAlert(
                         config,
                         context: context,
                         message: 'Password reset email has been sent!',
-                      ));
+                      );
                     }
                   } on Exception catch (e) {
                     if (context.mounted) {
-                      unawaited(ezLogAlert(
+                      ezLogAlert(
                         config,
                         context: context,
                         message: 'Failed to send password reset email:\n$e',
-                      ));
+                      );
                     }
                   }
                 },

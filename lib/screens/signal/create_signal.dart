@@ -94,11 +94,11 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
           break;
 
         case const (String):
-          if (mounted) unawaited(ezLogAlert(config, context: context, message: results as String));
+          if (mounted) ezLogAlert(config, context: context, message: results as String);
           break;
 
         default:
-          if (mounted) unawaited(ezLogAlert(config, context: context, message: 'Unknown error'));
+          if (mounted) ezLogAlert(config, context: context, message: 'Unknown error');
           break;
       }
     }
@@ -192,13 +192,13 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                   // Don't do anything if the inputs are invalid
                   final String title = titleController.text.trim();
                   if (validateSignalTitle(title) != null) {
-                    unawaited(ezLogAlert(config, context: context, message: 'Invalid title!'));
+                    ezLogAlert(config, context: context, message: 'Invalid title!');
                     return;
                   }
 
                   final String message = messageController.text.trim();
                   if (validateSignalMessage(message) != null) {
-                    unawaited(ezLogAlert(config, context: context, message: 'Invalid message!'));
+                    ezLogAlert(config, context: context, message: 'Invalid message!');
                     return;
                   }
 
@@ -218,7 +218,7 @@ class _CreateSignalScreenState extends State<CreateSignalScreen> {
                   } else {
                     if (context.mounted) {
                       Navigator.of(context).pop(true);
-                      unawaited(ezLogAlert(config, context: context, message: 'Invalid title!'));
+                      ezLogAlert(config, context: context, message: 'Invalid title!');
                     }
                   }
                 },
