@@ -17,7 +17,7 @@ Future<dynamic> signUp({required String email, required String password}) async 
   try {
     final Response response = await post(
       Uri.parse('https://your-activitypub-server.com/api/signUp'), // In progress
-      body: jsonEncode(<String, String>{'email': email, 'password': password}),
+      body: jsonEncode(<String, dynamic>{'email': email, 'password': password}),
       headers: <String, String>{'Content-Type': 'application/json'},
     );
 
@@ -37,7 +37,7 @@ Future<dynamic> login({required String email, required String password}) async {
   try {
     final Response response = await post(
       Uri.parse('https://your-activitypub-server.com/api/login'), // In progress
-      body: jsonEncode(<String, String>{'email': email, 'password': password}),
+      body: jsonEncode(<String, dynamic>{'email': email, 'password': password}),
       headers: <String, String>{'Content-Type': 'application/json'},
     );
 
