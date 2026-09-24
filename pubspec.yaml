@@ -2,6 +2,7 @@ name: smoke_signal
 description: "A social network design to keep us off our screens."
 version: 2.0.0+2
 publish_to: 'none'
+repository: https://github.com/YWT-LLC/smoke_signal
 
 environment:
   sdk: ^3.6.0
