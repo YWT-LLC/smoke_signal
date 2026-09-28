@@ -11,7 +11,7 @@ EzUpdaterFAB updater(EzCP config) => EzUpdaterFAB(
       appVersion: '2.0.0',
       versionSource:
           'https://raw.githubusercontent.com/YWT-LLC/smoke_signal/refs/heads/main/APP_VERSION',
-      gPlay: 'https://play.google.com/store/apps/details?id=llc.ywt.smoke_signal',
-      appStore: 'https://apps.apple.com/us/app/BLARG/BLARG',
+      gPlay: ywt.smokeSignalGPlay,
+      appStore: ywt.smokeSignalAppStore,
       github: ywt.smokeSignalReleases,
     );
