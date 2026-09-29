@@ -26,6 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) => Provider.of<AppUserProvider>(context).value == null
-      ? const SignalBoard()
-      : const AuthScreen(); // swaparuney!
+      ? const AuthScreen()
+      : const SignalBoard();
 }
