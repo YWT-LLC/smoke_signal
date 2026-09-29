@@ -6,11 +6,12 @@
 import '../export.dart';
 import '../../api/export.dart';
 import '../../widgets/export.dart';
+import 'package:ywt_private/ywt_private.dart' as ywt;
 
+import 'package:open_ui/open_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-import 'package:open_ui/open_ui.dart';
 
 class SignalBoard extends StatefulWidget {
   const SignalBoard({super.key});
@@ -20,83 +21,40 @@ class SignalBoard extends StatefulWidget {
 }
 
 class _SignalBoardState extends State<SignalBoard> {
-  // Define build data //
-
-  late Stream<List<Signal>> signalStream;
-
-  // Define custom functions //
-
-  void refresh() => setState(() {});
-
-  void reload() => setState(() => signalStream = streamSignals());
-
-  // Init //
-
-  @override
-  void initState() {
-    super.initState();
-    ezWindowNamer('Signal board');
-    signalStream = streamSignals();
-  }
-
-  // Return the build //
-
   @override
   Widget build(BuildContext context) {
     return Consumer<EzCP>(
       builder: (_, EzCP config, __) => SmokeSignalScaffold(
         config,
-        body: EzScrollView(
-          config,
-          children: <Widget>[
-            // Signals the user is a member of
-            StreamBuilder<List<Signal>>(
-              stream: signalStream,
-              builder: (_, AsyncSnapshot<List<Signal>> snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return const EzImage(image: signalGif, semanticLabel: 'Loading');
+        body: EzScrollView(config, children: <Widget>[
+          // Signals the user is a member of
+          StreamBuilder<List<Signal>>(
+            stream: streamSignals(),
+            builder: (_, AsyncSnapshot<List<Signal>> snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return EzLoadingGlass(config);
 
-                  case ConnectionState.done:
-                  default:
-                    if (snapshot.hasError) {
-                      ezLogAlert(config, context: context, message: snapshot.error.toString());
-                      return const SizedBox.shrink();
-                    }
+                default:
+                  if (snapshot.hasError) {
+                    ezLogAlert(config, context: context, message: snapshot.error.toString());
+                    return const SizedBox.shrink();
+                  }
 
-                    return EzCol(
-                        children: snapshot.data!
-                            .map((Signal signal) =>
-                                SignalCard(config, signal: signal, reloadBoard: reload))
-                            .toList());
-                }
-              },
-            ),
-
-            // // Signal requests pending the user's approval
-            // StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            //   stream: requestStream,
-            //   builder: (BuildContext context,
-            //       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-            //     switch (snapshot.connectionState) {
-            //       case ConnectionState.waiting:
-            //         return const SizedBox.shrink();
-            //       case ConnectionState.done:
-            //       default:
-            //         if (snapshot.hasError) {
-            //           ezLogAlert(context, message: snapshot.error.toString());
-            //           return const SizedBox.shrink();
-            //         }
-            //         return EzCol(children: snapshot.data!.docs
-            //               .map((DocumentSnapshot<Map<String, dynamic>>
-            //                       signalDoc) =>
-            //                   Signal.buildSignal(signalDoc, reload))
-            //               .toList());
-            //     }
-            //   },
-            // ),
-          ],
-        ),
+                  return EzCol(
+                    children: (snapshot.data ?? <Signal>[])
+                        .map((Signal signal) => SignalCard(
+                              config,
+                              signal: signal,
+                              reloadBoard: () => setState(() {}),
+                            ))
+                        .toList(),
+                  );
+              }
+            },
+          ),
+          EzFooter(config, a11howPath: ywt.smokeSignalContributeA11),
+        ]),
         drawerHeader: LoggedInHeader(config),
         extraButtons: <Widget>[LogoutButton(config)],
         fabs: <Widget>[
