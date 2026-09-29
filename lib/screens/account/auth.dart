@@ -6,6 +6,7 @@
 import '../export.dart';
 import '../../api/export.dart';
 import '../../widgets/export.dart';
+import 'package:ywt_private/ywt_private.dart' as ywt;
 
 import 'package:open_ui/open_ui.dart';
 import 'package:flutter/material.dart';
@@ -24,140 +25,109 @@ class _AuthScreenState extends State<AuthScreen> {
 
   bool showPwd = false;
 
-  late final TextEditingController emailController = TextEditingController();
-  late final TextEditingController passwdController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwdController = TextEditingController();
 
-  // Set the page title //
-
-  @override
-  void initState() {
-    super.initState();
-    ezWindowNamer('Auth');
-  }
   // Return the build //
 
   @override
   Widget build(BuildContext context) {
     return Consumer<EzCP>(
-      builder: (_, EzCP config, __) {
-        final double bodyTextSize = config.bodyStyle?.fontSize ??
-            EzCM.getDefault(config.isDark ? darkBodyFontSizeKey : lightBodyFontSizeKey);
-
-        return SmokeSignalScaffold(
-          config,
-          alignment: Alignment.center,
-          body: EzScrollView(
-            config,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              AutofillGroup(
-                child: EzCol(children: <Widget>[
-                  // Email field
-                  ConstrainedBox(
-                    constraints: ezTextFieldConstraints(context),
-                    child: TextFormField(
-                      controller: emailController,
-                      maxLines: 1,
-                      autofillHints: const <String>[AutofillHints.email],
-                      validator: validateEmail,
-                      autovalidateMode: AutovalidateMode.onUnfocus,
-                      decoration: const InputDecoration(hintText: 'Enter email'),
-                    ),
-                  ),
-                  config.spacer,
-
-                  // Password field
-                  ConstrainedBox(
-                    constraints: ezTextFieldConstraints(context),
-                    child: TextFormField(
-                      controller: passwdController,
-                      maxLines: 1,
-                      autofillHints: const <String>[AutofillHints.password],
-                      obscureText: !showPwd,
-                      decoration: InputDecoration(
-                        hintText: 'Enter password',
-                        suffixIcon: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: config.marginVal),
-                          child: InkWell(
-                            onTap: () => setState(() => showPwd = !showPwd),
-                            child: Icon(showPwd ? Icons.visibility : Icons.visibility_off),
-                          ),
-                        ),
-                        suffixIconConstraints: BoxConstraints(
-                          minWidth: bodyTextSize,
-                          minHeight: bodyTextSize,
-                        ),
-                      ),
-                    ),
-                  ),
-                ]),
-              ),
-              config.separator,
-
-              // Buttons
-              EzRowCol.sym(
-                config,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  // Login
-                  EzElevatedIconButton(
-                    config,
-                    onPressed: () async {
-                      closeKeyboard(context);
-
-                      // Don't do anything if the input is invalid
-                      final String email = emailController.text.trim();
-
-                      if (validateEmail(email) != null) {
-                        ezLogAlert(config, context: context, message: 'Invalid email!');
-                        return;
-                      }
-
-                      await login(email: email, password: passwdController.text.trim());
-                    },
-                    icon: const Icon(Icons.login),
-                    label: 'Login',
-                  ),
-                  config.swapSpacer,
-
-                  // Sign up
-                  EzElevatedIconButton(
-                    config,
-                    onPressed: () async {
-                      closeKeyboard(context);
-
-                      // Don't do anything if the input is invalid
-                      final String email = emailController.text.trim();
-
-                      if (validateEmail(email) != null) {
-                        ezLogAlert(config, context: context, message: 'Invalid email!');
-                        return;
-                      }
-
-                      // Attempt login
-                      await signUp(email: email, password: passwdController.text.trim());
-                    },
-                    icon: const Icon(Icons.edit_note_rounded),
-                    label: 'Sign up',
-                  ),
-                ],
-              ),
-              config.separator,
-
-              // Forgot password
-              EzLink(
-                config,
-                text: 'Forgot your password?',
-                style: config.bodyStyle!,
-                onTap: () => context.goNamed(resetPasswordPath),
-                hint: 'Go to the password reset page',
+      builder: (_, EzCP config, __) => SmokeSignalScaffold(
+        config,
+        alignment: Alignment.center,
+        body: EzScrollView(config, children: <Widget>[
+          AutofillGroup(
+            child: EzCol(children: <Widget>[
+              // Email field
+              EzTextField(
+                constraints: ezTextFieldConstraints(context),
+                controller: emailController,
+                maxLines: 1,
+                textAlign: TextAlign.start,
+                hintText: 'Enter email',
+                autofillHints: const <String>[AutofillHints.email],
+                autovalidateMode: AutovalidateMode.onUnfocus,
+                validator: validateEmail,
               ),
               config.spacer,
-            ],
+
+              // Password field
+              EzTextField(
+                // TODO: fix vertical align
+                constraints: ezTextFieldConstraints(context),
+                controller: passwdController,
+                maxLines: 1,
+                obscureText: !showPwd,
+                textAlign: TextAlign.start,
+                hintText: 'Enter password',
+                autofillHints: const <String>[AutofillHints.password],
+                suffixIcon: EzIconTouch(
+                  config,
+                  icon: showPwd ? Icons.visibility : Icons.visibility_off,
+                  tooltip: showPwd ? 'Hide password' : 'Show password',
+                  onPressed: () => setState(() => showPwd = !showPwd),
+                ),
+                validator: (_) => null,
+              ),
+            ]),
           ),
-          drawerHeader: LoginHeader(config),
-        );
-      },
+          config.separator,
+
+          // Buttons
+          EzRowCol.sym(config, children: <Widget>[
+            // Login
+            EzElevatedIconButton(
+              config,
+              onPressed: () async {
+                closeKeyboard(context);
+                if (validateEmail(emailController.text) != null) {
+                  ezLogAlert(config, context: context, message: 'Invalid email!');
+                  return;
+                }
+
+                await login(
+                  email: emailController.text,
+                  password: passwdController.text.trim(),
+                );
+              },
+              icon: const Icon(Icons.login),
+              label: 'Login',
+            ),
+            config.swapSpacer,
+
+            // Sign up
+            EzElevatedIconButton(
+              config,
+              onPressed: () async {
+                closeKeyboard(context);
+                if (validateEmail(emailController.text) != null) {
+                  ezLogAlert(config, context: context, message: 'Invalid email!');
+                  return;
+                }
+
+                await signUp(
+                  email: emailController.text,
+                  password: passwdController.text.trim(),
+                );
+              },
+              icon: const Icon(Icons.edit_note_rounded),
+              label: 'Sign up',
+            ),
+          ]),
+          config.separator,
+
+          // Forgot password
+          EzLink(
+            config,
+            text: 'Forgot your password?',
+            hint: 'Go to the password reset page',
+            onTap: () => context.goNamed(resetPasswordPath),
+          ),
+          EzFooter(config, a11howPath: ywt.smokeSignalContributeA11),
+        ]),
+        drawerHeader: LoginHeader(config),
+      ),
     );
   }
 
