@@ -58,55 +58,51 @@ class _ProfileSettingsState extends State<ProfileSettingsScreen> {
     return Consumer<EzCP>(
       builder: (_, EzCP config, __) => SmokeSignalScaffold(
         config,
-        body: EzScreen(
+        body: EzScrollView(
           config,
-          child: EzScrollView(
-            config,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              EzHeader(config),
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            EzHeader(config),
 
-              // Display name
-              EzText(config, text: name, style: config.titleStyle, textAlign: TextAlign.center),
-              config.margin,
+            // Display name
+            EzText(config, text: name, style: config.titleStyle, textAlign: TextAlign.center),
+            config.margin,
 
-              // Edit name
-              EzElevatedIconButton(
-                config,
-                onPressed: () async {
-                  final dynamic shouldRefresh = await updateName('Caw');
-                  if (shouldRefresh == null) await refreshName();
-                },
-                icon: const Icon(Icons.edit),
-                label: 'New name',
-              ),
-              config.divider,
+            // Edit name
+            EzElevatedIconButton(
+              config,
+              onPressed: () async {
+                final dynamic shouldRefresh = await updateName('Caw');
+                if (shouldRefresh == null) await refreshName();
+              },
+              icon: const Icon(Icons.edit),
+              label: 'New name',
+            ),
+            config.divider,
 
-              // Profile image
-              CircleAvatar(
-                foregroundImage: CachedNetworkImageProvider(url),
-                minRadius: 100,
-                maxRadius: 100,
-              ),
-              config.margin,
+            // Profile image
+            CircleAvatar(
+              foregroundImage: CachedNetworkImageProvider(url),
+              minRadius: 100,
+              maxRadius: 100,
+            ),
+            config.margin,
 
-              // Edit picture
-              EzElevatedIconButton(
-                config,
-                onPressed: () async {
-                  final dynamic shouldRefresh = await updateAvatar(
-                    'https://media.istockphoto.com/id/537389352/photo/tropical-rainforest.jpg?s=612x612&w=0&k=20&c=Gbweh81zqVDWihcJ5KA_41C0bufuIkgxZkDLc9h4HpI=',
-                  );
-                  if (shouldRefresh == null) await refreshPic();
-                },
-                icon: const Icon(Icons.camera),
-                label: 'New pic',
-              ),
-              config.spacer,
-            ],
-          ),
+            // Edit picture
+            EzElevatedIconButton(
+              config,
+              onPressed: () async {
+                final dynamic shouldRefresh = await updateAvatar(
+                  'https://media.istockphoto.com/id/537389352/photo/tropical-rainforest.jpg?s=612x612&w=0&k=20&c=Gbweh81zqVDWihcJ5KA_41C0bufuIkgxZkDLc9h4HpI=',
+                );
+                if (shouldRefresh == null) await refreshPic();
+              },
+              icon: const Icon(Icons.camera),
+              label: 'New pic',
+            ),
+            config.spacer,
+          ],
         ),
-        title: 'Edit Profile',
         drawerHeader: LoginHeader(config),
       ),
     );

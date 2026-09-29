@@ -46,61 +46,57 @@ class _SignalBoardState extends State<SignalBoard> {
     return Consumer<EzCP>(
       builder: (_, EzCP config, __) => SmokeSignalScaffold(
         config,
-        body: EzScreen(
+        body: EzScrollView(
           config,
-          child: EzScrollView(
-            config,
-            children: <Widget>[
-              // Signals the user is a member of
-              StreamBuilder<List<Signal>>(
-                stream: signalStream,
-                builder: (_, AsyncSnapshot<List<Signal>> snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                      return const EzImage(image: signalGif, semanticLabel: 'Loading');
+          children: <Widget>[
+            // Signals the user is a member of
+            StreamBuilder<List<Signal>>(
+              stream: signalStream,
+              builder: (_, AsyncSnapshot<List<Signal>> snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return const EzImage(image: signalGif, semanticLabel: 'Loading');
 
-                    case ConnectionState.done:
-                    default:
-                      if (snapshot.hasError) {
-                        ezLogAlert(config, context: context, message: snapshot.error.toString());
-                        return const SizedBox.shrink();
-                      }
+                  case ConnectionState.done:
+                  default:
+                    if (snapshot.hasError) {
+                      ezLogAlert(config, context: context, message: snapshot.error.toString());
+                      return const SizedBox.shrink();
+                    }
 
-                      return EzCol(
-                          children: snapshot.data!
-                              .map((Signal signal) =>
-                                  SignalCard(config, signal: signal, reloadBoard: reload))
-                              .toList());
-                  }
-                },
-              ),
+                    return EzCol(
+                        children: snapshot.data!
+                            .map((Signal signal) =>
+                                SignalCard(config, signal: signal, reloadBoard: reload))
+                            .toList());
+                }
+              },
+            ),
 
-              // // Signal requests pending the user's approval
-              // StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              //   stream: requestStream,
-              //   builder: (BuildContext context,
-              //       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-              //     switch (snapshot.connectionState) {
-              //       case ConnectionState.waiting:
-              //         return const SizedBox.shrink();
-              //       case ConnectionState.done:
-              //       default:
-              //         if (snapshot.hasError) {
-              //           ezLogAlert(context, message: snapshot.error.toString());
-              //           return const SizedBox.shrink();
-              //         }
-              //         return EzCol(children: snapshot.data!.docs
-              //               .map((DocumentSnapshot<Map<String, dynamic>>
-              //                       signalDoc) =>
-              //                   Signal.buildSignal(signalDoc, reload))
-              //               .toList());
-              //     }
-              //   },
-              // ),
-            ],
-          ),
+            // // Signal requests pending the user's approval
+            // StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            //   stream: requestStream,
+            //   builder: (BuildContext context,
+            //       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            //     switch (snapshot.connectionState) {
+            //       case ConnectionState.waiting:
+            //         return const SizedBox.shrink();
+            //       case ConnectionState.done:
+            //       default:
+            //         if (snapshot.hasError) {
+            //           ezLogAlert(context, message: snapshot.error.toString());
+            //           return const SizedBox.shrink();
+            //         }
+            //         return EzCol(children: snapshot.data!.docs
+            //               .map((DocumentSnapshot<Map<String, dynamic>>
+            //                       signalDoc) =>
+            //                   Signal.buildSignal(signalDoc, reload))
+            //               .toList());
+            //     }
+            //   },
+            // ),
+          ],
         ),
-        title: 'Signals',
         drawerHeader: LoggedInHeader(config),
         extraButtons: <Widget>[LogoutButton(config)],
         fabs: <Widget>[

@@ -3,7 +3,6 @@
  * See LICENSE for distribution and usage details.
  */
 
-import '../utils/export.dart';
 import './export.dart';
 
 import 'package:open_ui/open_ui.dart';
@@ -13,17 +12,17 @@ import 'package:provider/provider.dart';
 class SmokeSignalScaffold extends StatelessWidget {
   final EzCP config;
   final Widget body;
-  final String title;
+  final Alignment alignment;
   final Widget drawerHeader;
   final List<Widget>? extraButtons;
   final List<Widget>? fabs;
   final bool isHome;
 
-  const SmokeSignalScaffold(
+  SmokeSignalScaffold(
     this.config, {
     super.key,
     required this.body,
-    this.title = appName,
+    this.alignment = Alignment.topCenter,
     required this.drawerHeader,
     this.extraButtons,
     this.fabs,
@@ -32,47 +31,51 @@ class SmokeSignalScaffold extends StatelessWidget {
 
   // Return the build //
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
   @override
-  Widget build(BuildContext context) {
-    return EzAdaptiveParent(
-      small: Consumer<EzCP>(
-        builder: (_, EzCP config, __) {
-          final double toolbarHeight = ezToolbarHeight(config, context: context, title: appName);
+  Widget build(BuildContext context) => EzAdaptiveParent(
+        small: Consumer<EzCP>(
+          builder: (_, EzCP config, __) {
+            final Widget drawer = SmokeSignalDrawer(
+              config,
+              header: drawerHeader,
+              extraButtons: extraButtons,
+            );
 
-          final Widget drawer = SmokeSignalDrawer(
-            config,
-            header: drawerHeader,
-            extraButtons: extraButtons,
-          );
-
-          return EzScaffold(
-            config,
-            appBar: PreferredSize(
-              preferredSize: Size(double.infinity, toolbarHeight),
-              child: AppBar(
-                excludeHeaderSemantics: true,
-                toolbarHeight: toolbarHeight,
-
-                // Leading (aka left)
-                leading: config.isLefty ? null : EzBackAction(config),
-                leadingWidth: toolbarHeight,
-
-                // Title
-                title: Text(title, textAlign: TextAlign.center),
-                centerTitle: true,
-                titleSpacing: 0,
-
-                // Actions (aka trailing aka right)
-                actions: config.isLefty ? <Widget>[EzBackAction(config)] : null,
+            return EzScaffold(
+              config,
+              key: _scaffoldKey,
+              drawer: config.isLefty ? drawer : null,
+              endDrawer: config.isLefty ? null : drawer,
+              body: EzScreen(
+                config,
+                safeArea: true,
+                alignment: alignment,
+                child: Stack(children: <Widget>[
+                  Align(alignment: alignment, child: Positioned.fill(child: body)),
+                  Positioned(
+                    top: 0,
+                    left: config.isLefty ? 0 : null,
+                    right: config.isLefty ? null : 0,
+                    child: EzIconButton(
+                      config,
+                      icon: EzIcon(config, Icons.menu),
+                      tooltip: 'Open drawer',
+                      onPressed: () => config.isLefty
+                          ? _scaffoldKey.currentState?.openDrawer()
+                          : _scaffoldKey.currentState?.openEndDrawer(),
+                    ),
+                  )
+                ]),
               ),
-            ),
-            drawer: config.isLefty ? drawer : null,
-            endDrawer: config.isLefty ? null : drawer,
-            body: body,
-            fabs: <Widget>[updater(config), if (fabs != null) ...fabs!, ...config.backFABs(isHome)],
-          );
-        },
-      ),
-    );
-  }
+              fabs: <Widget>[
+                updater(config),
+                if (fabs != null) ...fabs!,
+                ...config.backFABs(isHome),
+              ],
+            );
+          },
+        ),
+      );
 }

@@ -32,27 +32,24 @@ class _ErrorScreenState extends State<ErrorScreen> {
     return Consumer<EzCP>(
       builder: (_, EzCP config, __) => SmokeSignalScaffold(
         config,
-        body: EzScreen(
-          config,
-          child: Center(
-            child: EzScrollView(
-              config,
-              children: <Widget>[
-                Text(
-                  config.ezL10n.g404Wonder,
-                  style: config.headlineStyle,
-                  textAlign: TextAlign.center,
-                ),
-                config.separator,
-                Text(
-                  config.ezL10n.g404,
-                  style: ezSubTitleStyle(config.styles),
-                  textAlign: TextAlign.center,
-                ),
-                config.separator,
-                Text(config.ezL10n.g404Note, style: config.labelStyle, textAlign: TextAlign.center),
-              ],
-            ),
+        body: Center(
+          child: EzScrollView(
+            config,
+            children: <Widget>[
+              Text(
+                config.ezL10n.g404Wonder,
+                style: config.headlineStyle,
+                textAlign: TextAlign.center,
+              ),
+              config.separator,
+              Text(
+                config.ezL10n.g404,
+                style: ezSubTitleStyle(config.styles),
+                textAlign: TextAlign.center,
+              ),
+              config.separator,
+              Text(config.ezL10n.g404Note, style: config.labelStyle, textAlign: TextAlign.center),
+            ],
           ),
         ),
         drawerHeader: DrawerHeader(

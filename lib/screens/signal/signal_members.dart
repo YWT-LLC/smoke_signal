@@ -144,25 +144,21 @@ class _SignalMembersScreenState extends State<SignalMembersScreen> {
     return Consumer<EzCP>(
       builder: (_, EzCP config, __) => SmokeSignalScaffold(
         config,
-        body: EzScreen(
-          config,
-          child: StreamBuilder<List<User>>(
-            stream: userStream,
-            builder: (_, AsyncSnapshot<List<User>> snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.waiting:
-                  return const EzImage(image: signalGif, semanticLabel: 'Loading');
+        body: StreamBuilder<List<User>>(
+          stream: userStream,
+          builder: (_, AsyncSnapshot<List<User>> snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return const EzImage(image: signalGif, semanticLabel: 'Loading');
 
-                case ConnectionState.done:
-                default:
-                  return (snapshot.hasError)
-                      ? Center(child: Text(snapshot.error.toString()))
-                      : sortUsers(config, snapshot.data!);
-              }
-            },
-          ),
+              case ConnectionState.done:
+              default:
+                return (snapshot.hasError)
+                    ? Center(child: Text(snapshot.error.toString()))
+                    : sortUsers(config, snapshot.data!);
+            }
+          },
         ),
-        title: '${signal.title} members',
         drawerHeader: LoggedInHeader(config),
         extraButtons: <Widget>[LogoutButton(config)],
       ),

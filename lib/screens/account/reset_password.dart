@@ -37,71 +37,66 @@ class _ResetScreenState extends State<ResetPasswordScreen> {
     return Consumer<EzCP>(
       builder: (_, EzCP config, __) => SmokeSignalScaffold(
         config,
-        body: EzScreen(
+        body: EzScrollView(
           config,
-          alignment: Alignment.center,
-          child: EzScrollView(
-            config,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              // Email form
-              AutofillGroup(
-                child: ConstrainedBox(
-                  constraints: ezTextFieldConstraints(context),
-                  child: TextFormField(
-                    controller: emailController,
-                    maxLines: 1,
-                    autofillHints: const <String>[AutofillHints.email],
-                    decoration: const InputDecoration(hintText: 'Enter email'),
-                    validator: validateEmail,
-                    autovalidateMode: AutovalidateMode.onUnfocus,
-                  ),
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            // Email form
+            AutofillGroup(
+              child: ConstrainedBox(
+                constraints: ezTextFieldConstraints(context),
+                child: TextFormField(
+                  controller: emailController,
+                  maxLines: 1,
+                  autofillHints: const <String>[AutofillHints.email],
+                  decoration: const InputDecoration(hintText: 'Enter email'),
+                  validator: validateEmail,
+                  autovalidateMode: AutovalidateMode.onUnfocus,
                 ),
               ),
-              config.separator,
+            ),
+            config.separator,
 
-              // Submit button
-              EzElevatedIconButton(
-                config,
-                onPressed: () {
-                  closeKeyboard(context);
+            // Submit button
+            EzElevatedIconButton(
+              config,
+              onPressed: () {
+                closeKeyboard(context);
 
-                  final String email = emailController.text.trim();
+                final String email = emailController.text.trim();
 
-                  // Don't do anything if the email is invalid
-                  if (validateEmail(email) != null) {
-                    ezLogAlert(config, context: context, message: 'Invalid email!');
-                    return;
+                // Don't do anything if the email is invalid
+                if (validateEmail(email) != null) {
+                  ezLogAlert(config, context: context, message: 'Invalid email!');
+                  return;
+                }
+
+                // Attempt reset
+                try {
+                  // await appUser.sendPasswordResetEmail();
+
+                  if (context.mounted) {
+                    ezLogAlert(
+                      config,
+                      context: context,
+                      message: 'Password reset email has been sent!',
+                    );
                   }
-
-                  // Attempt reset
-                  try {
-                    // await appUser.sendPasswordResetEmail();
-
-                    if (context.mounted) {
-                      ezLogAlert(
-                        config,
-                        context: context,
-                        message: 'Password reset email has been sent!',
-                      );
-                    }
-                  } on Exception catch (e) {
-                    if (context.mounted) {
-                      ezLogAlert(
-                        config,
-                        context: context,
-                        message: 'Failed to send password reset email:\n$e',
-                      );
-                    }
+                } on Exception catch (e) {
+                  if (context.mounted) {
+                    ezLogAlert(
+                      config,
+                      context: context,
+                      message: 'Failed to send password reset email:\n$e',
+                    );
                   }
-                },
-                icon: const Icon(Icons.mail),
-                label: 'Send link',
-              ),
-            ],
-          ),
+                }
+              },
+              icon: const Icon(Icons.mail),
+              label: 'Send link',
+            ),
+          ],
         ),
-        title: 'No problem!',
         drawerHeader: LoginHeader(config),
       ),
     );

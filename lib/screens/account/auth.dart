@@ -45,118 +45,115 @@ class _AuthScreenState extends State<AuthScreen> {
 
         return SmokeSignalScaffold(
           config,
-          body: EzScreen(
+          alignment: Alignment.center,
+          body: EzScrollView(
             config,
-            alignment: Alignment.center,
-            child: EzScrollView(
-              config,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                AutofillGroup(
-                  child: EzCol(children: <Widget>[
-                    // Email field
-                    ConstrainedBox(
-                      constraints: ezTextFieldConstraints(context),
-                      child: TextFormField(
-                        controller: emailController,
-                        maxLines: 1,
-                        autofillHints: const <String>[AutofillHints.email],
-                        validator: validateEmail,
-                        autovalidateMode: AutovalidateMode.onUnfocus,
-                        decoration: const InputDecoration(hintText: 'Enter email'),
-                      ),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              AutofillGroup(
+                child: EzCol(children: <Widget>[
+                  // Email field
+                  ConstrainedBox(
+                    constraints: ezTextFieldConstraints(context),
+                    child: TextFormField(
+                      controller: emailController,
+                      maxLines: 1,
+                      autofillHints: const <String>[AutofillHints.email],
+                      validator: validateEmail,
+                      autovalidateMode: AutovalidateMode.onUnfocus,
+                      decoration: const InputDecoration(hintText: 'Enter email'),
                     ),
-                    config.spacer,
+                  ),
+                  config.spacer,
 
-                    // Password field
-                    ConstrainedBox(
-                      constraints: ezTextFieldConstraints(context),
-                      child: TextFormField(
-                        controller: passwdController,
-                        maxLines: 1,
-                        autofillHints: const <String>[AutofillHints.password],
-                        obscureText: !showPwd,
-                        decoration: InputDecoration(
-                          hintText: 'Enter password',
-                          suffixIcon: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: config.marginVal),
-                            child: InkWell(
-                              onTap: () => setState(() => showPwd = !showPwd),
-                              child: Icon(showPwd ? Icons.visibility : Icons.visibility_off),
-                            ),
+                  // Password field
+                  ConstrainedBox(
+                    constraints: ezTextFieldConstraints(context),
+                    child: TextFormField(
+                      controller: passwdController,
+                      maxLines: 1,
+                      autofillHints: const <String>[AutofillHints.password],
+                      obscureText: !showPwd,
+                      decoration: InputDecoration(
+                        hintText: 'Enter password',
+                        suffixIcon: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: config.marginVal),
+                          child: InkWell(
+                            onTap: () => setState(() => showPwd = !showPwd),
+                            child: Icon(showPwd ? Icons.visibility : Icons.visibility_off),
                           ),
-                          suffixIconConstraints: BoxConstraints(
-                            minWidth: bodyTextSize,
-                            minHeight: bodyTextSize,
-                          ),
+                        ),
+                        suffixIconConstraints: BoxConstraints(
+                          minWidth: bodyTextSize,
+                          minHeight: bodyTextSize,
                         ),
                       ),
                     ),
-                  ]),
-                ),
-                config.separator,
+                  ),
+                ]),
+              ),
+              config.separator,
 
-                // Buttons
-                EzRowCol.sym(
-                  config,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    // Login
-                    EzElevatedIconButton(
-                      config,
-                      onPressed: () async {
-                        closeKeyboard(context);
+              // Buttons
+              EzRowCol.sym(
+                config,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  // Login
+                  EzElevatedIconButton(
+                    config,
+                    onPressed: () async {
+                      closeKeyboard(context);
 
-                        // Don't do anything if the input is invalid
-                        final String email = emailController.text.trim();
+                      // Don't do anything if the input is invalid
+                      final String email = emailController.text.trim();
 
-                        if (validateEmail(email) != null) {
-                          ezLogAlert(config, context: context, message: 'Invalid email!');
-                          return;
-                        }
+                      if (validateEmail(email) != null) {
+                        ezLogAlert(config, context: context, message: 'Invalid email!');
+                        return;
+                      }
 
-                        await login(email: email, password: passwdController.text.trim());
-                      },
-                      icon: const Icon(Icons.login),
-                      label: 'Login',
-                    ),
-                    config.swapSpacer,
+                      await login(email: email, password: passwdController.text.trim());
+                    },
+                    icon: const Icon(Icons.login),
+                    label: 'Login',
+                  ),
+                  config.swapSpacer,
 
-                    // Sign up
-                    EzElevatedIconButton(
-                      config,
-                      onPressed: () async {
-                        closeKeyboard(context);
+                  // Sign up
+                  EzElevatedIconButton(
+                    config,
+                    onPressed: () async {
+                      closeKeyboard(context);
 
-                        // Don't do anything if the input is invalid
-                        final String email = emailController.text.trim();
+                      // Don't do anything if the input is invalid
+                      final String email = emailController.text.trim();
 
-                        if (validateEmail(email) != null) {
-                          ezLogAlert(config, context: context, message: 'Invalid email!');
-                          return;
-                        }
+                      if (validateEmail(email) != null) {
+                        ezLogAlert(config, context: context, message: 'Invalid email!');
+                        return;
+                      }
 
-                        // Attempt login
-                        await signUp(email: email, password: passwdController.text.trim());
-                      },
-                      icon: const Icon(Icons.edit_note_rounded),
-                      label: 'Sign up',
-                    ),
-                  ],
-                ),
-                config.separator,
+                      // Attempt login
+                      await signUp(email: email, password: passwdController.text.trim());
+                    },
+                    icon: const Icon(Icons.edit_note_rounded),
+                    label: 'Sign up',
+                  ),
+                ],
+              ),
+              config.separator,
 
-                // Forgot password
-                EzLink(
-                  config,
-                  text: 'Forgot your password?',
-                  style: config.bodyStyle!,
-                  onTap: () => context.goNamed(resetPasswordPath),
-                  hint: 'Go to the password reset page',
-                ),
-                config.spacer,
-              ],
-            ),
+              // Forgot password
+              EzLink(
+                config,
+                text: 'Forgot your password?',
+                style: config.bodyStyle!,
+                onTap: () => context.goNamed(resetPasswordPath),
+                hint: 'Go to the password reset page',
+              ),
+              config.spacer,
+            ],
           ),
           drawerHeader: LoginHeader(config),
         );
