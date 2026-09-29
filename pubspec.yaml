@@ -23,6 +23,7 @@ dependencies:
   email_validator: ^3.0.0
   cached_network_image: ^4.0.2
   flutter_localized_locales: ^2.0.5
+  flutter_secure_storage: ^11.2.0
   provider: ^6.1.5+1
 
   # YWT

@@ -8,12 +8,13 @@ import './screens/export.dart';
 import './utils/export.dart';
 import './widgets/export.dart';
 
+import 'package:open_ui/open_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:open_ui/open_ui.dart';
-import 'package:flutter_localized_locales/flutter_localized_locales.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() async {
   // Configure the app //
@@ -29,16 +30,25 @@ void main() async {
     localeFallback: americanEnglish,
     l10nFallback: await OUILang.delegate.load(americanEnglish),
     preferences: await SharedPreferencesWithCache.create(
-      cacheOptions: SharedPreferencesWithCacheOptions(allowList: allSmokeSignalKeys.keys.toSet()),
+      cacheOptions: SharedPreferencesWithCacheOptions(
+        allowList: allSmokeSignalKeys.keys.toSet(),
+      ),
     ),
+    securePreferences: const FlutterSecureStorage(),
     defaults: isMobile() ? mobileSmokeSignalConfig : desktopSmokeSignalConfig,
   );
+
+  await setMinWindow();
 
   // Run the app //
 
   final (Locale storedLocale, OUILang storedOUILang) = await ezStoredL10n();
 
-  runApp(SmokeSignal(storedLocale, storedOUILang, await Lang.delegate.load(storedLocale)));
+  runApp(SmokeSignal(
+    storedLocale,
+    storedOUILang,
+    await Lang.delegate.load(storedLocale),
+  ));
 }
 
 class SmokeSignal extends StatelessWidget {
@@ -46,7 +56,26 @@ class SmokeSignal extends StatelessWidget {
   final OUILang storedOUILang;
   final Lang storedLang;
 
-  const SmokeSignal(this.storedLocale, this.storedOUILang, this.storedLang, {super.key});
+  const SmokeSignal(
+    this.storedLocale,
+    this.storedOUILang,
+    this.storedLang, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) => ChangeNotifierProvider<AppUserProvider>(
+        create: (_) => AppUserProvider(null),
+        child: _TheMagic(storedLocale, storedOUILang, storedLang),
+      );
+}
+
+class _TheMagic extends StatelessWidget {
+  final Locale storedLocale;
+  final OUILang storedOUILang;
+  final Lang storedLang;
+
+  const _TheMagic(this.storedLocale, this.storedOUILang, this.storedLang);
 
   // Cache images //
 
@@ -62,18 +91,14 @@ class SmokeSignal extends StatelessWidget {
     precacheImages(context);
 
     return EzConfigurableApp(
-      localizationsDelegates: <LocalizationsDelegate<dynamic>>{
-        const LocaleNamesLocalizationsDelegate(),
-        ...OUILang.localizationsDelegates,
-        ...Lang.localizationsDelegates,
-      },
+      localizationsDelegates: ezLocalizationsDelegates(Lang.localizationsDelegates),
       supportedLocales: Lang.supportedLocales,
       locale: storedLocale,
       el10n: storedOUILang,
       appCache: SmokeSignalCache(storedLocale, storedLang),
       routerConfig: GoRouter(
         initialLocation: homePath,
-        errorBuilder: (_, GoRouterState state) => const ErrorScreen(),
+        errorBuilder: (_, __) => const ErrorScreen(),
         routes: <RouteBase>[
           // Home
           GoRoute(
