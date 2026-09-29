@@ -9,6 +9,8 @@ import 'package:open_ui/open_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+
 class SmokeSignalScaffold extends StatelessWidget {
   final EzCP config;
   final Widget body;
@@ -18,7 +20,7 @@ class SmokeSignalScaffold extends StatelessWidget {
   final List<Widget>? fabs;
   final bool isHome;
 
-  SmokeSignalScaffold(
+  const SmokeSignalScaffold(
     this.config, {
     super.key,
     required this.body,
@@ -30,8 +32,6 @@ class SmokeSignalScaffold extends StatelessWidget {
   });
 
   // Return the build //
-
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) => EzAdaptiveParent(
@@ -45,7 +45,7 @@ class SmokeSignalScaffold extends StatelessWidget {
 
             return EzScaffold(
               config,
-              key: _scaffoldKey,
+              key: _drawerKey,
               drawer: config.isLefty ? drawer : null,
               endDrawer: config.isLefty ? null : drawer,
               body: EzScreen(
@@ -63,8 +63,8 @@ class SmokeSignalScaffold extends StatelessWidget {
                       icon: EzIcon(config, Icons.menu),
                       tooltip: 'Open drawer',
                       onPressed: () => config.isLefty
-                          ? _scaffoldKey.currentState?.openDrawer()
-                          : _scaffoldKey.currentState?.openEndDrawer(),
+                          ? _drawerKey.currentState?.openDrawer()
+                          : _drawerKey.currentState?.openEndDrawer(),
                     ),
                   )
                 ]),
