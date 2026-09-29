@@ -4,16 +4,19 @@
  */
 
 import '../export.dart';
+import '../../../utils/export.dart';
 
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'package:open_ui/open_ui.dart';
 
-// Me //
-
 /// Attempt user creation
-Future<dynamic> signUp({required String email, required String password}) async {
+Future<String?> signUp({
+  required AppUserProvider appUser,
+  required String email,
+  required String password,
+}) async {
   try {
     final Response response = await post(
       Uri.parse('https://your-activitypub-server.com/api/signUp'), // In progress
@@ -23,17 +26,22 @@ Future<dynamic> signUp({required String email, required String password}) async 
 
     // Add login attempt if username is found
     if (response.statusCode == 201) {
-      return AppUser.fromJson(jsonDecode(response.body));
+      appUser.login(AppUser.fromJson(jsonDecode(response.body)));
+      return null;
     } else {
-      return 'Failure: ${response.body}';
+      return response.body;
     }
   } catch (e) {
-    return 'Error: ${e.toString()}';
+    return e.toString();
   }
 }
 
 /// Attempt user authentication
-Future<dynamic> login({required String email, required String password}) async {
+Future<String?> login({
+  required AppUserProvider appUser,
+  required String email,
+  required String password,
+}) async {
   try {
     final Response response = await post(
       Uri.parse('https://your-activitypub-server.com/api/login'), // In progress
@@ -42,12 +50,13 @@ Future<dynamic> login({required String email, required String password}) async {
     );
 
     if (response.statusCode == 200) {
-      return AppUser.fromJson(jsonDecode(response.body));
+      appUser.login(AppUser.fromJson(jsonDecode(response.body)));
+      return null;
     } else {
-      return 'Failed: ${response.body}';
+      return response.body;
     }
   } catch (e) {
-    return 'Error: ${e.toString()}';
+    return e.toString();
   }
 }
 
@@ -75,8 +84,6 @@ Future<String?> updateAvatar(String url) async {
 Future<dynamic> updateName(String name) async {
   return 'Something went wrong';
 }
-
-// You //
 
 /// [Stream] all [User]s that the current user can see
 ///

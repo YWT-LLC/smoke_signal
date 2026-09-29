@@ -5,6 +5,7 @@
 
 import '../export.dart';
 import '../../api/export.dart';
+import '../../utils/export.dart';
 import '../../widgets/export.dart';
 import 'package:ywt_private/ywt_private.dart' as ywt;
 
@@ -69,6 +70,17 @@ class _AuthScreenState extends State<AuthScreen> {
                   onPressed: () => setState(() => showPwd = !showPwd),
                 ),
                 validator: (_) => null,
+                onFieldSubmitted: (String pwd) async {
+                  final String? error = await login(
+                    appUser: Provider.of<AppUserProvider>(context, listen: false),
+                    email: emailController.text,
+                    password: pwd,
+                  );
+
+                  if (context.mounted && error != null && error.isNotEmpty) {
+                    ezLogAlert(config, context: context, message: error);
+                  }
+                },
               ),
             ]),
           ),
@@ -86,10 +98,14 @@ class _AuthScreenState extends State<AuthScreen> {
                   return;
                 }
 
-                await login(
+                final String? error = await login(
+                  appUser: Provider.of<AppUserProvider>(context, listen: false),
                   email: emailController.text,
-                  password: passwdController.text.trim(),
+                  password: passwdController.text,
                 );
+                if (context.mounted && error != null && error.isNotEmpty) {
+                  ezLogAlert(config, context: context, message: error);
+                }
               },
               icon: const Icon(Icons.login),
               label: 'Login',
@@ -106,10 +122,14 @@ class _AuthScreenState extends State<AuthScreen> {
                   return;
                 }
 
-                await signUp(
+                final String? error = await signUp(
+                  appUser: Provider.of<AppUserProvider>(context, listen: false),
                   email: emailController.text,
-                  password: passwdController.text.trim(),
+                  password: passwdController.text,
                 );
+                if (context.mounted && error != null && error.isNotEmpty) {
+                  ezLogAlert(config, context: context, message: error);
+                }
               },
               icon: const Icon(Icons.edit_note_rounded),
               label: 'Sign up',
