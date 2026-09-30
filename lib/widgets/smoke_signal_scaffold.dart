@@ -75,7 +75,7 @@ class SmokeSignalScaffold extends StatelessWidget {
           fabs: <Widget>[
             updater(config),
             if (fabs != null) ...fabs!,
-            ...config.backFABs(isHome),
+            ...config.backFABs(isHome: isHome),
           ],
         ),
       );
