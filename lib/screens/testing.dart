@@ -4,6 +4,7 @@
  */
 
 import '../../widgets/export.dart';
+import 'package:ywt_private/ywt_private.dart' as ywt;
 
 import 'dart:convert';
 import 'package:open_ui/open_ui.dart';
@@ -29,11 +30,11 @@ class _ChatScreenState extends State<TestingScreen> {
   // Define custom functions //
 
   void _sendMessage(String msg) {
-    if (msg.trim().isEmpty) return;
+    if (msg.isEmpty) return;
 
     final Map<String, String> payload = <String, String>{
       'sender': 'TestUser',
-      'content': msgControl.text.trim(),
+      'content': msg,
     };
 
     _channel.sink.add(jsonEncode(payload));
@@ -46,7 +47,7 @@ class _ChatScreenState extends State<TestingScreen> {
   void initState() {
     super.initState();
 
-    _channel = WebSocketChannel.connect(Uri.parse('http://localhost:8080/ws'));
+    _channel = WebSocketChannel.connect(Uri.parse('ws://${ywt.myIP}:8080/ws'));
     _channel.stream.listen(
       (dynamic data) {
         final Map<String, dynamic> decoded = jsonDecode(data as String) as Map<String, dynamic>;
