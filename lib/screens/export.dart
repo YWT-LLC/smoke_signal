@@ -8,6 +8,7 @@
 export 'error.dart';
 export 'home.dart';
 export 'settings.dart';
+export 'testing.dart'; // tmp
 
 export 'account/auth.dart';
 export 'account/profile_settings.dart';
