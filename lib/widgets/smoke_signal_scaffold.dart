@@ -56,7 +56,7 @@ class SmokeSignalScaffold extends StatelessWidget {
             safeArea: true,
             alignment: alignment,
             child: Stack(children: <Widget>[
-              Align(alignment: alignment, child: Positioned.fill(child: body)),
+              Positioned.fill(child: body),
               Positioned(
                 top: 0,
                 left: config.isLefty ? 0 : null,

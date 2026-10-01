@@ -46,14 +46,7 @@ class _ChatScreenState extends State<TestingScreen> {
   void initState() {
     super.initState();
 
-    // Connection URLs:
-    // macOS / iOS Sim / Web: ws://localhost:8080/ws
-    // Android Emulator:       ws://10.0.2.2:8080/ws
-    // Physical Device:        ws://<YOUR_LOCAL_IP>:8080/ws
-    final Uri wsUri = Uri.parse('ws://localhost:8080/ws');
-
-    _channel = WebSocketChannel.connect(wsUri);
-
+    _channel = WebSocketChannel.connect(Uri.parse('http://localhost:8080/ws'));
     _channel.stream.listen(
       (dynamic data) {
         final Map<String, dynamic> decoded = jsonDecode(data as String) as Map<String, dynamic>;
@@ -118,6 +111,7 @@ class _ChatScreenState extends State<TestingScreen> {
                 onPressed: () => _sendMessage(msgControl.text),
               ),
             ]),
+            const EzKeyboardSpacer(0),
           ]),
           drawerHeader: LoginHeader(config),
         );
