@@ -3,10 +3,9 @@
  * See LICENSE for distribution and usage details.
  */
 
-import '../export.dart';
-import '../../api/export.dart';
-import '../../utils/export.dart';
-import '../../widgets/export.dart';
+import 'export.dart';
+import '../utils/export.dart';
+import '../widgets/export.dart';
 import 'package:ywt_private/ywt_private.dart' as ywt;
 
 import 'package:open_ui/open_ui.dart';
@@ -72,7 +71,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 validator: (_) => null,
                 onFieldSubmitted: (String pwd) async {
                   final String? error = await login(
-                    appUser: Provider.of<AppUserProvider>(context, listen: false),
+                    appUser: Provider.of<UserProvider>(context, listen: false),
                     email: emailController.text,
                     password: pwd,
                   );
@@ -99,7 +98,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 }
 
                 final String? error = await login(
-                  appUser: Provider.of<AppUserProvider>(context, listen: false),
+                  appUser: Provider.of<UserProvider>(context, listen: false),
                   email: emailController.text,
                   password: passwdController.text,
                 );
@@ -123,7 +122,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 }
 
                 final String? error = await signUp(
-                  appUser: Provider.of<AppUserProvider>(context, listen: false),
+                  appUser: Provider.of<UserProvider>(context, listen: false),
                   email: emailController.text,
                   password: passwdController.text,
                 );

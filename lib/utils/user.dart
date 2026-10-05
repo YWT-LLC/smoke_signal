@@ -3,17 +3,16 @@
  * See LICENSE for distribution and usage details.
  */
 
-import '../export.dart';
-import '../../../utils/export.dart';
+import '../../utils/export.dart';
 
 import 'dart:convert';
 import 'package:http/http.dart';
-import 'package:flutter/material.dart';
 import 'package:open_ui/open_ui.dart';
+import 'package:flutter/material.dart';
 
 /// Attempt user creation
 Future<String?> signUp({
-  required AppUserProvider appUser,
+  required UserProvider appUser,
   required String email,
   required String password,
 }) async {
@@ -26,7 +25,7 @@ Future<String?> signUp({
 
     // Add login attempt if username is found
     if (response.statusCode == 201) {
-      appUser.login(AppUser.fromJson(jsonDecode(response.body)));
+      appUser.login(User.fromJson(jsonDecode(response.body)));
       return null;
     } else {
       return response.body;
@@ -38,7 +37,7 @@ Future<String?> signUp({
 
 /// Attempt user authentication
 Future<String?> login({
-  required AppUserProvider appUser,
+  required UserProvider appUser,
   required String email,
   required String password,
 }) async {
@@ -50,7 +49,7 @@ Future<String?> login({
     );
 
     if (response.statusCode == 200) {
-      appUser.login(AppUser.fromJson(jsonDecode(response.body)));
+      appUser.login(User.fromJson(jsonDecode(response.body)));
       return null;
     } else {
       return response.body;
@@ -71,14 +70,14 @@ Future<String?> logout(BuildContext context) async {
   return null;
 }
 
-/// Update the [AppUser.avatarURL]
+/// Update the [User.avatarURL]
 ///
 /// In dev - 'Something went wrong'
 Future<String?> updateAvatar(String url) async {
   return 'Something went wrong';
 }
 
-/// Update the [AppUser.displayName]
+/// Update the [User.displayName]
 ///
 /// In dev - 'Something went wrong'
 Future<dynamic> updateName(String name) async {
