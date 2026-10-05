@@ -6,9 +6,8 @@
 import 'export.dart';
 import '../../utils/export.dart';
 
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:open_ui/open_ui.dart';
+import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Provider.of<AppUserProvider>(context).value == null
-      ? const TestingScreen()
-      : const SignalBoard();
+  Widget build(BuildContext context) => // Provider.of<UserProvider>(context).value == null ?
+      const TestingScreen();
+  //: const SignalBoard();
 }

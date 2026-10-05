@@ -3,7 +3,6 @@
  * See LICENSE for distribution and usage details.
  */
 
-import '../../utils/export.dart';
 import '../../widgets/export.dart';
 
 import 'package:flutter/material.dart';
@@ -65,16 +64,6 @@ class SettingsHubScreen extends StatelessWidget {
               build: (EzSubSetting subSec) => EzDesignSettings(
                 config,
                 target: subSec,
-                appendButton: <Widget>[
-                  EzImageSetting(
-                    config,
-                    pathKey: config.isDark ? darkSignalImageKey : lightSignalImageKey,
-                    fitKey: config.isDark ? darkSignalImageFitKey : lightSignalImageFitKey,
-                    label: 'Signal',
-                    allowClear: false,
-                    showFitOption: false,
-                  ), // todo: is update the theme always there? remove plz
-                ],
               ),
             ),
 

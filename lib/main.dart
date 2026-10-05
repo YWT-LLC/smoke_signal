@@ -3,7 +3,6 @@
  * See LICENSE for distribution and usage details.
  */
 
-import '../../api/export.dart';
 import './screens/export.dart';
 import './utils/export.dart';
 import './widgets/export.dart';
@@ -64,8 +63,8 @@ class SmokeSignal extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider<AppUserProvider>(
-        create: (_) => AppUserProvider(null),
+  Widget build(BuildContext context) => ChangeNotifierProvider<UserProvider>(
+        create: (_) => UserProvider(null),
         child: _TheMagic(storedLocale, storedOUILang, storedLang),
       );
 }
@@ -107,42 +106,6 @@ class _TheMagic extends StatelessWidget {
             pageBuilder: (BuildContext pbc, GoRouterState pbs) =>
                 ezPageBuilder(configWatcher(pbc), pbc, pbs, const HomeScreen()),
             routes: <RouteBase>[
-              // Reset password
-              GoRoute(
-                path: resetPasswordPath,
-                name: resetPasswordPath,
-                pageBuilder: (BuildContext pbc, GoRouterState pbs) =>
-                    ezPageBuilder(configWatcher(pbc), pbc, pbs, const ResetPasswordScreen()),
-              ),
-
-              // Profile settings
-              GoRoute(
-                path: profileSettingsPath,
-                name: profileSettingsPath,
-                pageBuilder: (BuildContext pbc, GoRouterState pbs) =>
-                    ezPageBuilder(configWatcher(pbc), pbc, pbs, const ProfileSettingsScreen()),
-              ),
-
-              // Create signal
-              GoRoute(
-                path: createSignalPath,
-                name: createSignalPath,
-                pageBuilder: (BuildContext pbc, GoRouterState pbs) =>
-                    ezPageBuilder(configWatcher(pbc), pbc, pbs, const CreateSignalScreen()),
-              ),
-
-              // Signal members
-              GoRoute(
-                path: signalMembersPath,
-                name: signalMembersPath,
-                pageBuilder: (BuildContext pbc, GoRouterState pbs) => ezPageBuilder(
-                  configWatcher(pbc),
-                  pbc,
-                  pbs,
-                  SignalMembersScreen(pbs.extra as Signal),
-                ),
-              ),
-
               // Settings
               GoRoute(
                 path: settingsHubPath,

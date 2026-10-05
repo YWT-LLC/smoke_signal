@@ -3,18 +3,18 @@
  * See LICENSE for distribution and usage details.
  */
 
-import '../../api/export.dart';
+import './export.dart';
 
 import 'package:flutter/material.dart';
 
-class AppUserProvider extends ChangeNotifier {
-  AppUser? _user;
+class UserProvider extends ChangeNotifier {
+  User? _user;
 
-  AppUserProvider(AppUser? user) : _user = user;
+  UserProvider(User? user) : _user = user;
 
-  AppUser? get value => _user;
+  User? get value => _user;
 
-  void login(AppUser user) {
+  void login(User user) {
     _user = user;
     notifyListeners();
   }

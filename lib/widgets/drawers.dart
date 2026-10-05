@@ -4,15 +4,14 @@
  */
 
 import './export.dart';
-import '../../api/export.dart';
 import '../utils/export.dart';
 import '../screens/export.dart';
 
+import 'package:open_ui/open_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:open_ui/open_ui.dart';
 
 class SmokeSignalDrawer extends StatelessWidget {
   final EzCP config;
@@ -40,23 +39,6 @@ class SmokeSignalDrawer extends StatelessWidget {
             },
             icon: const Icon(Icons.settings),
             label: 'Settings',
-          ),
-          config.spacer,
-
-          // Show input rules
-          EzTextIconButton(
-            config,
-            style: TextButton.styleFrom(backgroundColor: config.colors.surfaceDim),
-            onPressed: () => showDialog(
-              context: context,
-              builder: (_) => EzAlertDialog(
-                config,
-                title: const Text('Input rules', textAlign: TextAlign.center),
-                content: const Text(inputRules, textAlign: TextAlign.center),
-              ),
-            ),
-            icon: const Icon(Icons.rule),
-            label: 'Input rules',
           ),
 
           if (extraButtons != null) ...<Widget>[config.spacer, ...extraButtons!],
@@ -106,7 +88,7 @@ class LoggedInHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double iconSize = ezImageSize(config, context: context) * 0.667;
-    final AppUser? appUser = Provider.of<AppUserProvider>(context).value;
+    final User? appUser = Provider.of<UserProvider>(context).value;
 
     return DrawerHeader(
       margin: EdgeInsets.all(config.marginVal),
@@ -120,7 +102,7 @@ class LoggedInHeader extends StatelessWidget {
 
             // Name
             Flexible(
-              child: Text(appUser?.displayName ?? defaultDisplayName, style: config.titleStyle),
+              child: Text(appUser?.displayName ?? defDN, style: config.titleStyle),
             ),
             config.margin,
 
@@ -142,7 +124,7 @@ class LoggedInHeader extends StatelessWidget {
                   label: 'Profile image.',
                   hint: 'Activate to edit.',
                   tooltip: 'Edit profile',
-                  image: CachedNetworkImageProvider(appUser?.avatarURL ?? defaultAvatarURL),
+                  image: CachedNetworkImageProvider(appUser?.thumbnailUrl ?? defThumbUrl),
                 ),
               ),
             ),

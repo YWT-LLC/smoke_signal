@@ -6,7 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:open_ui/open_ui.dart';
 
-// App config //
+//* App config *//
 
 /// Smoke Signal
 const String appName = 'Smoke Signal';
@@ -16,16 +16,9 @@ const String androidPackage = 'llc.ywt.smoke_signal';
 
 // Local assets //
 
-/// assets/images/app-icon.png
 const String appIconPath = 'assets/images/app-icon.png';
-
-/// assets/images/dark-forest.png
 const String darkForestPath = 'assets/images/dark-forest.png';
-
-/// assets/images/light-forest.png
 const String lightForestPath = 'assets/images/light-forest.png';
-
-/// assets/images/smoke-signal.gif
 const String smokeSignalPath = 'assets/images/smoke-signal.gif';
 
 /// Entries for [EzCM.init]
@@ -46,54 +39,17 @@ const Map<String, dynamic> credits = <String, dynamic>{
 
 //* EzConfig *//
 
-// Signal settings //
-
-const String darkSignalImageKey = 'darkSignalImage';
-const String darkSignalImageFitKey = 'darkSignalImageFit';
-const String darkSignalHeightKey = 'darkSignalHeight';
-const String darkSignalCountHeightKey = 'darkSignalCountHeight';
-
-const String lightSignalImageKey = 'lightSignalImage';
-const String lightSignalImageFitKey = 'lightSignalImageFit';
-const String lightSignalHeightKey = 'lightSignalHeight';
-const String lightSignalCountHeightKey = 'lightSignalCountHeight';
-
-/// dark/light x [signal image, height, count height]
-const Map<String, Type> signalConfigKeys = <String, Type>{
-  // Dark
-  darkSignalImageKey: String,
-  darkSignalImageFitKey: String,
-  darkSignalHeightKey: double,
-  darkSignalCountHeightKey: double,
-
-  // Light
-  lightSignalImageKey: String,
-  lightSignalImageFitKey: String,
-  lightSignalHeightKey: double,
-  lightSignalCountHeightKey: double,
-};
-
-// EzConfig default //
-
 final Map<String, Object> mobileSmokeSignalConfig = <String, Object>{
   ...ywtMobileConfig,
 
-  // Design settings
-  darkSignalHeightKey: 200.0,
-  darkSignalCountHeightKey: 100.0,
+  // Design
   darkBackgroundImageKey: darkForestPath,
   darkBackgroundFitKey: BoxFit.fill.name,
-  darkSignalImageKey: smokeSignalPath,
-  darkSignalImageFitKey: BoxFit.fill.name,
 
-  lightSignalHeightKey: 200.0,
-  lightSignalCountHeightKey: 100.0,
   lightBackgroundImageKey: lightForestPath,
   lightBackgroundFitKey: BoxFit.fill.name,
-  lightSignalImageKey: smokeSignalPath,
-  lightSignalImageFitKey: BoxFit.fill.name,
 
-  // Text settings
+  // Text
   darkTextBackgroundOpacityKey: 0.35,
   lightTextBackgroundOpacityKey: 0.70,
 };
@@ -101,27 +57,56 @@ final Map<String, Object> mobileSmokeSignalConfig = <String, Object>{
 final Map<String, Object> desktopSmokeSignalConfig = <String, Object>{
   ...ywtDesktopConfig,
 
-  // Design settings
-  darkSignalHeightKey: 250.0,
-  darkSignalCountHeightKey: 125.0,
+  // Design
   darkBackgroundImageKey: darkForestPath,
   darkBackgroundFitKey: BoxFit.fill.name,
-  darkSignalImageKey: smokeSignalPath,
-  darkSignalImageFitKey: BoxFit.fill.name,
 
-  lightSignalHeightKey: 250.0,
-  lightSignalCountHeightKey: 125.0,
   lightBackgroundImageKey: lightForestPath,
   lightBackgroundFitKey: BoxFit.fill.name,
-  lightSignalImageKey: smokeSignalPath,
-  lightSignalImageFitKey: BoxFit.fill.name,
 
-  // Text settings
+  // Text
   darkTextBackgroundOpacityKey: 0.35,
   lightTextBackgroundOpacityKey: 0.70,
 };
 
 const Map<String, Type> allSmokeSignalKeys = <String, Type>{
   ...allEZConfigKeys,
-  ...signalConfigKeys,
 };
+
+//* API *//
+
+/// defDN -> default display name -> Anon
+const String defDN = 'Anon';
+
+/// 'https://raw.githubusercontent.com/YWT-LLC/smoke_signal/main/assets/app-icon.png'
+const String defThumbUrl =
+    'https://raw.githubusercontent.com/YWT-LLC/smoke_signal/main/assets/app-icon.png';
+
+// Paths //
+
+/// users
+const String usersPath = 'users';
+
+/// displayName
+const String displayNamePath = 'displayName';
+
+/// avatarURL
+const String avatarURLPath = 'avatarURL';
+
+/// signals
+const String signalsPath = 'signals';
+
+/// owner
+const String ownerPath = 'owner';
+
+/// message
+const String messagePath = 'message';
+
+/// members
+const String membersPath = 'members';
+
+/// activeMembers
+const String activeMembersPath = 'activeMembers';
+
+/// memberRequests
+const String memberRequestsPath = 'memberRequests';

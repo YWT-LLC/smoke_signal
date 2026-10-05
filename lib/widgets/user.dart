@@ -3,11 +3,11 @@
  * See LICENSE for distribution and usage details.
  */
 
-import '../../api/export.dart';
+import '../utils/export.dart';
 
+import 'package:open_ui/open_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:open_ui/open_ui.dart';
 
 class NoUserCoin extends StatelessWidget {
   final EzCP config;
@@ -51,8 +51,9 @@ class UserCoinScroll extends StatelessWidget {
                     ),
                   ),
                   child: CircleAvatar(
-                    foregroundImage:
-                        user.avatarURL != null ? CachedNetworkImageProvider(user.avatarURL!) : null,
+                    foregroundImage: user.thumbnailUrl != null
+                        ? CachedNetworkImageProvider(user.thumbnailUrl!)
+                        : null,
                     minRadius: config.iconSize,
                     maxRadius: config.iconSize,
                   ),
@@ -77,8 +78,8 @@ class UserProfileScroll extends StatelessWidget {
               .map((User user) => EzRow(config, children: <Widget>[
                     // Profile image/avatar
                     CircleAvatar(
-                      foregroundImage: user.avatarURL != null
-                          ? CachedNetworkImageProvider(user.avatarURL!)
+                      foregroundImage: user.thumbnailUrl != null
+                          ? CachedNetworkImageProvider(user.thumbnailUrl!)
                           : null,
                       minRadius: config.iconSize,
                       maxRadius: config.iconSize,

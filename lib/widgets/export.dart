@@ -7,6 +7,5 @@ export 'drawers.dart';
 export 'fabulous.dart';
 export 'images.dart';
 export 'logout_button.dart';
-export 'signal.dart';
 export 'smoke_signal_scaffold.dart';
 export 'user.dart';
