@@ -54,7 +54,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
               // Password field
               EzTextField(
-                // TODO: fix vertical align
                 constraints: ezTextFieldConstraints(context),
                 controller: passwdController,
                 maxLines: 1,
