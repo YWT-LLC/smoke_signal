@@ -94,42 +94,38 @@ class LoggedInHeader extends StatelessWidget {
       margin: EdgeInsets.all(config.marginVal),
       padding: EdgeInsets.zero,
       child: Center(
-        child: EzScrollView(
-          config,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            // Profile name and picture
+        child: EzScrollView(config, children: <Widget>[
+          // Profile name and picture
 
-            // Name
-            Flexible(
-              child: Text(appUser?.displayName ?? defDN, style: config.titleStyle),
+          // Name
+          Flexible(
+            child: Text(appUser?.displayName ?? defDN, style: config.titleStyle),
+          ),
+          config.margin,
+
+          // Picture
+          Container(
+            constraints: BoxConstraints(maxHeight: iconSize),
+            decoration: BoxDecoration(
+              border: Border.all(color: config.colors.primary),
+              borderRadius: BorderRadius.circular(iconSize),
             ),
-            config.margin,
-
-            // Picture
-            Container(
-              constraints: BoxConstraints(maxHeight: iconSize),
-              decoration: BoxDecoration(
-                border: Border.all(color: config.colors.primary),
-                borderRadius: BorderRadius.circular(iconSize),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(iconSize),
-                child: EzImageLink(
-                  config,
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    context.goNamed(profileSettingsPath);
-                  },
-                  label: 'Profile image.',
-                  hint: 'Activate to edit.',
-                  tooltip: 'Edit profile',
-                  image: CachedNetworkImageProvider(appUser?.thumbnailUrl ?? defThumbUrl),
-                ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(iconSize),
+              child: EzImageLink(
+                config,
+                onTap: () {
+                  Navigator.of(context).pop();
+                  context.goNamed(profileSettingsPath);
+                },
+                label: 'Profile image.',
+                hint: 'Activate to edit.',
+                tooltip: 'Edit profile',
+                image: CachedNetworkImageProvider(appUser?.thumbnailUrl ?? defThumbUrl),
               ),
             ),
-          ],
-        ),
+          ),
+        ]),
       ),
     );
   }

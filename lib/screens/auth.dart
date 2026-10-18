@@ -43,11 +43,9 @@ class _AuthScreenState extends State<AuthScreen> {
               EzTextField(
                 constraints: ezTextFieldConstraints(context),
                 controller: emailController,
-                maxLines: 1,
                 textAlign: TextAlign.start,
                 hintText: 'Enter email',
                 autofillHints: const <String>[AutofillHints.email],
-                autovalidateMode: AutovalidateMode.onUnfocus,
                 validator: validateEmail,
               ),
               config.spacer,
@@ -56,7 +54,6 @@ class _AuthScreenState extends State<AuthScreen> {
               EzTextField(
                 constraints: ezTextFieldConstraints(context),
                 controller: passwdController,
-                maxLines: 1,
                 obscureText: !showPwd,
                 textAlign: TextAlign.start,
                 hintText: 'Enter password',
