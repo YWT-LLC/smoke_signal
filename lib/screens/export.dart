@@ -13,11 +13,9 @@ export 'testing.dart'; // tmp
 
 // Route names //
 
-/// settings
-const String settingsHubPath = 'settings';
+const String homePath = 'smoke';
 
-/// reset-password
 const String resetPasswordPath = 'reset-password';
-
-/// profile-settings
 const String profileSettingsPath = 'profile-settings';
+
+const String settingsHubPath = 'settings';
