@@ -35,7 +35,7 @@ class SmokeSignalDrawer extends StatelessWidget {
             style: TextButton.styleFrom(backgroundColor: config.colors.surfaceDim),
             onPressed: () {
               Navigator.of(context).pop();
-              context.goNamed(settingsHubPath);
+              context.goNamed(settingsScreenName);
             },
             icon: const Icon(Icons.settings),
             label: 'Settings',
@@ -116,7 +116,7 @@ class LoggedInHeader extends StatelessWidget {
                 config,
                 onTap: () {
                   Navigator.of(context).pop();
-                  context.goNamed(profileSettingsPath);
+                  context.goNamed(profileSettingsScreenName);
                 },
                 label: 'Profile image.',
                 hint: 'Activate to edit.',

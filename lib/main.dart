@@ -21,14 +21,14 @@ final List<RouteBase> routes = <RouteBase>[
   // Home
   GoRoute(
     path: homePath,
-    name: homePath,
+    name: homeName,
     pageBuilder: (BuildContext pbc, GoRouterState pbs) =>
         ezPageBuilder(configWatcher(pbc), pbc, pbs, const HomeScreen()),
     routes: <RouteBase>[
       // Settings
       GoRoute(
-        path: settingsHubPath,
-        name: settingsHubPath,
+        path: settingsScreenPath,
+        name: settingsScreenName,
         pageBuilder: (BuildContext pbc, GoRouterState pbs) =>
             ezPageBuilder(configWatcher(pbc), pbc, pbs, const SettingsHubScreen()),
       ),

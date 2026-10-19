@@ -13,9 +13,14 @@ export 'testing.dart'; // tmp
 
 // Route names //
 
-const String homePath = 'smoke';
+const String homePath = '/';
+const String homeName = 'signal-home';
 
-const String resetPasswordPath = 'reset-password';
-const String profileSettingsPath = 'profile-settings';
+const String resetPasswordScreenPath = 'reset-password';
+const String resetPasswordScreenName = 'signal-reset-password';
 
-const String settingsHubPath = 'settings';
+const String profileSettingsScreenPath = 'profile-settings';
+const String profileSettingsScreenName = 'signal-profile-settings';
+
+const String settingsScreenPath = 'settings';
+const String settingsScreenName = 'signal-settings';

@@ -137,7 +137,7 @@ class _AuthScreenState extends State<AuthScreen> {
             config,
             text: 'Forgot your password?',
             hint: 'Go to the password reset page',
-            onTap: () => context.goNamed(resetPasswordPath),
+            onTap: () => context.goNamed(resetPasswordScreenName),
           ),
           EzFooter(config, a11howPath: ywt.smokeSignalContributeA11),
         ]),
