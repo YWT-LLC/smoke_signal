@@ -18,21 +18,12 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 // Define the router //
 
 final List<RouteBase> routes = <RouteBase>[
-  // Home
+  // Settings
   GoRoute(
-    path: homePath,
-    name: homeName,
+    path: settingsScreenPath,
+    name: settingsScreenName,
     pageBuilder: (BuildContext pbc, GoRouterState pbs) =>
-        ezPageBuilder(configWatcher(pbc), pbc, pbs, const HomeScreen()),
-    routes: <RouteBase>[
-      // Settings
-      GoRoute(
-        path: settingsScreenPath,
-        name: settingsScreenName,
-        pageBuilder: (BuildContext pbc, GoRouterState pbs) =>
-            ezPageBuilder(configWatcher(pbc), pbc, pbs, const SettingsHubScreen()),
-      ),
-    ],
+        ezPageBuilder(configWatcher(pbc), pbc, pbs, const SettingsHubScreen()),
   ),
 ];
 
@@ -82,7 +73,16 @@ class _TheMagic extends StatelessWidget {
       routerConfig: GoRouter(
         initialLocation: homePath,
         errorBuilder: (_, __) => const ErrorScreen(),
-        routes: routes,
+        routes: <RouteBase>[
+          // Home
+          GoRoute(
+            path: homePath,
+            name: homeName,
+            pageBuilder: (BuildContext pbc, GoRouterState pbs) =>
+                ezPageBuilder(configWatcher(pbc), pbc, pbs, const HomeScreen()),
+            routes: routes,
+          ),
+        ],
       ),
     );
   }
