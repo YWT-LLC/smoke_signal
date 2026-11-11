@@ -8,7 +8,7 @@ import '../../utils/export.dart';
 
 import 'dart:convert';
 import 'package:http/http.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Attempt user creation
 Future<String?> signUp({

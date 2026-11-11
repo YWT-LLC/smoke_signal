@@ -8,9 +8,9 @@ import '../utils/export.dart';
 import '../screens/export.dart';
 
 import 'package:open_ui/open_ui.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class SmokeSignalDrawer extends StatelessWidget {
@@ -32,7 +32,7 @@ class SmokeSignalDrawer extends StatelessWidget {
           // GoTo settings
           EzTextIconButton(
             config,
-            style: TextButton.styleFrom(backgroundColor: config.colors.surfaceDim),
+            style: TextButton.styleFrom(backgroundColor: config.surfaceDim),
             onPressed: () {
               Navigator.of(context).pop();
               context.goNamed(settingsScreenName);
@@ -106,8 +106,8 @@ class LoggedInHeader extends StatelessWidget {
           // Picture
           Container(
             constraints: BoxConstraints(maxHeight: iconSize),
-            decoration: BoxDecoration(
-              border: Border.all(color: config.colors.primary),
+            decoration: config.boxDeco(
+              border: config.boxBorder(fill: config.primaryFill),
               borderRadius: BorderRadius.circular(iconSize),
             ),
             child: ClipRRect(

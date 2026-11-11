@@ -5,8 +5,8 @@
 
 import '../utils/export.dart';
 
-import 'package:flutter/material.dart';
 import 'package:open_ui/open_ui.dart';
+import 'package:material_ui/material_ui.dart';
 
 class LogoutButton extends StatelessWidget {
   final EzCP config;
@@ -16,7 +16,7 @@ class LogoutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => EzIconLink(
         config,
-        style: ezSubTitleStyle(config.styles),
+        style: config.subTitleStyle,
         onTap: () => logout(context),
         hint: 'Logout',
         icon: const Icon(Icons.logout),

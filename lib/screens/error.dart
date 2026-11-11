@@ -5,9 +5,9 @@
 
 import '../widgets/export.dart';
 
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:open_ui/open_ui.dart';
+import 'package:provider/provider.dart';
+import 'package:material_ui/material_ui.dart';
 
 class ErrorScreen extends StatefulWidget {
   const ErrorScreen({super.key});
@@ -44,7 +44,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
               config.separator,
               Text(
                 config.ezL10n.g404,
-                style: ezSubTitleStyle(config.styles),
+                style: config.subTitleStyle,
                 textAlign: TextAlign.center,
               ),
               config.separator,

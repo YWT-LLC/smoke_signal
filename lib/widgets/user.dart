@@ -6,7 +6,7 @@
 import '../utils/export.dart';
 
 import 'package:open_ui/open_ui.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class NoUserCoin extends StatelessWidget {
@@ -22,7 +22,10 @@ class NoUserCoin extends StatelessWidget {
               EzAlertDialog(config, title: const Text('Nobody!', textAlign: TextAlign.center)),
         ),
         child: Container(
-          decoration: BoxDecoration(color: config.colors.primary, shape: BoxShape.circle),
+          decoration: config.boxDeco(
+            fill: config.primaryFill,
+            shape: BoxShape.circle,
+          ),
           child: EzIcon(config, Icons.clear),
         ),
       );
@@ -110,9 +113,9 @@ class AddProfilesWindow extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         width: widthOf(context),
         height: customHeight ?? heightOf(context) / 3.0,
-        decoration: BoxDecoration(
-          color: config.colors.primary,
-          borderRadius: config.textRadius,
+        decoration: config.boxDeco(
+          fill: config.primaryFill,
+          borderRadius: config.buttonShape.textRadius,
         ),
         child: EzCol(children: <Widget>[
           Text(title, style: config.titleStyle),

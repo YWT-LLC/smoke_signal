@@ -4,9 +4,10 @@
  */
 
 import './export.dart';
+import 'package:ywt_private/ywt_private.dart' as ywt;
 
 import 'package:open_ui/open_ui.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
@@ -18,6 +19,7 @@ class SmokeSignalScaffold extends StatelessWidget {
   final List<Widget>? extraButtons;
   final List<Widget>? fabs;
   final bool isHome;
+  final bool quiet;
 
   const SmokeSignalScaffold(
     this.config, {
@@ -28,6 +30,7 @@ class SmokeSignalScaffold extends StatelessWidget {
     this.extraButtons,
     this.fabs,
     this.isHome = false,
+    this.quiet = false,
   });
 
   // Return the build //
@@ -69,8 +72,13 @@ class SmokeSignalScaffold extends StatelessWidget {
                       ? _drawerKey.currentState?.openDrawer()
                       : _drawerKey.currentState?.openEndDrawer(),
                 ),
-              )
+              ),
             ]),
+          ),
+          footer: EzFooter(
+            config,
+            quiet: quiet,
+            a11howPath: ywt.smokeSignalContributeA11,
           ),
           fabs: <Widget>[
             updater(config),

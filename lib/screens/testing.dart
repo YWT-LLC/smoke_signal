@@ -8,8 +8,8 @@ import 'package:ywt_private/ywt_private.dart' as ywt;
 
 import 'dart:convert';
 import 'package:open_ui/open_ui.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class TestingScreen extends StatefulWidget {
@@ -64,7 +64,7 @@ class _ChatScreenState extends State<TestingScreen> {
 
   @override
   Widget build(BuildContext context) => Consumer<EzCP>(builder: (_, EzCP config, __) {
-        final TextStyle? dimLabel = config.labelStyle?.copyWith(color: config.colors.outline);
+        final TextStyle? dimLabel = config.labelStyle?.copyWith(color: config.outline);
 
         return SmokeSignalScaffold(
           config,
