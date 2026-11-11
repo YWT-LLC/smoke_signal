@@ -53,7 +53,9 @@ class UserCoinScroll extends StatelessWidget {
                       content: Text(user.displayName, textAlign: TextAlign.center),
                     ),
                   ),
-                  child: CircleAvatar(
+                  child: EzAvatar(
+                    config,
+                    fill: config.surfaceContainerFill,
                     foregroundImage: user.thumbnailUrl != null
                         ? CachedNetworkImageProvider(user.thumbnailUrl!)
                         : null,
@@ -80,7 +82,9 @@ class UserProfileScroll extends StatelessWidget {
           children: users
               .map((User user) => EzRow(config, children: <Widget>[
                     // Profile image/avatar
-                    CircleAvatar(
+                    EzAvatar(
+                      config,
+                      fill: config.surfaceContainerFill,
                       foregroundImage: user.thumbnailUrl != null
                           ? CachedNetworkImageProvider(user.thumbnailUrl!)
                           : null,
