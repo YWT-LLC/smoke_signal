@@ -19,7 +19,7 @@ class SmokeSignalScaffold extends StatelessWidget {
   final List<Widget>? extraButtons;
   final List<Widget>? fabs;
   final bool isHome;
-  final bool quiet;
+  final bool settingsA11;
 
   const SmokeSignalScaffold(
     this.config, {
@@ -30,7 +30,7 @@ class SmokeSignalScaffold extends StatelessWidget {
     this.extraButtons,
     this.fabs,
     this.isHome = false,
-    this.quiet = false,
+    this.settingsA11 = false,
   });
 
   // Return the build //
@@ -77,8 +77,7 @@ class SmokeSignalScaffold extends StatelessWidget {
           ),
           footer: EzFooter(
             config,
-            quiet: quiet,
-            a11howPath: ywt.smokeSignalContributeA11,
+            a11howPath: settingsA11 ? ywt.openUIContributeA11 : ywt.smokeSignalContributeA11,
           ),
           fabs: <Widget>[
             updater(config),
