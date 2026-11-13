@@ -37,7 +37,7 @@ class SmokeSignalDrawer extends StatelessWidget {
               Navigator.of(context).pop();
               context.goNamed(settingsScreenName);
             },
-            icon: const Icon(Icons.settings),
+            icon: EzIcon(config, Icons.settings),
             label: 'Settings',
           ),
 

@@ -19,7 +19,7 @@ class LogoutButton extends StatelessWidget {
         style: config.subTitleStyle,
         onTap: () => logout(context),
         hint: 'Logout',
-        icon: const Icon(Icons.logout),
+        icon: EzIcon(config, Icons.logout),
         label: 'Logout',
       );
 }

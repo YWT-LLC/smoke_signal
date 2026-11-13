@@ -102,7 +102,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   ezLogAlert(config, context: context, message: error);
                 }
               },
-              icon: const Icon(Icons.login),
+              icon: EzIcon(config, Icons.login),
               label: 'Login',
             ),
             config.swapSpacer,
@@ -126,7 +126,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   ezLogAlert(config, context: context, message: error);
                 }
               },
-              icon: const Icon(Icons.edit_note_rounded),
+              icon: EzIcon(config, Icons.edit_note_rounded),
               label: 'Sign up',
             ),
           ]),
