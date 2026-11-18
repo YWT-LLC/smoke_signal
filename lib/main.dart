@@ -103,7 +103,7 @@ void main() async {
     l10nFallback: await OUILang.delegate.load(americanEnglish),
     preferences: await SharedPreferencesWithCache.create(
       cacheOptions: SharedPreferencesWithCacheOptions(
-        allowList: allSmokeSignalKeys.keys.toSet(),
+        allowList: allSmokeSignalPairs.keys.toSet(),
       ),
     ),
     securePreferences: const FlutterSecureStorage(),

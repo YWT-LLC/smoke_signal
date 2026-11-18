@@ -69,8 +69,8 @@ final Map<String, Object> desktopSmokeSignalConfig = <String, Object>{
   lightTextBackgroundOpacityKey: 0.70,
 };
 
-const Map<String, Type> allSmokeSignalKeys = <String, Type>{
-  ...allEZConfigKeys,
+const Map<String, Type> allSmokeSignalPairs = <String, Type>{
+  ...allEzConfigPairs,
 };
 
 //* API *//
