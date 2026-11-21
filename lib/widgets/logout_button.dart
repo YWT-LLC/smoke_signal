@@ -9,7 +9,7 @@ import 'package:open_ui/open_ui.dart';
 import 'package:material_ui/material_ui.dart';
 
 class LogoutButton extends StatelessWidget {
-  final EzCP config;
+  final EzProvider config;
 
   const LogoutButton(this.config, {super.key});
 

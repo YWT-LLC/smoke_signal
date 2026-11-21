@@ -21,7 +21,7 @@ const String darkForestPath = 'assets/images/dark-forest.png';
 const String lightForestPath = 'assets/images/light-forest.png';
 const String smokeSignalPath = 'assets/images/smoke-signal.gif';
 
-/// Entries for [EzCM.init]
+/// Entries for [EzManager.init]
 const Set<String> assetPaths = <String>{
   appIconPath,
   darkForestPath,

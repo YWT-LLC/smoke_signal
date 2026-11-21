@@ -29,8 +29,8 @@ class _ErrorScreenState extends State<ErrorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<EzCP>(
-      builder: (_, EzCP config, __) => SmokeSignalScaffold(
+    return Consumer<EzProvider>(
+      builder: (_, EzProvider config, __) => SmokeSignalScaffold(
         config,
         body: Center(
           child: EzScrollView(

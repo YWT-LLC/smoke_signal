@@ -10,7 +10,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class NoUserCoin extends StatelessWidget {
-  final EzCP config;
+  final EzProvider config;
 
   const NoUserCoin(this.config, {super.key});
 
@@ -32,7 +32,7 @@ class NoUserCoin extends StatelessWidget {
 }
 
 class UserCoinScroll extends StatelessWidget {
-  final EzCP config;
+  final EzProvider config;
   final List<User> users;
 
   const UserCoinScroll(this.config, {super.key, required this.users});
@@ -69,7 +69,7 @@ class UserCoinScroll extends StatelessWidget {
 }
 
 class UserProfileScroll extends StatelessWidget {
-  final EzCP config;
+  final EzProvider config;
   final List<User> users;
 
   const UserProfileScroll(this.config, {super.key, required this.users});
@@ -100,7 +100,7 @@ class UserProfileScroll extends StatelessWidget {
 }
 
 class AddProfilesWindow extends StatelessWidget {
-  final EzCP config;
+  final EzProvider config;
   final String title;
   final List<ListTile> items;
   final double? customHeight;

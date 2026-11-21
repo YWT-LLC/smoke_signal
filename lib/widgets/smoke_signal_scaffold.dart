@@ -12,7 +12,7 @@ import 'package:material_ui/material_ui.dart';
 final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
 class SmokeSignalScaffold extends StatelessWidget {
-  final EzCP config;
+  final EzProvider config;
   final Widget body;
   final Alignment alignment;
   final Widget drawerHeader;

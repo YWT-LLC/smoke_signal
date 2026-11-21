@@ -31,8 +31,8 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<EzCP>(
-      builder: (_, EzCP config, __) => SmokeSignalScaffold(
+    return Consumer<EzProvider>(
+      builder: (_, EzProvider config, __) => SmokeSignalScaffold(
         config,
         alignment: Alignment.center,
         body: EzScrollView(config, children: <Widget>[

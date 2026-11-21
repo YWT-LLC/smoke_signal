@@ -14,7 +14,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class SmokeSignalDrawer extends StatelessWidget {
-  final EzCP config;
+  final EzProvider config;
   final Widget header;
   final List<Widget>? extraButtons;
 
@@ -47,7 +47,7 @@ class SmokeSignalDrawer extends StatelessWidget {
 }
 
 class LoginHeader extends StatelessWidget {
-  final EzCP config;
+  final EzProvider config;
 
   const LoginHeader(this.config, {super.key});
 
@@ -81,7 +81,7 @@ class LoginHeader extends StatelessWidget {
 }
 
 class LoggedInHeader extends StatelessWidget {
-  final EzCP config;
+  final EzProvider config;
 
   const LoggedInHeader(this.config, {super.key});
 

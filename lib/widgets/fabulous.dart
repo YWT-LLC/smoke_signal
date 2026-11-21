@@ -6,7 +6,7 @@
 import 'package:open_ui/open_ui.dart';
 import 'package:ywt_private/ywt_private.dart' as ywt;
 
-EzUpdaterFAB updater(EzCP config) => EzUpdaterFAB(
+EzUpdaterFAB updater(EzProvider config) => EzUpdaterFAB(
       config,
       appVersion: '2.0.0',
       versionSource:

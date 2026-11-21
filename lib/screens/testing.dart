@@ -63,7 +63,7 @@ class _ChatScreenState extends State<TestingScreen> {
   // Return the build //
 
   @override
-  Widget build(BuildContext context) => Consumer<EzCP>(builder: (_, EzCP config, __) {
+  Widget build(BuildContext context) => Consumer<EzProvider>(builder: (_, EzProvider config, __) {
         final TextStyle? dimLabel = config.labelStyle?.copyWith(color: config.outline);
 
         return SmokeSignalScaffold(
